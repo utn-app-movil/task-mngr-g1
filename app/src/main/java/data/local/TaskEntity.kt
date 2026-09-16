@@ -10,16 +10,8 @@ data class TaskEntity (
     val title: String,
     val description: String,
     val completed: Boolean=false
-){
-    fun TaskEntity.toDomain(): Task =
-        Task (id= id,
-            title= title,
-            description= description,
-            completed= completed)
+)
 
-    fun Task.toEntity(): TaskEntity =
-        TaskEntity (id= id,
-            title= title,
-            description= description,
-            completed= completed)
-}
+fun TaskEntity.toDomain(): Task = Task (id, title, description, completed)
+
+fun Task.toEntity(): TaskEntity = TaskEntity (id, title, description, completed)
