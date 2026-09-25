@@ -19,8 +19,6 @@ fun TaskScreen (viewModel: TaskViewModel) {
                 task = task,
                 onDelete = { viewModel.deleteTask(task) }
             )
-
         }
     }
-
 }
