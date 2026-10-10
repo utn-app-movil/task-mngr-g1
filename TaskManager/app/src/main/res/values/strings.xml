@@ -6,5 +6,8 @@
     <string name="TextMessage1">Mensaje de toast</string>
     <string name="TextMessage2">Mensaje de snackbar</string>
     <string name="TextSnackbar">Deshacer</string>
+    <string name="btnTextTask_main">Gestión de Tareas</string>
+    <string name="btnTextTaskList_main">Listar tareas</string>
+
 
 </resources>

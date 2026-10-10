@@ -1,4 +1,4 @@
-package util
+package cr.ac.utn.taskmanager.util
 
 import android.content.Context
 import android.content.Intent

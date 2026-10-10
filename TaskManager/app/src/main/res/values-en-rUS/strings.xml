@@ -7,4 +7,6 @@
     <string name="TextMessage1">Toast message</string>
     <string name="TextMessage2">Snackbar message</string>
     <string name="TextSnackbar">Undo</string>
+    <string name="btnTextTask_main">Task Management</string>
+    <string name="btnTextTaskList_main">Task List</string>
 </resources>
