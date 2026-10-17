@@ -50,5 +50,28 @@ class TaskActivity : AppCompatActivity() {
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
 
 
+        //Agregar los eventos click a cada botón
+        btnSave.setOnClickListener {
+
     }
+
+        btnRemove.setOnClickListener {
+
+        }
+
+        btnCancel.setOnClickListener {
+
+        }
+
+        btnDueDate.setOnClickListener {
+
+        }
+
+        btnSearch.setOnClickListener {
+
+        }
+
+        }
+
+
 }
