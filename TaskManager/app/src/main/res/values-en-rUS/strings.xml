@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TaskManager</string>
+    <string name="btnTextMessage1_main">Show Toast Message</string>
+    <string name="btnTextMessage2_main">Show Snackbar Message</string>
+    <string name="btnTextOpenScreen_main">Open a screen</string>
+    <string name="TextMessage1">Toast message</string>
+    <string name="TextMessage2">Snackbar message</string>
+    <string name="TextSnackbar">Undo</string>
+    <string name="btnTextTask_main">Task Management</string>
+    <string name="btnTextTaskList_main">Task List</string>
+    <string name="cancellAction">Action cancelled</string>
+    <string name="btnTaskMain">Task management</string>
+    <string name="btnTaskListMain">Tasks list</string>
+    <string name="id">ID</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="dueDate">Due date</string>
+    <string name="creationDate">Creation date</string>
+    <string name="status">Status</string>
+    <string name="assignedTo">Assigned to</string>
+    <string name="priority">Priority</string>
+    <string name="notes">Notes</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="search">Search</string>
+    <string name="msg_save_success">The task was saved succesfully</string>
+    <string name="msg_delete_success">The task was deleted seccesfully</string>
+    <string name="msg_duplicate_data">This task already exists</string>
+    <string name="msg_no_data_found">No data found for this task</string>
+    <string name="msg_save_error">Saved task error</string>
+    <string name="msg_delete_error">Deleted task error</string>
+    <string name="msg_task_completed">The task was completed</string>
+    <string name="msg_confirm_save">¿Do you want to save?</string>
+    <string name="msg_confirm_delete">¿Do you want to delete?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+</resources>
