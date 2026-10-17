@@ -9,4 +9,38 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+    <!-- Task fields -->
+    <string name="task_id">Identifier</string>
+    <string name="task_title">Title</string>
+    <string name="task_description">Description</string>
+    <string name="task_due_date">Due date</string>
+    <string name="task_creation_date">Creation date</string>
+    <string name="task_status">Status</string>
+    <string name="task_assigned_to">Assigned to</string>
+    <string name="task_priority">Priority</string>
+    <string name="task_notes">Notes</string>
+
+    <!-- Buttons -->
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_search">Search</string>
+    <string name="action_select_date">Select date</string>
+
+    <!-- Generic messages -->
+    <string name="message_save_success">Data saved successfully.</string>
+    <string name="message_delete_success">Data deleted successfully.</string>
+    <string name="message_duplicate_data">Data with this identifier already exists.</string>
+    <string name="message_data_not_found">No data found.</string>
+    <string name="message_save_error">Error saving data.</string>
+    <string name="message_delete_error">Error deleting data.</string>
+    <string name="message_completed_task">The task cannot be deleted or cancelled because it is complete.</string>
+
+    <!-- Confirmation dialog -->
+    <string name="dialog_confirm_title">Confirm action</string>
+    <string name="dialog_confirm_message">Do you want to continue with the action?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="task_date_format">%1$02d/%2$02d/%3$04d</string>
+
 </resources>

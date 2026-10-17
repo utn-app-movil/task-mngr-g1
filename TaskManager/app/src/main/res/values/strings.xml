@@ -8,6 +8,39 @@
     <string name="TextSnackbar">Deshacer</string>
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
+    <!-- Campos de la tarea -->
+    <string name="task_id">Identificador</string>
+    <string name="task_title">Título</string>
+    <string name="task_description">Descripción</string>
+    <string name="task_due_date">Fecha de vencimiento</string>
+    <string name="task_creation_date">Fecha de creación</string>
+    <string name="task_status">Estado</string>
+    <string name="task_assigned_to">Asignado a</string>
+    <string name="task_priority">Prioridad</string>
+    <string name="task_notes">Notas</string>
+
+    <!-- Botones -->
+    <string name="action_save">Guardar</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_clear">Limpiar</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_select_date">Seleccionar fecha</string>
+
+    <!-- Mensajes genéricos -->
+    <string name="message_save_success">Datos guardados correctamente.</string>
+    <string name="message_delete_success">Datos eliminados correctamente.</string>
+    <string name="message_duplicate_data">Ya existen datos con ese identificador.</string>
+    <string name="message_data_not_found">No se encontraron datos.</string>
+    <string name="message_save_error">Error al guardar los datos.</string>
+    <string name="message_delete_error">Error al eliminar los datos.</string>
+    <string name="message_completed_task">La tarea no puede ser eliminada ni anulada porque está completa.</string>
+
+    <!-- Diálogo de confirmación -->
+    <string name="dialog_confirm_title">Confirmar acción</string>
+    <string name="dialog_confirm_message">¿Desea continuar con la acción?</string>
+    <string name="dialog_yes">Sí</string>
+    <string name="dialog_no">No</string>
+    <string name="task_date_format">%1$02d/%2$02d/%3$04d</string>
 
 
 </resources>
