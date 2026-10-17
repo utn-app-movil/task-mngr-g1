@@ -9,4 +9,35 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+
+
+
+    <string name="lblId_task">ID</string>
+    <string name="lblTitle_task">Title</string>
+    <string name="lblDescription_task">Description</string>
+    <string name="lblDueDate_task">Due date</string>
+    <string name="lblCreationDate_task">Creation date</string>
+    <string name="lblStatus_task">Status</string>
+    <string name="lblAssignedTo_task">Assigned to</string>
+    <string name="lblPriority_task">Priority</string>
+    <string name="lblNotes_task">Notes</string>
+
+
+    <string name="btnTextSave_task">Save</string>
+    <string name="btnTextDelete_task">Delete</string>
+    <string name="btnTextClear_task">Clear</string>
+    <string name="btnTextSearch_task">Search</string>
+
+
+    <string name="msgSaveSuccess">Data saved successfully</string>
+    <string name="msgDeleteSuccess">Data deleted successfully</string>
+    <string name="msgDuplicateData">Error: a record with this data already exists</string>
+    <string name="msgNoDataFound">No data found</string>
+    <string name="msgSaveError">Error saving data</string>
+    <string name="msgDeleteError">Error deleting data</string>
+    <string name="msgTaskCompleted">The task cannot be deleted or cancelled because it is completed</string>
+
+    <string name="dlgConfirmAction">Do you want to continue with this action?</string>
+    <string name="dlgYes">Yes</string>
+    <string name="dlgNo">No</string>
 </resources>
