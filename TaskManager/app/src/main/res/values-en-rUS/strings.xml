@@ -9,4 +9,43 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+
+    <string name="task_label_id">ID</string>
+    <string name="task_label_title">Title</string>
+    <string name="task_label_description">Description</string>
+    <string name="task_label_due_date">Due date</string>
+    <string name="task_label_status">Status</string>
+    <string name="task_label_assigned_to">Assigned to</string>
+    <string name="task_label_priority">Priority</string>
+    <string name="task_label_notes">Notes</string>
+
+    <string name="task_button_save">Save</string>
+    <string name="task_button_delete">Delete</string>
+    <string name="task_button_clear">Clear</string>
+    <string name="task_button_search">Search task</string>
+
+    <string name="task_message_save_success">Task saved successfully.</string>
+    <string name="task_message_delete_success">Task deleted successfully.</string>
+    <string name="task_error_duplicate">A task with that ID already exists.</string>
+    <string name="task_error_not_found">No task was found with that ID.</string>
+    <string name="task_error_save">The task could not be saved.</string>
+    <string name="task_error_delete">The task could not be deleted.</string>
+    <string name="task_error_completed_protected">The task is completed and cannot be deleted or cancelled.</string>
+    <string name="task_confirm_action">Do you want to continue with this action: %1$s?</string>
+    <string name="task_yes">Yes</string>
+    <string name="task_no">No</string>
+
+    <string-array name="task_status_options">
+        <item>Pending</item>
+        <item>In progress</item>
+        <item>Completed</item>
+        <item>Cancelled</item>
+    </string-array>
+
+    <string-array name="task_priority_options">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Critical</item>
+    </string-array>
 </resources>
