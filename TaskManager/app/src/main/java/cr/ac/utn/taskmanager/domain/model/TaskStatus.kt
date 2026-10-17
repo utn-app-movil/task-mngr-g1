@@ -1,7 +1,8 @@
-package cr.ac.utn.taskmanager.domain.model
+package com.example.taskmanager.domain.model
 
 enum class TaskStatus {
     PENDING,
     IN_PROGRESS,
-    COMPLETED
+    COMPLETED,
+    CANCELLED
 }

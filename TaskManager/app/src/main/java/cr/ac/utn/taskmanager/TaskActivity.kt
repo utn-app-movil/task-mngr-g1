@@ -34,13 +34,13 @@ class TaskActivity : AppCompatActivity() {
             insets
         }
 
-        txtId = findViewById<EditText>(R.id.txtId_Task)
-        txtTitle = findViewById<EditText>(R.id.txtTitle_Task)
-        txtDescription = findViewById<EditText>(R.id.txtDescription_Task)
+        txtId = findViewById<EditText>(R.id.txtid_Task)
+        txtTitle = findViewById<EditText>(R.id.txTitle_Task)
+        txtDescription = findViewById<EditText>(R.id.txtDescription)
         txtStatus = findViewById<EditText>(R.id.txtStatus_Task)
         txtPriority = findViewById<EditText>(R.id.txtPriority_Task)
         txtObservation = findViewById<EditText>(R.id.txtObservation_Task)
-        txtAssignTo = findViewById<EditText>(R.id.txtAssignTo_Task)
+        txtAssignTo = findViewById<EditText>(R.id.txtAssignedTo_Task)
         tvDueDate = findViewById<TextView>(R.id.tvDueDate_Task)
 
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
@@ -48,5 +48,26 @@ class TaskActivity : AppCompatActivity() {
         val btnSave= findViewById<Button>(R.id.btnSave_Task)
         val btnRemove= findViewById<Button>(R.id.btnRemove_Task)
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
+
+        // Evento del botón Buscar
+        btnSearch.setOnClickListener {
+        }
+
+        // Evento del botón Fecha de vencimiento
+        btnDueDate.setOnClickListener {
+        }
+
+        // Evento del botón Guardar
+        btnSave.setOnClickListener {
+        }
+
+        // Evento del botón Eliminar
+        btnRemove.setOnClickListener {
+        }
+
+        // Evento del botón Limpiar
+        btnCancel.setOnClickListener {
+
+        }
     }
 }
