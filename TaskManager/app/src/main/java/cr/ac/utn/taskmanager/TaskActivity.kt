@@ -48,5 +48,43 @@ class TaskActivity : AppCompatActivity() {
         val btnSave= findViewById<Button>(R.id.btnSave_Task)
         val btnRemove= findViewById<Button>(R.id.btnRemove_Task)
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
+
+        btnSearch.setOnClickListener { searchTask() }
+        btnDueData.setOnClickListener { selectDueDate() }
+        btnSave.setOnClickListener { saveTask() }
+        btnRemove.setOnClickListener { removeTask() }
+        btnCancel.setOnClickListener { clearForm() }
     }
+
+    private fun searchTask() {
+
+    }
+
+    private fun selectDueDate() {
+
+    }
+
+    private fun saveTask() {
+
+    }
+
+    private fun removeTask() {
+
+    }
+
+    private fun clearForm() {
+        txtId.setText("")
+        txtTitle.setText("")
+        txtDescription.setText("")
+        txtStatus.setText("")
+        txtPriority.setText("")
+        txtAssignTo.setText("")
+        txtObservation.setText("")
+        dueDay = 0
+        dueMonth = 0
+        dueYear = 0
+        tvDueDate.text = ""
+    }
+
+
 }
