@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
-import cr.ac.utn.taskmanager.util.util
+import cr.ac.utn.taskmanager.util.Util
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val clmain = findViewById<ConstraintLayout>(R.id.main)
         class snackbarClick: View.OnClickListener{
             override fun onClick(p0: View?) {
-                Snackbar.make(clmain, "Cancelled action",
+                Snackbar.make(clmain, R.string.TextSnackbarCancelled,
                     Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -48,19 +48,19 @@ class MainActivity : AppCompatActivity() {
 
         val btnOpenScreen: Button = findViewById<Button>(R.id.btnOpenScreen_main)
         btnOpenScreen.setOnClickListener(View.OnClickListener{ view ->
-            util.OpenActivity(this
+            Util.OpenActivity(this
                     , SecondActivity::class.java)
         })
 
         val btnOpenTask: Button = findViewById<Button>(R.id.btnTask_main)
         btnOpenTask.setOnClickListener(View.OnClickListener{ view ->
-            util.OpenActivity(this
+            Util.OpenActivity(this
                 , TaskActivity::class.java)
         })
 
         val btnOpenTaskList: Button = findViewById<Button>(R.id.btnTaskList_main)
         btnOpenTaskList.setOnClickListener(View.OnClickListener{ view ->
-            util.OpenActivity(this
+            Util.OpenActivity(this
                 , TaskListActivity::class.java)
         })
     }

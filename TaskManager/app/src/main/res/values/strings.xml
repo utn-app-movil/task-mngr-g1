@@ -1,13 +1,49 @@
 <resources>
     <string name="app_name">TaskManager</string>
-    <string name="btnTextMessage1_main">Mostrar mensaje Toast</string>
-    <string name="btnTextMessage2_main">Mostrar mensaje Snackbar</string>
-    <string name="btnTextOpenScreen_main">Abrir pantalla</string>
-    <string name="TextMessage1">Mensaje de toast</string>
-    <string name="TextMessage2">Mensaje de snackbar</string>
-    <string name="TextSnackbar">Deshacer</string>
-    <string name="btnTextTask_main">Gestión de Tareas</string>
-    <string name="btnTextTaskList_main">Listar tareas</string>
 
+    <!-- Main screen -->
+    <string name="btnTextMessage1_main">Show Toast Message</string>
+    <string name="btnTextMessage2_main">Show Snackbar Message</string>
+    <string name="btnTextOpenScreen_main">Open a screen</string>
+    <string name="btnTextTask_main">Task Management</string>
+    <string name="btnTextTaskList_main">Task List</string>
+    <string name="TextMessage1">Toast message</string>
+    <string name="TextMessage2">Snackbar message</string>
+    <string name="TextSnackbar">Undo</string>
+    <string name="TextSnackbarCancelled">Cancelled action</string>
 
+    <!-- Task screen -->
+    <string name="lblId_Task">ID</string>
+    <string name="lblTitle_Task">Title</string>
+    <string name="lblDescription_Task">Description</string>
+    <string name="lblDueDate_Task">Due date</string>
+    <string name="lblStatus_Task">Status</string>
+    <string name="lblPriority_Task">Priority</string>
+    <string name="lblAssignedTo_Task">Assigned to</string>
+    <string name="lblNotes_Task">Notes</string>
+    <string name="btnSave_Task">Save</string>
+    <string name="btnRemove_Task">Remove</string>
+    <string name="btnCancel_Task">Cancel</string>
+
+    <!-- Task list screen -->
+    <string name="titleTaskList">Task List</string>
+    <string name="msgEmptyList">There are no tasks yet</string>
+
+    <!-- Status and priority -->
+    <string name="statusPending">Pending</string>
+    <string name="statusInProgress">In progress</string>
+    <string name="statusCompleted">Completed</string>
+    <string name="priorityLow">Low</string>
+    <string name="priorityMedium">Medium</string>
+    <string name="priorityHigh">High</string>
+
+    <!-- Messages -->
+    <string name="msgTaskSaved">Task saved successfully</string>
+    <string name="msgTaskUpdated">Task updated successfully</string>
+    <string name="msgTaskRemoved">Task removed successfully</string>
+    <string name="msgTaskNotFound">Task not found</string>
+    <string name="msgDuplicateId">A task with this ID already exists</string>
+    <string name="msgRequiredFields">Please fill in all the required fields</string>
+    <string name="msgInvalidDate">The due date is not valid</string>
+    <string name="msgConfirmRemove">Are you sure you want to remove this task?</string>
 </resources>
