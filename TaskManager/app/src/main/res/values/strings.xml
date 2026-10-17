@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">TaskManager</string>
+    <string name="btnTextMessage1_main">Mostrar mensaje Toast</string>
+    <string name="btnTextMessage2_main">Mostrar mensaje Snackbar</string>
+    <string name="btnTextOpenScreen_main">Abrir pantalla</string>
+    <string name="TextMessage1">Mensaje de toast</string>
+    <string name="TextMessage2">Mensaje de snackbar</string>
+    <string name="TextSnackbar">Deshacer</string>
+    <string name="btnTextTask_main">Gestión de Tareas</string>
+    <string name="btnTextTaskList_main">Listar tareas</string>
+    <!-- Campos de la tarea -->
+    <string name="id">ID</string>
+    <string name="title">Título</string>
+    <string name="description">Descripción</string>
+    <string name="dueDate">Fecha de vencimiento</string>
+    <string name="creationDate">Fecha de creación</string>
+    <string name="status">Estado</string>
+    <string name="assignedTo">Asignado a</string>
+    <string name="priority">Prioridad</string>
+    <string name="notes">Observaciones</string>
+
+    <!-- Botones -->
+    <string name="save">Guardar</string>
+    <string name="delete">Eliminar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="clear">Limpiar</string>
+    <string name="search">Buscar</string>
+
+
+    <!-- Mensajes de satisfacción -->
+    <string name="msg_save_success">La tarea se guardó correctamente.</string>
+    <string name="msg_delete_success">La tarea se eliminó correctamente.</string>
+
+    <!-- Mensajes de error y búsqueda -->
+    <string name="msg_duplicate_data">Ya existe una tarea con esos datos.</string>
+    <string name="msg_no_data_found">No se encontraron datos.</string>
+    <string name="msg_save_error">Error al guardar la tarea.</string>
+    <string name="msg_delete_error">Error al eliminar la tarea.</string>
+
+    <!-- Restricción para tareas completadas -->
+    <string name="msg_task_completed">La tarea fue completa.</string>
+
+    <!-- Diálogos de confirmación -->
+    <string name="msg_confirm_save">¿Desea continuar con la acción de guardar?</string>
+    <string name="msg_confirm_delete">¿Desea continuar con la acción de eliminar?</string>
+
+    <!-- Botones del diálogo -->
+    <string name="dialog_yes">Sí</string>
+    <string name="dialog_no">No</string>
+
+</resources>
