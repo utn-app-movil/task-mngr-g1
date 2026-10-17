@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
+import android.widget.Button
+import android.widget.EditText
 
 class TaskActivity : AppCompatActivity() {
 
@@ -19,9 +21,9 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var txtObservation: EditText
     private lateinit var tvDueDate: EditText
 
-    private var DueDay: Init=0
-    private var DueMonth: Init=0
-    private var DueYear: Init=0
+    private var DueDay: Int=0
+    private var DueMonth: Int=0
+    private var DueYear: Int=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
