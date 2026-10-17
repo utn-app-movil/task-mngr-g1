@@ -8,6 +8,30 @@
     <string name="TextSnackbar">Deshacer</string>
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
-
-
+    <string name="task_label_id">ID</string>
+    <string name="task_label_title">Título</string>
+    <string name="task_label_description">Descripción</string>
+    <string name="task_label_due_date">Fecha de vencimiento</string>
+    <string name="task_label_creation_date">Fecha de creación</string>
+    <string name="task_label_status">Estado</string>
+    <string name="task_label_assigned_to">Asignado a</string>
+    <string name="task_label_priority">Prioridad</string>
+    <string name="task_label_notes">Notas</string>
+    <string name="task_button_save">Guardar</string>
+    <string name="task_button_delete">Eliminar</string>
+    <string name="task_button_clear">Limpiar</string>
+    <string name="task_button_search">Buscar</string>
+    <string name="message_save_success">Datos guardados correctamente.</string>
+    <string name="message_delete_success">Datos eliminados correctamente.</string>
+    <string name="message_duplicate_data">Ya existen datos con ese identificador.</string>
+    <string name="message_data_not_found">No se encontraron datos.</string>
+    <string name="message_save_error">No se pudieron guardar los datos.</string>
+    <string name="message_delete_error">No se pudieron eliminar los datos.</string>
+    <string name="message_task_completed">La tarea no puede ser eliminada ni anulada porque está completa.</string>
+    <string name="dialog_confirm_action">¿Desea continuar con esta acción?</string>
+    <string name="dialog_button_yes">Sí</string>
+    <string name="dialog_button_no">No</string>
+    <string name="task_button_select_due_date">Seleccionar fecha de vencimiento</string>
+    <string name="task_date_not_selected">Sin seleccionar</string>
+    <string name="message_invalid_task_data">Revise el ID, el título, el estado, la prioridad y la fecha de vencimiento.</string>
 </resources>
