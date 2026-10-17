@@ -9,4 +9,27 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+    <string name="ID">Id</string>
+    <string name="title">Title</string>
+    <string name="Description">description</string>
+    <string name="Status">Status</string>
+    <string name="DueDate">DueDate</string>
+    <string name="AssignTo">AssignTo</string>
+    <string name="Observation">Observation</string>
+    <string name="priority">Priority</string>
+    <string name="btn_Save">Save</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_clean">Clean</string>
+    <string name="btn_search">Search</string>
+    <string name="msg_save_success">Save success</string>
+    <string name="msg_delete_success">Delete sucess</string>
+    <string name="msg_error_duplicate">Error duplicate</string>
+    <string name="msg_error_not_found">Error not found</string>
+    <string name="msg_error_save">Error save</string>
+    <string name="msg_error_delete">Error delete</string>
+    <string name="msg_error_task_completed">Error task completed</string>
+    <string name="dialog_confirm_action">¿do you wish to continue with the action?</string>
+    <string name="btn_dialog_yes">Yes</string>
+    <string name="btn_dialog_no">No</string>
+
 </resources>
