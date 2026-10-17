@@ -9,4 +9,28 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+    <string name="lblId_Task">ID</string>
+    <string name="lblTitle_Task">Title</string>
+    <string name="lblDescription_Task">Description</string>
+    <string name="lblDueDate_Task">Due Date</string>
+    <string name="lblStatus_task">Status</string>
+    <string name="lblAssignTo_Task">Assigned To</string>
+    <string name="lblPriority_Task">Priority</string>
+    <string name="lblObservation_Task">Observations</string>
+    <string name="btn_Save">Save</string>
+    <string name="btn_Delete">Delete</string>
+
+    <string name="btn_Cancel">Cancel</string>
+    <string name="btn_Search">Search</string>
+    <string name="msg_SuccessSave">Data was saved successfully</string>
+    <string name="msg_SuccessDelete">Data was deleted successfully</string>
+    <string name="msg_ErrorDuplicate">Error: Entered data is already duplicated</string>
+    <string name="msg_ErrorNotFound">No data was found</string>
+    <string name="msg_ErrorSave">An error occurred while trying to save data</string>
+    <string name="msg_ErrorDelete">An error occurred while trying to delete data</string>
+    <string name="msg_ErrorTaskCompleted">The task cannot be deleted or cancelled because it is completed</string>
+    <string name="msg_ConfirmAction">Do you want to proceed with the action?</string>
+    <string name="btnDialog_Yes">Yes</string>
+    <string name="btnDialog_No">No</string>
+
 </resources>

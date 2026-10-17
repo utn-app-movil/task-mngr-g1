@@ -10,4 +10,30 @@
     <string name="btnTextTaskList_main">Listar tareas</string>
 
 
+
+    <string name="lblId_Task">ID</string>
+    <string name="lblTitle_Task">Título</string>
+    <string name="lblDescription_Task">Descripción</string>
+    <string name="lblDueDate_Task">Fecha de Vencimiento</string>
+    <string name="lblStatus_task">Estado</string>
+    <string name="lblAssignTo_Task">Asignado a</string>
+    <string name="lblPriority_Task">Prioridad</string>
+    <string name="lblObservation_Task">Observaciones</string>
+    <string name="btn_Save">Guardar</string>
+    <string name="btn_Delete">Eliminar</string>
+    <string name="btn_Cancel">Cancelar</string>
+    <string name="btn_Search">Buscar</string>
+
+    <string name="msg_SuccessSave">Los datos se guardaron correctamente.</string>
+    <string name="msg_SuccessDelete">Los datos se eliminaron correctamente.</string>
+    <string name="msg_ErrorDuplicate">Error: Los datos ingresados ya se encuentran duplicados en el sistema.</string>
+    <string name="msg_ErrorNotFound">No se encontraron datos registrados.</string>
+    <string name="msg_ErrorSave">Ocurrió un error al intentar guardar los datos.</string>
+    <string name="msg_ErrorDelete">Ocurrió un error al intentar eliminar los datos.</string>
+    <string name="msg_ErrorTaskCompleted">La tarea no puede ser eliminada o anulada porque está completa.</string>
+
+    <string name="msg_ConfirmAction">¿Desea continuar con la acción?</string>
+    <string name="btnDialog_Yes">Sí</string>
+    <string name="btnDialog_No">No</string>
+
 </resources>
