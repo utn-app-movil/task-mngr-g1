@@ -48,5 +48,30 @@ class TaskActivity : AppCompatActivity() {
         val btnSave= findViewById<Button>(R.id.btnSave_Task)
         val btnRemove= findViewById<Button>(R.id.btnRemove_Task)
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
+
+        // Evento del botón Buscar
+        btnSearch.setOnClickListener {
+
+        }
+
+        // Evento del botón Fecha de vencimiento
+        btnDueDate.setOnClickListener {
+
+        }
+
+        // Evento del botón Guardar
+        btnSave.setOnClickListener {
+
+        }
+
+        // Evento del botón Eliminar
+        btnRemove.setOnClickListener {
+
+        }
+
+        // Evento del botón Cancelar
+        btnCancel.setOnClickListener {
+
+        }
     }
 }
