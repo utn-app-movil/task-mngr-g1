@@ -9,4 +9,34 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+
+    <!-- TaskActivity texts -->
+    <string name="task_id">ID</string>
+    <string name="task_title">Title</string>
+    <string name="task_description">Description</string>
+    <string name="task_due_date">Due date</string>
+    <string name="task_status">Status</string>
+    <string name="task_assigned_to">Assigned to</string>
+    <string name="task_priority">Priority</string>
+    <string name="task_notes">Notes</string>
+
+    <!-- TaskActivity buttons -->
+    <string name="btn_save">Save</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_search">Search</string>
+
+    <!-- CRUD messages -->
+    <string name="msg_save_success">Task saved successfully.</string>
+    <string name="msg_delete_success">Task deleted successfully.</string>
+    <string name="msg_duplicate_data">Error: data already exists.</string>
+    <string name="msg_not_found">No data found.</string>
+    <string name="msg_save_error">Error saving task.</string>
+    <string name="msg_delete_error">Error deleting task.</string>
+    <string name="msg_task_completed">The task cannot be deleted or cancelled because it is completed.</string>
+
+    <!-- Confirmation dialog -->
+    <string name="dialog_continue">Do you want to continue with this action?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
 </resources>

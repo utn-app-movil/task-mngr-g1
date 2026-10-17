@@ -9,5 +9,35 @@
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
 
+    <!-- Textos de TaskActivity -->
+    <string name="task_id">ID</string>
+    <string name="task_title">Título</string>
+    <string name="task_description">Descripción</string>
+    <string name="task_due_date">Fecha de vencimiento</string>
+    <string name="task_status">Estado</string>
+    <string name="task_assigned_to">Asignado a</string>
+    <string name="task_priority">Prioridad</string>
+    <string name="task_notes">Notas</string>
+
+    <!-- Botones de TaskActivity -->
+    <string name="btn_save">Guardar</string>
+    <string name="btn_delete">Eliminar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_search">Buscar</string>
+
+    <!-- Mensajes CRUD -->
+    <string name="msg_save_success">La tarea se guardó correctamente.</string>
+    <string name="msg_delete_success">La tarea se eliminó correctamente.</string>
+    <string name="msg_duplicate_data">Error: los datos ya existen.</string>
+    <string name="msg_not_found">No se encontraron datos.</string>
+    <string name="msg_save_error">Error al guardar la tarea.</string>
+    <string name="msg_delete_error">Error al eliminar la tarea.</string>
+    <string name="msg_task_completed">La tarea no puede ser eliminada o anulada porque está completa.</string>
+
+    <!-- Dialog de confirmación -->
+    <string name="dialog_continue">¿Desea continuar con la acción?</string>
+    <string name="dialog_yes">Sí</string>
+    <string name="dialog_no">No</string>
+
 
 </resources>
