@@ -19,6 +19,7 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var txtAssignTo: EditText
     private lateinit var txtObservation: EditText
     private lateinit var tvDueDate: TextView
+    private lateinit var tvCreationDate: TextView
     private var dueDay: Int=0
     private var dueMonth: Int=0
     private var dueYear: Int=0
@@ -42,11 +43,27 @@ class TaskActivity : AppCompatActivity() {
         txtObservation = findViewById<EditText>(R.id.txtObservation_Task)
         txtAssignTo = findViewById<EditText>(R.id.txtAssignTo_Task)
         tvDueDate = findViewById<TextView>(R.id.tvDueDate_Task)
+        tvCreationDate = findViewById<TextView>(R.id.tvCreationDate_Task)
 
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
         val btnSave= findViewById<Button>(R.id.btnSave_Task)
         val btnRemove= findViewById<Button>(R.id.btnRemove_Task)
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
+
+        btnSearch.setOnClickListener {
+        }
+
+        btnDueDate.setOnClickListener {
+        }
+
+        btnSave.setOnClickListener {
+        }
+
+        btnRemove.setOnClickListener {
+        }
+
+        btnCancel.setOnClickListener {
+        }
     }
 }
