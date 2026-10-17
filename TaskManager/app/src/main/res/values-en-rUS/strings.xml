@@ -9,4 +9,24 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+    <string name="txtId_Task">Id</string>
+    <string name="txtTitle_Task">Title</string>
+    <string name="txtDescription_Task">Description</string>
+    <string name="txtStatus_Task">Status</string>
+    <string name="txtPriority_Task">Priority</string>
+    <string name="txtAssignTo_Task">Assign to</string>
+    <string name="txtObservation_Task">Observation:</string>
+    <string name="btnSave_Task">Save</string>
+    <string name="btnRemove_Task">Remove</string>
+    <string name="btnCancel_Task">Cancel</string>
+    <string name="txtSuccesfulSave">satisfaction upon saving</string>
+    <string name="txtSuccesfulDelete">Satisfaction upon deletion</string>
+    <string name="txtMessageDataErrorDuplicates">Duplicate data error message</string>
+    <string name="txtMessageNoData">No data found</string>
+    <string name="txtMessageErrorSave">Error message when saving</string>
+    <string name="txtMessageErrorDelete">Error message when deleting</string>
+    <string name="txtMessageNoDelete">The task cannot be deleted or cancelled because it is complete.</string>
+    <string name="txtialogQuestion">Do you wish to continue?</string>
+    <string name="txtButtonYes">Yes</string>
+    <string name="txtDialogButtonNo">No</string>
 </resources>

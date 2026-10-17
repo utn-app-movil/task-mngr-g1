@@ -8,6 +8,26 @@
     <string name="TextSnackbar">Deshacer</string>
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
+    <string name="txtId_Task">Id</string>
+    <string name="txtTitle_Task">Titulo</string>
+    <string name="txtDescription_Task">Descripcion</string>
+    <string name="txtStatus_Task">Estado</string>
+    <string name="txtPriority_Task">Prioridad</string>
+    <string name="txtAssignTo_Task">Asignado a</string>
+    <string name="txtObservation_Task">Observaciones:</string>
+    <string name="btnSave_Task">Guardar</string>
+    <string name="btnRemove_Task">Eliminar</string>
+    <string name="btnCancel_Task">Cancelar</string>
+    <string name="txtSuccesfulSave">Satisfacción al guardar</string>
+    <string name="txtSuccesfulDelete">Satisfacción al eliminar</string>
+    <string name="txtMessageDataErrorDuplicates">Error datos duplicados</string>
+    <string name="txtMessageNoData">No se encontraron datos</string>
+    <string name="txtMessageErrorSave">Error al guardar</string>
+    <string name="txtMessageErrorDelete">Error al eliminar</string>
+    <string name="txtMessageNoDelete">La tarea no puede ser eliminada o anulada porque está completa</string>
+    <string name="txtialogQuestion">¿Desea continuar?</string>
+    <string name="txtButtonYes">Si</string>
+    <string name="txtDialogButtonNo">No</string>
 
 
 </resources>
