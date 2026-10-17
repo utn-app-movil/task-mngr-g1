@@ -1,3 +1,5 @@
+
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TaskManager</string>
     <string name="btnTextMessage1_main">Mostrar mensaje Toast</string>
@@ -9,5 +11,48 @@
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
 
+    <string name="task_id">Identificador</string>
+    <string name="task_title">Título</string>
+    <string name="task_description">Descripción</string>
+    <string name="task_due_date">Fecha de vencimiento</string>
+    <string name="task_creation_date">Fecha de creación</string>
+    <string name="task_status">Estado</string>
+    <string name="task_assigned_to">Asignado a</string>
+    <string name="task_priority">Prioridad</string>
+    <string name="task_notes">Observaciones</string>
 
+    <string name="task_button_save">Guardar</string>
+    <string name="task_button_delete">Eliminar</string>
+    <string name="task_button_clear">Limpiar</string>
+    <string name="task_button_search">Buscar</string>
+    <string name="task_button_cancel">Cancelar tarea</string>
+
+    <string name="task_status_pending">Pendiente</string>
+    <string name="task_status_in_progress">En progreso</string>
+    <string name="task_status_completed">Completada</string>
+    <string name="task_status_cancelled">Cancelada</string>
+
+    <string name="task_priority_low">Baja</string>
+    <string name="task_priority_medium">Media</string>
+    <string name="task_priority_high">Alta</string>
+    <string name="task_priority_critical">Crítica</string>
+
+    <string name="task_success_saved">Tarea guardada correctamente.</string>
+    <string name="task_success_updated">Tarea actualizada correctamente.</string>
+    <string name="task_success_deleted">Tarea eliminada correctamente.</string>
+    <string name="task_success_cancelled">Tarea cancelada correctamente.</string>
+    <string name="task_error_invalid_id">Ingresá un identificador válido.</string>
+    <string name="task_error_invalid_title">Ingresá un título válido.</string>
+    <string name="task_error_duplicate">Ya existe una tarea con ese identificador.</string>
+    <string name="task_error_not_found">No se encontró la tarea.</string>
+    <string name="task_error_completed_restriction">No podés eliminar ni cancelar una tarea completada.</string>
+    <string name="task_error_storage">No se pudo completar la operación por un error de almacenamiento.</string>
+    <string name="task_error_unknown">Ocurrió un error inesperado.</string>
+
+    <string name="task_confirm_delete_title">Confirmar eliminación</string>
+    <string name="task_confirm_delete_message">¿Deseás eliminar esta tarea?</string>
+    <string name="task_confirm_cancel_title">Confirmar cancelación</string>
+    <string name="task_confirm_cancel_message">¿Deseás cancelar esta tarea?</string>
+    <string name="task_button_yes">Sí</string>
+    <string name="task_button_no">No</string>
 </resources>
