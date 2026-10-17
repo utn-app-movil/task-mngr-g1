@@ -8,6 +8,28 @@
     <string name="TextSnackbar">Deshacer</string>
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
-
+    <string name="textView2">ID</string>
+    <string name="textView3">Título</string>
+    <string name="textView4">Descripción</string>
+    <string name="textView5">Fecha de vencimiento</string>
+    <string name="textView7">Estado</string>
+    <string name="textView8">Asignado a</string>
+    <string name="textView9">Prioridad</string>
+    <string name="textView12">Notas</string>
+    <string name="btnSave_Task">Botón de Guardar</string>
+    <string name="btnRemove_Task">Botón de Eliminar</string>
+    <string name="btnCancel_Task">Botón de Cancelar</string>
+    <string name="btnSearch_Task">Botón de Buscar</string>
+    <string name="btnDueDate_Task">Vencimiento</string>
+    <string name="msg_save_success">Tarea guardada exitosamente</string>
+    <string name="msg_delete_success">Tarea eliminada exitosamente</string>
+    <string name="msg_error_duplicate">Error: Datos duplicados</string>
+    <string name="msg_data_not_found">No se encontraron datos para la tarea solicitada</string>
+    <string name="msg_error_save">Error al guardar la tarea</string>
+    <string name="msg_error_delete">Error al eliminar la tarea</string>
+    <string name="msg_error_completed_task">La tarea no puede ser eliminada o anulada porque está completa</string>
+    <string name="dialog_confirm_action">¿Desea continuar con esta acción?</string>
+    <string name="dialog_btn_yes">Sí</string>
+    <string name="dialog_btn_no">No</string>
 
 </resources>

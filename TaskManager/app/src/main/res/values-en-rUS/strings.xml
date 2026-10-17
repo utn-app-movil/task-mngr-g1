@@ -9,4 +9,27 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+    <string name="textView2">ID</string>
+    <string name="textView3">Title</string>
+    <string name="textView4">Description</string>
+    <string name="textView5">Due Date</string>
+    <string name="textView7">Status</string>
+    <string name="textView8">Assigned To</string>
+    <string name="textView9">Priority</string>
+    <string name="textView12">Notes</string>
+    <string name="btnSave_Task">Save Button</string>
+    <string name="btnRemove_Task">Remove Button</string>
+    <string name="btnCancel_Task">Cancel Button</string>
+    <string name="btnSearch_Task">Search Button</string>
+    <string name="btnDueDate_Task">Due Date</string>
+    <string name="msg_save_success">Task saved successfully</string>
+    <string name="msg_delete_success">Task deleted successfully</string>
+    <string name="msg_error_duplicate">Error: Duplicated Data</string>
+    <string name="msg_data_not_found">No data found for the requested task</string>
+    <string name="msg_error_save">Error saving the task</string>
+    <string name="msg_error_delete">Error deleting the task</string>
+    <string name="msg_error_completed_task">The task cannot be deleted or cancelled because it is completed</string>
+    <string name="dialog_confirm_action">Do you wish to continue with this action?</string>
+    <string name="dialog_btn_yes">Yes</string>
+    <string name="dialog_btn_no">No</string>
 </resources>
