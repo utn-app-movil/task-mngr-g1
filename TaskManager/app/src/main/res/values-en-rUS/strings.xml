@@ -9,4 +9,25 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+    <string name="TextId">Id</string>
+    <string name="TextTitle">Title</string>
+    <string name="TextDescription">Description</string>
+    <string name="TextDueDate">Due Date</string>
+    <string name="TextStatus">Status</string>
+    <string name="TextPriority">Priority</string>
+    <string name="TextObservation">Observation</string>
+    <string name="TextAssignTo">Assign to</string>
+    <string name="TextSave">Save</string>
+    <string name="TextDelete">Delete</string>
+    <string name="TextCancel">Cancel</string>
+    <string name="TextSaveSuccess">Information was saved successfully</string>
+    <string name="TextDeleteSuccess">Information was deleted successfully</string>
+    <string name="TextDuplicateData">The information is already stored.</string>
+    <string name="TextSaveError">Error to save the information.</string>
+
+    <string name="TextDeleteError">Error to delete the information.</string>
+    <string name="TextSaveQuestion">Do you want to save the information.</string>
+    <string name="TextDeleteQuestion">Do you want to delete the information.</string>
+    <string name="TextYes">Yes</string>
+    <string name="TextNo">No</string>
 </resources>

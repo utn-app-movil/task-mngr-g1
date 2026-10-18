@@ -1,6 +1,7 @@
 package cr.ac.utn.taskmanager
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -9,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import cr.ac.utn.taskmanager.util.util
 
 class TaskActivity : AppCompatActivity() {
     private lateinit var txtId: EditText
@@ -22,7 +24,6 @@ class TaskActivity : AppCompatActivity() {
     private var dueDay: Int=0
     private var dueMonth: Int=0
     private var dueYear: Int=0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,5 +49,25 @@ class TaskActivity : AppCompatActivity() {
         val btnSave= findViewById<Button>(R.id.btnSave_Task)
         val btnRemove= findViewById<Button>(R.id.btnRemove_Task)
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
+
+        btnSearch.setOnClickListener(View.OnClickListener{ view ->
+
+        })
+
+        btnDueDate.setOnClickListener(View.OnClickListener{ view ->
+
+        })
+
+        btnSave.setOnClickListener(View.OnClickListener{ view ->
+
+        })
+
+        btnRemove.setOnClickListener(View.OnClickListener{ view ->
+
+        })
+
+        btnCancel.setOnClickListener(View.OnClickListener{ view ->
+
+        })
     }
 }
