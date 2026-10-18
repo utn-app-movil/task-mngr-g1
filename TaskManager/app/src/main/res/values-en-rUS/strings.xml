@@ -30,4 +30,5 @@
     <string name="TextDeleteQuestion">Do you want to delete the information.</string>
     <string name="TextYes">Yes</string>
     <string name="TextNo">No</string>
+    <string name="TextDataNoFound">The information was not found.</string>
 </resources>

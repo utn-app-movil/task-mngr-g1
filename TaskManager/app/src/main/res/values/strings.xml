@@ -28,6 +28,7 @@
     <string name="TextDeleteQuestion">Desea eliminar la información?</string>
     <string name="TextYes">Si</string>
     <string name="TextNo">No</string>
+    <string name="TextDataNoFound">La información no existe.</string>
 
 
 </resources>
