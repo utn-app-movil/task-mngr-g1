@@ -17,6 +17,14 @@ import androidx.core.view.WindowInsetsCompat
 import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.util.util
 import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
+import java.time.LocalDate
+
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Lifecycle
+import cr.ac.utn.taskmanager.domain.model.TaskPriority
+import cr.ac.utn.taskmanager.domain.model.TaskStatus
+import kotlinx.coroutines.launch
 
 class TaskActivity : AppCompatActivity() {
     private lateinit var txtId: EditText
@@ -79,6 +87,43 @@ class TaskActivity : AppCompatActivity() {
         btnCancel.setOnClickListener(View.OnClickListener{ view ->
             cleanScreen()
         })
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.selectedTask.collect { task ->
+                    task?.let {
+                        txtId.setText(it.id)
+                        txtTitle.setText(it.title)
+                        txtDescription.setText(it.description)
+                        txtAssignTo.setText(it.assignedTo)
+                        txtObservation.setText(it.notes)
+                    }
+                }
+            }
+        }
+
+        /*lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.selectedTask.collect {
+                    it?.let { task ->
+                        txtId.setText(task.id)
+                        txtTitle.setText(task.title)
+                        txtDescription.setText(task.description)
+                        txtAssignedTo.setText(task.assignedTo)
+                    }
+                }
+            }
+        }*/
+
+        /*lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.error.collect { error ->
+                    error?.let {
+                        Toast.makeText(this@TaskActivity, it, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -99,7 +144,8 @@ class TaskActivity : AppCompatActivity() {
     }
 
     private fun searchTask(id: String){
-        try {
+        taskViewModel.getTaskById(id)
+        /*try {
             val task = taskViewModel.getTaskById(id)
             if (task != null){
                 isEditMode=true
@@ -112,7 +158,7 @@ class TaskActivity : AppCompatActivity() {
             cleanScreen()
             Toast.makeText(this, e.message.toString(),
                 Toast.LENGTH_LONG).show()
-        }
+        }*/
     }
 
     private fun getDateFormatString(dayOfMonth: Int, monthValue: Int, yearValue: Int): String{
@@ -136,18 +182,25 @@ class TaskActivity : AppCompatActivity() {
     fun saveTask(){
         try {
             if (isValidationData()){
-                val task = taskViewModel.getTaskById(txtId.text.toString().trim())
+                /*val task = taskViewModel.getTaskById(txtId.text.toString().trim())
                 if (task != null
                     && !isEditMode){
                     Toast.makeText(this, getString(R.string.TextDuplicateData)
                         , Toast.LENGTH_LONG).show()
-                }else{
+                }else{*/
                     val dueDate = util.parseStringToDateModern(tvDueDate.text.toString(),
                         "dd/MM/yyyy")
-
-
-                    val task = Task()
-
+                    val task = Task(
+                        id = txtId.text.toString(),
+                        title = txtTitle.text.toString(),
+                        description = txtDescription.text.toString(),
+                        dueDate = dueDate!!,
+                        creationDate = LocalDate.now(),
+                        status = TaskStatus.valueOf(txtStatus.text.trim().toString()),
+                        assignedTo = txtAssignTo.text.toString(),
+                        priority = TaskPriority.valueOf(txtStatus.text.trim().toString()),
+                        notes = txtObservation.text.toString()
+                    )
                     if (!isEditMode)
                         taskViewModel.saveTask(task)
                     else
@@ -157,7 +210,7 @@ class TaskActivity : AppCompatActivity() {
 
                     Toast.makeText(this, getString(R.string.TextSaveSuccess)
                         , Toast.LENGTH_LONG).show()
-                }
+                //}
             }else{
                 Toast.makeText(this, "Datos incompletos"
                     , Toast.LENGTH_LONG).show()

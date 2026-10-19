@@ -3,12 +3,15 @@ pluginManagement {
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("com\\.google\\.android.*")
                 includeGroupByRegex("androidx.*")
             }
         }
         mavenCentral()
         gradlePluginPortal()
+    }
+    plugins {
+        kotlin("kapt") version "2.2.10"
     }
 }
 plugins {
