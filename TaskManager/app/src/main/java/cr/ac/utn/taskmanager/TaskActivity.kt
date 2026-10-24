@@ -98,7 +98,7 @@ class TaskActivity : AppCompatActivity(),
         dueMonth=month
         dueYear=year
         tvDueDate.text = getDateFormatString(dayOfMonth,
-             year, month)
+             month, year)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
