@@ -2,8 +2,6 @@ package cr.ac.utn.taskmanager
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -25,8 +23,8 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var txtId: EditText
     private lateinit var txtTitle: EditText
     private lateinit var txtDescription: EditText
-    private lateinit var spnStatus: Spinner
-    private lateinit var spnPriority: Spinner
+    private lateinit var txtStatus: EditText
+    private lateinit var txtPriority: EditText
     private lateinit var txtAssignTo: EditText
     private lateinit var txtObservation: EditText
     private lateinit var tvDueDate: TextView
@@ -53,14 +51,12 @@ class TaskActivity : AppCompatActivity() {
         txtId = findViewById(R.id.txtId_Task)
         txtTitle = findViewById(R.id.txtTitle_Task)
         txtDescription = findViewById(R.id.txtDescription_Task)
-        spnStatus = findViewById(R.id.spnStatus_Task)
-        spnPriority = findViewById(R.id.spnPriority_Task)
+        txtStatus = findViewById(R.id.txtStatus_Task)
+        txtPriority = findViewById(R.id.txtPriority_Task)
         txtObservation = findViewById(R.id.txtObservation_Task)
         txtAssignTo = findViewById(R.id.txtAssignTo_Task)
         tvDueDate = findViewById(R.id.tvDueDate_Task)
 
-        configureSpinner(spnStatus, resources.getStringArray(R.array.task_status_options))
-        configureSpinner(spnPriority, resources.getStringArray(R.array.task_priority_options))
         if (savedInstanceState == null) {
             clearForm()
         } else {
@@ -89,12 +85,6 @@ class TaskActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    // Configura una lista desplegable; se usa para estado y prioridad.
-    private fun configureSpinner(spinner: Spinner, options: Array<String>) {
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-    }
     // Busca por ID y coloca los datos encontrados en el formulario.
     private fun searchTask() {
         val task = viewModel.getTaskById(txtId.text.toString().trim())
@@ -108,8 +98,8 @@ class TaskActivity : AppCompatActivity() {
         txtId.setText(task.id)
         txtTitle.setText(task.title)
         txtDescription.setText(task.description)
-        spnStatus.setSelection(task.status.ordinal)
-        spnPriority.setSelection(task.priority.ordinal)
+        txtStatus.setText(task.status.name)
+        txtPriority.setText(task.priority.name)
         txtAssignTo.setText(task.assignedTo)
         txtObservation.setText(task.notes)
         dueDate = task.dueDate
@@ -130,8 +120,15 @@ class TaskActivity : AppCompatActivity() {
         val id = txtId.text.toString().trim()
         val title = txtTitle.text.toString().trim()
         val date = dueDate
-        val status = TaskStatus.values()[spnStatus.selectedItemPosition]
-        val priority = TaskPriority.values()[spnPriority.selectedItemPosition]
+        val status: TaskStatus
+        val priority: TaskPriority
+        try {
+            status = TaskStatus.valueOf(txtStatus.text.toString().trim().uppercase(java.util.Locale.ROOT))
+            priority = TaskPriority.valueOf(txtPriority.text.toString().trim().uppercase(java.util.Locale.ROOT))
+        } catch (_: IllegalArgumentException) {
+            showMessage(R.string.task_invalid_status_priority)
+            return
+        }
 
         if (id.isEmpty() || title.isEmpty() || date == null) {
             showMessage(R.string.task_save_error)
@@ -142,6 +139,11 @@ class TaskActivity : AppCompatActivity() {
         // Solo se actualiza cuando la tarea fue cargada con Buscar.
         if (existingTask != null && loadedTaskId != id) {
             showMessage(R.string.task_duplicate_error)
+            return
+        }
+
+        if (existingTask?.status == TaskStatus.COMPLETED && status == TaskStatus.CANCELLED) {
+            showMessage(R.string.task_completed_action_error)
             return
         }
 
@@ -194,8 +196,8 @@ class TaskActivity : AppCompatActivity() {
         txtDescription.text.clear()
         txtAssignTo.text.clear()
         txtObservation.text.clear()
-        spnStatus.setSelection(TaskStatus.PENDING.ordinal)
-        spnPriority.setSelection(TaskPriority.LOW.ordinal)
+        txtStatus.setText(TaskStatus.PENDING.name)
+        txtPriority.setText(TaskPriority.LOW.name)
         tvDueDate.text = ""
         dueDate = null
         loadedTaskId = null

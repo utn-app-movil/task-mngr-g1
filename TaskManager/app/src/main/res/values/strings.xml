@@ -8,6 +8,26 @@
     <string name="TextSnackbar">Deshacer</string>
     <string name="btnTextTask_main">Gestión de Tareas</string>
     <string name="btnTextTaskList_main">Listar tareas</string>
+    <string name="TextId">Id</string>
+    <string name="TextTitle">Título de tarea</string>
+    <string name="TextDescription">Descripción</string>
+    <string name="TextDueDate">Vencimiento</string>
+    <string name="TextStatus">Estado</string>
+    <string name="TextPriority">Prioridad</string>
+    <string name="TextObservation">Observación</string>
+    <string name="TextAssignTo">Asignado a</string>
+    <string name="TextSave">Guardar</string>
+    <string name="TextDelete">Eliminar</string>
+    <string name="TextCancel">Cancelar</string>
+    <string name="TextSaveSuccess">La información se guardó con éxito.</string>
+    <string name="TextDeleteSuccess">La información se eliminó con éxito.</string>
+    <string name="TextDuplicateData">La información ya se encuentra almacenada.</string>
+    <string name="TextSaveError">Error al guardar la información.</string>
+    <string name="TextDeleteError">Error al eliminar la información.</string>
+    <string name="TextSaveQuestion">Desea guardar la información?</string>
+    <string name="TextDeleteQuestion">Desea eliminar la información?</string>
+    <string name="TextYes">Si</string>
+    <string name="TextNo">No</string>
 
 
     <string name="task_id_label">Identificador</string>
@@ -45,4 +65,5 @@
         <item>Alta</item>
         <item>Crítica</item>
     </string-array>
+    <string name="task_invalid_status_priority">Estado: PENDING, IN_PROGRESS, COMPLETED o CANCELLED. Prioridad: LOW, MEDIUM, HIGH o CRITICAL.</string>
 </resources>
