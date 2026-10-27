@@ -5,9 +5,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -31,8 +33,8 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var txtId: EditText
     private lateinit var txtTitle: EditText
     private lateinit var txtDescription: EditText
-    private lateinit var txtStatus: EditText
-    private lateinit var txtPriority: EditText
+    private lateinit var spStatus: Spinner
+    private lateinit var spPriority: Spinner
     private lateinit var txtAssignTo: EditText
     private lateinit var txtObservation: EditText
     private lateinit var tvDueDate: TextView
@@ -56,11 +58,13 @@ class TaskActivity : AppCompatActivity() {
         txtId = findViewById<EditText>(R.id.txtId_Task)
         txtTitle = findViewById<EditText>(R.id.txtTitle_Task)
         txtDescription = findViewById<EditText>(R.id.txtDescription_Task)
-        txtStatus = findViewById<EditText>(R.id.txtStatus_Task)
-        txtPriority = findViewById<EditText>(R.id.txtPriority_Task)
+        spStatus = findViewById(R.id.spStatus_Task)
+        spPriority = findViewById(R.id.spPriority_Task)
         txtObservation = findViewById<EditText>(R.id.txtObservation_Task)
         txtAssignTo = findViewById<EditText>(R.id.txtAssignTo_Task)
         tvDueDate = findViewById<TextView>(R.id.tvDueDate_Task)
+
+        setupSpinners()
 
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
@@ -102,6 +106,9 @@ class TaskActivity : AppCompatActivity() {
                         txtDescription.setText(it.description)
                         txtAssignTo.setText(it.assignedTo)
                         txtObservation.setText(it.notes)
+
+                        spStatus.setSelection(it.status.ordinal)
+                        spPriority.setSelection(it.priority.ordinal)
                     }
                 }
             }
@@ -140,6 +147,26 @@ class TaskActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setupSpinners() {
+        // Adaptador para TaskStatus
+        val statusAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            TaskStatus.entries.toTypedArray() // o TaskStatus.values() en Kotlin < 1.9
+        )
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spStatus.adapter = statusAdapter
+
+        // Adaptador para TaskPriority
+        val priorityAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            TaskPriority.entries.toTypedArray() // o TaskPriority.values()
+        )
+        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spPriority.adapter = priorityAdapter
+    }
+
     private fun resetDate(){
 
     }
@@ -176,6 +203,10 @@ class TaskActivity : AppCompatActivity() {
         txtId.isEnabled = true
         txtId.setText("")
 
+        // Resetear spinners
+        spStatus.setSelection(0)
+        spPriority.setSelection(0)
+
         invalidateOptionsMenu()
     }
 
@@ -195,15 +226,19 @@ class TaskActivity : AppCompatActivity() {
                 }else{*/
                     val dueDate = util.parseStringToDateModern(tvDueDate.text.toString(),
                         "dd/MM/yyyy")
+                    // Obtener enum seleccionado directamente desde cada Spinner
+                    val selectedStatus = spStatus.selectedItem as TaskStatus
+                    val selectedPriority = spPriority.selectedItem as TaskPriority
+
                     val task = Task(
                         id = txtId.text.toString(),
                         title = txtTitle.text.toString(),
                         description = txtDescription.text.toString(),
                         dueDate = dueDate!!,
                         creationDate = LocalDate.now(),
-                        status = TaskStatus.valueOf(txtStatus.text.trim().toString()),
+                        status = selectedStatus,
                         assignedTo = txtAssignTo.text.toString(),
-                        priority = TaskPriority.valueOf(txtStatus.text.trim().toString()),
+                        priority = selectedPriority,
                         notes = txtObservation.text.toString()
                     )
                     if (!isEditMode)
