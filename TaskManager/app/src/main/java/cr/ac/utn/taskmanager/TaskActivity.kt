@@ -24,6 +24,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
+import cr.ac.utn.taskmanager.util.EXTRA_MESSAGE_ID
 import kotlinx.coroutines.launch
 
 class TaskActivity : AppCompatActivity() {
@@ -51,6 +52,7 @@ class TaskActivity : AppCompatActivity() {
             insets
         }
 
+        taskViewModel = util.buildPersonViewModel()
         txtId = findViewById<EditText>(R.id.txtId_Task)
         txtTitle = findViewById<EditText>(R.id.txtTitle_Task)
         txtDescription = findViewById<EditText>(R.id.txtDescription_Task)
@@ -60,13 +62,16 @@ class TaskActivity : AppCompatActivity() {
         txtAssignTo = findViewById<EditText>(R.id.txtAssignTo_Task)
         tvDueDate = findViewById<TextView>(R.id.tvDueDate_Task)
 
-        resetDate()
-
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
         val btnSave= findViewById<Button>(R.id.btnSave_Task)
         val btnRemove= findViewById<Button>(R.id.btnRemove_Task)
         val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
+
+        resetDate()
+
+        val taskId = intent.getStringExtra(EXTRA_MESSAGE_ID)
+        if (taskId != null && taskId.trim().length == 0) searchTask(taskId)
 
         btnSearch.setOnClickListener(View.OnClickListener{ view ->
             searchTask(txtId.text.trim().toString())
