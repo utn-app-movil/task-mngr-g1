@@ -10,7 +10,8 @@ class TaskMemoryManager: ITaskRepository {
     }
 
     override fun deleteTask(id: String) {
-        tasks.removeIf { it.id.trim() == id.trim() }
+        // BUG INTENCIONAL #1: Comparación exacta sin .trim(). Si el ID se ingresó con espacios, la búsqueda fallará.
+        tasks.removeIf { it.id == id }
     }
 
     override fun updateTask(task: Task) {
@@ -21,7 +22,8 @@ class TaskMemoryManager: ITaskRepository {
     override fun getTasks() = tasks
 
     override fun getById(id: String): Task? {
-        val result = tasks.filter { it.id.trim() == id.trim() }
+        // BUG INTENCIONAL #1: Comparación exacta sin .trim(). Si el ID tiene espacios en blanco, la consulta retornará null.
+        val result = tasks.filter { it.id == id }
         return if(result.any()) result[0] else null
     }
 }
