@@ -20,8 +20,10 @@ import cr.ac.utn.taskmanager.data.memory.TaskMemoryManager
 import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
+import cr.ac.utn.taskmanager.util.EXTRA_MESSAGE_ID
 import cr.ac.utn.taskmanager.util.util
 import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
+import cr.ac.utn.taskmanager.viewmodel.TaskViewModel.Companion.getTaskById
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -53,7 +55,7 @@ class TaskActivity : AppCompatActivity(),
             insets
         }
 
-        taskViewModel = TaskViewModel(TaskMemoryManager())
+        //taskViewModel = TaskViewModel(TaskMemoryManager())
         txtId = findViewById<EditText>(R.id.txtId_Task)
         txtTitle = findViewById<EditText>(R.id.txtTitle_Task)
         txtDescription = findViewById<EditText>(R.id.txtDescription_Task)
@@ -67,6 +69,12 @@ class TaskActivity : AppCompatActivity(),
 
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
+
+        val taskId = intent.getStringExtra(EXTRA_MESSAGE_ID)
+        if (taskId != null && taskId.isNotBlank()){
+            searchTask(taskId)
+        }
+
 
         btnSearch.setOnClickListener(View.OnClickListener{ view ->
             searchTask(txtId.text.trim().toString())
@@ -128,8 +136,10 @@ class TaskActivity : AppCompatActivity(),
 
     private fun searchTask(id: String){
         try {
-            val task = taskViewModel.getTaskById(id)
+            //val task = taskViewModel.getTaskById(id)
+            val task = getTaskById(id)
             if (task != null){
+
                 isEditMode=true
                 txtId.isEnabled=false
                 txtTitle.setText(task.title)
@@ -190,7 +200,8 @@ class TaskActivity : AppCompatActivity(),
     fun saveTask(){
         try {
             if (isValidationData()){
-                val task = taskViewModel.getTaskById(txtId.text.toString().trim())
+               // val task = taskViewModel.getTaskById(txtId.text.toString().trim())
+                val task = getTaskById(txtId.text.toString().trim())
                 if (task != null
                     && !isEditMode){
                     Toast.makeText(this, getString(R.string.TextDuplicateData)
@@ -212,9 +223,9 @@ class TaskActivity : AppCompatActivity(),
                         txtObservation.text.toString().trim())
 
                     if (!isEditMode)
-                        taskViewModel.saveTask(task)
+                        TaskViewModel.saveTask(task)
                     else
-                        taskViewModel.updateTask(task)
+                        TaskViewModel.updateTask(task)
 
                     cleanScreen()
 
@@ -233,7 +244,7 @@ class TaskActivity : AppCompatActivity(),
 
     fun deleteTask(): Unit{
         try {
-            taskViewModel.removeTask(txtId.text.toString())
+            TaskViewModel.removeTask(txtId.text.toString())
             cleanScreen()
             Toast.makeText(this, getString(R.string.TextDeleteSuccess)
                 , Toast.LENGTH_LONG).show()
