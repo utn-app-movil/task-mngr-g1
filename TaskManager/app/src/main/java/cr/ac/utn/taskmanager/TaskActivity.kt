@@ -41,7 +41,7 @@ class TaskActivity : AppCompatActivity(),
     private var dueYear: Int=0
     private var isEditMode: Boolean=false
     private lateinit var taskViewModel: TaskViewModel
-    private lateinit var btnRemove:Button
+    private lateinit var menuDelete: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +67,6 @@ class TaskActivity : AppCompatActivity(),
 
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
-        val btnSave= findViewById<Button>(R.id.btnSave_Task)
-        btnRemove= findViewById<Button>(R.id.btnRemove_Task)
-        val btnCancel= findViewById<Button>(R.id.btnCancel_Task)
 
         btnSearch.setOnClickListener(View.OnClickListener{ view ->
             searchTask(txtId.text.trim().toString())
@@ -77,18 +74,6 @@ class TaskActivity : AppCompatActivity(),
 
         btnDueDate.setOnClickListener(View.OnClickListener{ view ->
             showDatePickerDialog()
-        })
-
-        btnSave.setOnClickListener(View.OnClickListener{ view ->
-            saveTask()
-        })
-
-        btnRemove.setOnClickListener(View.OnClickListener{ view ->
-            deleteTask()
-        })
-
-        btnCancel.setOnClickListener(View.OnClickListener{ view ->
-            cleanScreen()
         })
     }
 
@@ -102,12 +87,30 @@ class TaskActivity : AppCompatActivity(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.crud_actions, menu)
+        menuDelete = menu!!.findItem(R.id.mnuDelete)
+        menuDelete.isVisible = false
+        invalidateOptionsMenu()
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.mnuSave -> {
+                saveTask()
+                return true
+            }
+            R.id.mnuDelete -> {
+                deleteTask()
+                return true
+            }
+            R.id.mnuCancel -> {
+                cleanScreen()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     private fun resetDate(){
@@ -141,7 +144,7 @@ class TaskActivity : AppCompatActivity(),
                 dueDay = task.dueDate.dayOfMonth
                 dueMonth = task.dueDate.monthValue
                 dueYear = task.dueDate.year
-                btnRemove.isVisible= true
+                menuDelete.isVisible= true
             }else{
                 Toast.makeText(this, getString(R.string.TextDataNoFound),
                     Toast.LENGTH_LONG).show()
@@ -169,7 +172,7 @@ class TaskActivity : AppCompatActivity(),
         txtAssignTo.setText("")
         txtObservation.setText("")
         tvDueDate.setText("")
-        btnRemove.isVisible= false
+        menuDelete.isVisible= false
         invalidateOptionsMenu()
     }
 
