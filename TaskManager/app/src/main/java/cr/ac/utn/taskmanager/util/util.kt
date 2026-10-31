@@ -2,16 +2,21 @@ package cr.ac.utn.taskmanager.util
 
 import android.content.Context
 import android.content.Intent
+import cr.ac.utn.taskmanager.data.memory.TaskMemoryManager
+import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+const val EXTRA_MESSAGE_ID = "cr.ac.utn.task.Id"
 class util {
     companion object{
-        fun OpenActivity(context: Context, classActivity: Class<*>){
-            val objIntent = Intent(context, classActivity)
-            context.startActivity(objIntent)
+        fun openActivity(context: Context
+                         , objClass: Class<*>, extraName: String="", value: String?=null){
+            val intent= Intent(context
+                , objClass).apply { putExtra(extraName, value)}
+            context.startActivity(intent)
         }
 
         fun parseStringToDateModern(dateString: String, pattern: String): LocalDate? {
