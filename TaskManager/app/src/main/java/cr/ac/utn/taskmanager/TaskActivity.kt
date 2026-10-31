@@ -64,13 +64,13 @@ class TaskActivity : AppCompatActivity(),
         txtAssignTo = findViewById<EditText>(R.id.txtAssignTo_Task)
         tvDueDate = findViewById<TextView>(R.id.tvDueDate_Task)
 
-        resetDate()
-
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
 
+        resetDate()
         val taskId = intent.getStringExtra(EXTRA_MESSAGE_ID)
-        if (taskId != null && taskId.isNotBlank()){
+        if (!taskId.isNullOrBlank()){
+            txtId.setText(taskId)
             searchTask(taskId)
         }
 
@@ -96,7 +96,7 @@ class TaskActivity : AppCompatActivity(),
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.crud_actions, menu)
         menuDelete = menu!!.findItem(R.id.mnuDelete)
-        menuDelete.isVisible = false
+        menuDelete.isVisible = isEditMode
         invalidateOptionsMenu()
         return true
     }
@@ -134,7 +134,6 @@ class TaskActivity : AppCompatActivity(),
 
     private fun searchTask(id: String){
         try {
-            //val task = taskViewModel.getTaskById(id)
             val task = TaskViewModel.getTaskById(id)
             if (task != null){
                 isEditMode=true
@@ -151,7 +150,7 @@ class TaskActivity : AppCompatActivity(),
                 dueDay = task.dueDate.dayOfMonth
                 dueMonth = task.dueDate.monthValue
                 dueYear = task.dueDate.year
-                menuDelete.isVisible= true
+                invalidateOptionsMenu()
             }else{
                 Toast.makeText(this, getString(R.string.TextDataNoFound),
                     Toast.LENGTH_LONG).show()
@@ -179,7 +178,6 @@ class TaskActivity : AppCompatActivity(),
         txtAssignTo.setText("")
         txtObservation.setText("")
         tvDueDate.setText("")
-        menuDelete.isVisible= false
         invalidateOptionsMenu()
     }
 
