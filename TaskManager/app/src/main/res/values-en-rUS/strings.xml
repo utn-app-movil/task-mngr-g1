@@ -31,4 +31,5 @@
     <string name="TextYes">Yes</string>
     <string name="TextNo">No</string>
     <string name="TextDataNoFound">The information was not found.</string>
+    <string name="TextTitleDialogQuestion">Question</string>
 </resources>
