@@ -40,10 +40,17 @@ class TaskListActivity : AppCompatActivity(), OnItemClickListener {
         recycler.layoutManager = LinearLayoutManager(applicationContext)
         recycler.adapter = taskAdapter
 
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextLoading))
+        var isFirstLoad = true
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 taskViewModel.tasks.collect { tasks ->
                     taskAdapter.updateTasks(tasks)
+                    if (isFirstLoad) {
+                        isFirstLoad = false
+                        progressDialog.dismiss()
+                    }
                 }
             }
         }

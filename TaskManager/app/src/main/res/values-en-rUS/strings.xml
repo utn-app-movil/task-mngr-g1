@@ -32,4 +32,7 @@
     <string name="TextNo">No</string>
     <string name="TextDataNoFound">The information was not found.</string>
     <string name="TextTitleDialogQuestion">Questiion</string>
+    <string name="TextLoading">Loading data...</string>
+    <string name="TextSaving">Saving data...</string>
+    <string name="TextDeleting">Deleting data...</string>
 </resources>

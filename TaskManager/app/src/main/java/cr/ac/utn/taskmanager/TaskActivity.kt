@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
@@ -89,7 +88,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(view: android.widget.DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         dueDay = dayOfMonth
-        dueMonth = month +1
+        dueMonth = month + 1
         dueYear = year
         tvDueDate.text = getDateFormatString(dueDay, dueMonth, dueYear)
     }
@@ -108,18 +107,21 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mnuSave -> {
-                if (isEditMode){
-                    util.showDialogCondition(this
-                        , getString(R.string.TextSaveQuestion)
-                        , { saveTask() })
-                }else
+                if (isEditMode) {
+                    util.showDialogCondition(
+                        this,
+                        getString(R.string.TextSaveQuestion)
+                    ) { saveTask() }
+                } else {
                     saveTask()
+                }
                 true
             }
             R.id.mnuDelete -> {
-                util.showDialogCondition(this
-                    , getString(R.string.TextDeleteQuestion)
-                    ,{ deleteTask() })
+                util.showDialogCondition(
+                    this,
+                    getString(R.string.TextDeleteQuestion)
+                ) { deleteTask() }
                 true
             }
             R.id.mnuCancel -> {
@@ -131,7 +133,6 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupSpinners() {
-        // Adaptador para TaskStatus
         val statusAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -140,7 +141,6 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spStatus.adapter = statusAdapter
 
-        // Adaptador para TaskPriority
         val priorityAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -153,17 +153,18 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private fun resetDate() {
         val calendar = Calendar.getInstance()
         dueYear = calendar.get(Calendar.YEAR)
-        dueMonth = calendar.get(Calendar.MONTH)+1
+        dueMonth = calendar.get(Calendar.MONTH) + 1
         dueDay = calendar.get(Calendar.DAY_OF_MONTH)
     }
 
     private fun showDatePickerDialog() {
-        val datePickerDialog = DatePickerDialog(this, this, dueYear, dueMonth -1, dueDay)
+        val datePickerDialog = DatePickerDialog(this, this, dueYear, dueMonth - 1, dueDay)
         datePickerDialog.show()
     }
 
     private fun searchTask(id: String) {
         if (id.isBlank()) return
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextLoading))
         lifecycleScope.launch {
             try {
                 val task = taskViewModel.getTaskById(id)
@@ -200,6 +201,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     e.message.toString(),
                     Toast.LENGTH_LONG
                 ).show()
+            } finally {
+                progressDialog.dismiss()
             }
         }
     }
@@ -235,67 +238,67 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun saveTask() {
+        if (!isValidationData()) {
+            Toast.makeText(
+                this@TaskActivity,
+                "Datos incompletos",
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextSaving))
         lifecycleScope.launch {
             try {
-                if (isValidationData()) {
-                    val existingTask = taskViewModel.getTaskById(txtId.text.toString().trim())
-                    if (existingTask != null && !isEditMode) {
-                        Toast.makeText(
-                            this@TaskActivity,
-                            getString(R.string.TextDuplicateData),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    } else {
-                        val dueDate = util.parseStringToDateModern(
-                            tvDueDate.text.toString(),
-                            "dd/MM/yyyy"
-                        )
-                        val selectedStatus = spStatus.selectedItem as TaskStatus
-                        val selectedPriority = spPriority.selectedItem as TaskPriority
-                        val task = Task(
-                            txtId.text.toString().trim(),
-                            txtTitle.text.toString().trim(),
-                            txtDescription.text.toString().trim(),
-                            LocalDate.of(
-                                dueDate?.year!!,
-                                dueDate.month!!,
-                                dueDate.dayOfMonth
-                            ),
-                            LocalDate.now(),
-                            selectedStatus,
-                            txtAssignTo.text.toString().trim(),
-                            selectedPriority,
-                            txtObservation.text.toString().trim()
-                        )
-
-                        if (!isEditMode) {
-                            taskViewModel.saveTask(task) {
-                                cleanScreen()
-                                Toast.makeText(
-                                    this@TaskActivity,
-                                    getString(R.string.TextSaveSuccess),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        } else {
-                            taskViewModel.updateTask(task) {
-                                cleanScreen()
-                                Toast.makeText(
-                                    this@TaskActivity,
-                                    getString(R.string.TextSaveSuccess),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
-                    }
-                } else {
+                val existingTask = taskViewModel.getTaskById(txtId.text.toString().trim())
+                if (existingTask != null && !isEditMode) {
+                    progressDialog.dismiss()
                     Toast.makeText(
                         this@TaskActivity,
-                        "Datos incompletos",
+                        getString(R.string.TextDuplicateData),
                         Toast.LENGTH_LONG
                     ).show()
+                } else {
+                    val dueDate = util.parseStringToDateModern(
+                        tvDueDate.text.toString(),
+                        "dd/MM/yyyy"
+                    )
+                    val selectedStatus = spStatus.selectedItem as TaskStatus
+                    val selectedPriority = spPriority.selectedItem as TaskPriority
+                    val task = Task(
+                        txtId.text.toString().trim(),
+                        txtTitle.text.toString().trim(),
+                        txtDescription.text.toString().trim(),
+                        LocalDate.of(
+                            dueDate?.year!!,
+                            dueDate.month!!,
+                            dueDate.dayOfMonth
+                        ),
+                        LocalDate.now(),
+                        selectedStatus,
+                        txtAssignTo.text.toString().trim(),
+                        selectedPriority,
+                        txtObservation.text.toString().trim()
+                    )
+
+                    val onCompleteCallback = {
+                        progressDialog.dismiss()
+                        cleanScreen()
+                        Toast.makeText(
+                            this@TaskActivity,
+                            getString(R.string.TextSaveSuccess),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    if (!isEditMode) {
+                        taskViewModel.saveTask(task, onCompleteCallback)
+                    } else {
+                        taskViewModel.updateTask(task, onCompleteCallback)
+                    }
                 }
             } catch (e: Exception) {
+                progressDialog.dismiss()
                 Toast.makeText(
                     this@TaskActivity,
                     e.message.toString(),
@@ -308,7 +311,9 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private fun deleteTask() {
         val id = txtId.text.toString().trim()
         if (id.isBlank()) return
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextDeleting))
         taskViewModel.removeTask(id) {
+            progressDialog.dismiss()
             cleanScreen()
             Toast.makeText(
                 this@TaskActivity,
