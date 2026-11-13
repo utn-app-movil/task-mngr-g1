@@ -11,7 +11,7 @@ class TaskManagerApp : Application() {
         AppDatabase.getDatabase(this)
     }
 
-    val repository: ITaskRepository by lazy {
+    /*val repository: ITaskRepository by lazy {
         TaskRoomRepository(database.taskDao())
-    }
+    }*/
 }
