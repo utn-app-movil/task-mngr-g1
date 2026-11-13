@@ -2,18 +2,28 @@ package cr.ac.utn.taskmanager
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cr.ac.utn.taskmanager.data.memory.TaskMemoryManager
 import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.util.EXTRA_MESSAGE_ID
 import cr.ac.utn.taskmanager.util.util
 import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
+import kotlinx.coroutines.launch
 
 class TaskListActivity : AppCompatActivity(), OnItemClickListener {
+
+    private val taskViewModel: TaskViewModel by viewModels {
+        TaskViewModel.Factory(application)
+    }
+
+    private lateinit var taskAdapter: TaskListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,18 +35,25 @@ class TaskListActivity : AppCompatActivity(), OnItemClickListener {
             insets
         }
 
-        val recycler= findViewById<RecyclerView>(R.id.rvTasks_List)
-        val taskAdapter = TaskListAdapter(TaskViewModel.getTasks(),
-            this)
-        val layoutManager = LinearLayoutManager(applicationContext)
-        recycler.layoutManager = layoutManager
+        val recycler = findViewById<RecyclerView>(R.id.rvTasks_List)
+        taskAdapter = TaskListAdapter(emptyList(), this)
+        recycler.layoutManager = LinearLayoutManager(applicationContext)
         recycler.adapter = taskAdapter
-        taskAdapter.notifyDataSetChanged()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.tasks.collect { tasks ->
+                    taskAdapter.updateTasks(tasks)
+                }
+            }
+        }
     }
 
     override fun onItemClick(task: Task) {
-        util.openActivity(this,
+        util.openActivity(
+            this,
             TaskActivity::class.java,
-            EXTRA_MESSAGE_ID, task.id)
+            EXTRA_MESSAGE_ID, task.id
+        )
     }
 }
