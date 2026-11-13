@@ -165,6 +165,7 @@ class TaskActivity : AppCompatActivity(),
     }
 
     private fun searchTask(id: String){
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextSaving))
         try {
             val task = TaskViewModel.getTaskById(id)
             if (task != null){
@@ -191,6 +192,9 @@ class TaskActivity : AppCompatActivity(),
             cleanScreen()
             Toast.makeText(this, e.message.toString(),
                 Toast.LENGTH_LONG).show()
+        }
+        finally {
+            progressDialog.dismiss()
         }
     }
 
@@ -225,6 +229,7 @@ class TaskActivity : AppCompatActivity(),
     }
 
     fun saveTask(){
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextSaving))
         try {
             if (isValidationData()){
                 val task = TaskViewModel.getTaskById(txtId.text.toString().trim())
@@ -233,8 +238,6 @@ class TaskActivity : AppCompatActivity(),
                     Toast.makeText(this, getString(R.string.TextDuplicateData)
                         , Toast.LENGTH_LONG).show()
                 }else{
-                    val progressDialog = util.showProgressDialog(this, getString(R.string.TextSaving))
-
                     val dueDate = util.parseStringToDateModern(tvDueDate.text.toString(),
                         "dd/MM/yyyy")
                     val selectedStatus = spStatus.selectedItem as TaskStatus
@@ -269,13 +272,19 @@ class TaskActivity : AppCompatActivity(),
             Toast.makeText(this, e.message.toString()
                 , Toast.LENGTH_LONG).show()
         }
+        finally {
+            progressDialog.dismiss()
+        }
     }
 
     fun deleteTask(): Unit{
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextDeleting))
         try {
             val id = txtId.text.toString().trim()
-            if (id.isBlank()) return
-            val progressDialog = util.showProgressDialog(this, getString(R.string.TextDeleting))
+            if (id.isBlank()) {
+                progressDialog.dismiss()
+                return
+            }
             TaskViewModel.removeTask(txtId.text.toString())
             progressDialog.dismiss()
             cleanScreen()
@@ -284,6 +293,9 @@ class TaskActivity : AppCompatActivity(),
         }catch (e: Exception){
             Toast.makeText(this, e.message.toString()
                 , Toast.LENGTH_LONG).show()
+        }
+        finally {
+            progressDialog.dismiss()
         }
     }
 }
