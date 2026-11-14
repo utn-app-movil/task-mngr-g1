@@ -4,10 +4,9 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-class TaskRoomRepository{
 
-}
-/*class TaskRoomRepository(private val taskDao: TaskDao) : ITaskRepository {
+class TaskRoomRepository(private val taskDao: TaskDao):
+    ITaskRepository {
 
     override fun getTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks().map { entities ->
@@ -31,4 +30,3 @@ class TaskRoomRepository{
         taskDao.deleteTaskById(id.trim())
     }
 }
-*/
