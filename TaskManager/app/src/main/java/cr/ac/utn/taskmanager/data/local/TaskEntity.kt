@@ -6,7 +6,6 @@ import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
 
-@Entity (tableName = "task")
 data class TaskEntity (
     @PrimaryKey val id: String,
     val title: String,
@@ -19,5 +18,3 @@ data class TaskEntity (
     val notes: String
 
 )
-
-fun task.toEnt

@@ -6,6 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
-    @Query("SELECT + FROM tasks")
     fun getAllTasks(): Flow<List<TaskEntity>>
 }
