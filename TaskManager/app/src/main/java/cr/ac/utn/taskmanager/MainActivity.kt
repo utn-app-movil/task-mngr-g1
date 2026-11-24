@@ -63,5 +63,15 @@ class MainActivity : AppCompatActivity() {
             util.openActivity(this
                 , TaskListActivity::class.java)
         })
+
+        val btnOpenProduct: Button = findViewById<Button>(R.id.btnProduct_main)
+        btnOpenProduct.setOnClickListener {
+            util.openActivity(this, ProductActivity::class.java)
+        }
+
+        val btnOpenProductList: Button = findViewById<Button>(R.id.btnProductList_main)
+        btnOpenProductList.setOnClickListener {
+            util.openActivity(this, ProductListActivity::class.java)
+        }
     }
 }

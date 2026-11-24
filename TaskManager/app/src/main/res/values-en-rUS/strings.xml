@@ -35,4 +35,10 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+    <string name="btnTextProduct_main">Product Management</string>
+    <string name="btnTextProductList_main">Product List</string>
+    <string name="TextNombre">Name</string>
+    <string name="TextCategoria">Category</string>
+    <string name="TextPrecio">Price</string>
+    <string name="TextCantidad">Quantity</string>
 </resources>

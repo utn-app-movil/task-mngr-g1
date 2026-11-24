@@ -33,4 +33,10 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+    <string name="btnTextProduct_main">Gestión de Productos</string>
+    <string name="btnTextProductList_main">Listar productos</string>
+    <string name="TextNombre">Nombre</string>
+    <string name="TextCategoria">Categoría</string>
+    <string name="TextPrecio">Precio</string>
+    <string name="TextCantidad">Cantidad</string>
 </resources>
