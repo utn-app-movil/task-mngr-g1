@@ -1,6 +1,7 @@
 package cr.ac.utn.taskmanager.domain.model
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Task(
     val id: String,
@@ -11,5 +12,8 @@ data class Task(
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentTaskId: String? = null,
+    val cancellationReason: String? = null,
+    val statusChangeDateTime: LocalDateTime? = null
 )

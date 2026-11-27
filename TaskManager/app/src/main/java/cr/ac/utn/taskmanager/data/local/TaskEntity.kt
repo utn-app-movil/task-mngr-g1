@@ -6,9 +6,10 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity(tableName = "tasks")
-data class TaskEntity (
+data class TaskEntity(
     @PrimaryKey val id: String,
     val title: String,
     val description: String,
@@ -17,7 +18,10 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentTaskId: String? = null,
+    val cancellationReason: String? = null,
+    val statusChangeDateTime: LocalDateTime? = null
 )
 
 fun TaskEntity.toDomain(): Task {
@@ -30,7 +34,10 @@ fun TaskEntity.toDomain(): Task {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId,
+        cancellationReason = cancellationReason,
+        statusChangeDateTime = statusChangeDateTime
     )
 }
 
@@ -44,6 +51,9 @@ fun Task.toEntity(): TaskEntity {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId,
+        cancellationReason = cancellationReason,
+        statusChangeDateTime = statusChangeDateTime
     )
 }

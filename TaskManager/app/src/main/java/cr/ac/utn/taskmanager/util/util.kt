@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import cr.ac.utn.taskmanager.R
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -90,6 +92,29 @@ class util {
             val dialog = builder.create()
             dialog.show()
             return dialog
+        }
+
+        fun loadPeopleFromAssets(context: Context, fileName: String = "people.json"): List<String> {
+            return try {
+                val jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
+                val jsonArray = JSONArray(jsonString)
+                val list = mutableListOf<String>()
+                for (i in 0 until jsonArray.length()) {
+                    val item = jsonArray.opt(i)
+                    if (item is JSONObject) {
+                        val name = item.optString("name")
+                        if (!name.isNullOrBlank()) {
+                            list.add(name)
+                        }
+                    } else if (item is String) {
+                        list.add(item)
+                    }
+                }
+                list
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
         }
     }
 }

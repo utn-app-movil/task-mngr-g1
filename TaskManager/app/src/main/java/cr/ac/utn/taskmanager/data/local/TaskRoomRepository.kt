@@ -5,11 +5,16 @@ import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class TaskRoomRepository(private val taskDao: TaskDao):
-    ITaskRepository {
+class TaskRoomRepository(private val taskDao: TaskDao) : ITaskRepository {
 
     override fun getTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
+
+    override fun getEligibleParentTasks(): Flow<List<Task>> {
+        return taskDao.getEligibleParentTasks().map { entities ->
             entities.map { it.toDomain() }
         }
     }
