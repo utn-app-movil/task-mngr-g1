@@ -12,7 +12,7 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     fun getAllTasks(): Flow<List<TaskEntity>>
 
-    @Query("SELECT * FROM tasks WHERE parentTaskId IS NULL AND status IN ('PENDING', 'IN_PROGRESS')")
+    @Query("SELECT * FROM tasks WHERE (parentTaskId IS NULL OR parentTaskId = '') AND status IN ('PENDING', 'IN_PROGRESS')")
     fun getEligibleParentTasks(): Flow<List<TaskEntity>>
 
     @Query("SELECT * FROM tasks WHERE parentTaskId = :parentId")

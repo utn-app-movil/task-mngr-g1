@@ -56,6 +56,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     private var selectablePeople: List<String> = emptyList()
     private var eligibleParentsList: List<Task> = emptyList()
+    private var currentParentTaskId: String? = null
 
     private val taskViewModel: TaskViewModel by viewModels {
         TaskViewModel.Factory(application)
@@ -169,18 +170,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spPriority.adapter = priorityAdapter
 
-        // Load selectable people dynamically from assets/people.json
         selectablePeople = util.loadPeopleFromAssets(this)
-        /*if (selectablePeople.isEmpty()) {
-            selectablePeople = listOf(
-                "Juan Pérez",
-                "María Gómez",
-                "Carlos Rojas",
-                "Ana Torres",
-                "Laura Vargas"
-            )
-        }*/
-
         val assignAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -209,9 +199,11 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 taskViewModel.eligibleParentTasks.collect { parents ->
-                    eligibleParentsList = parents
+                    val currentEditingId = txtId.text.toString().trim()
+                    eligibleParentsList = parents.filter { it.id != currentEditingId }
+
                     val parentOptions = mutableListOf("Ninguna (Tarea Principal)")
-                    parentOptions.addAll(parents.map { "${it.id} - ${it.title}" })
+                    parentOptions.addAll(eligibleParentsList.map { "${it.id} - ${it.title}" })
 
                     val parentAdapter = ArrayAdapter(
                         this@TaskActivity,
@@ -220,8 +212,23 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     )
                     parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spParentTask.adapter = parentAdapter
+
+                    updateParentSpinnerSelection()
                 }
             }
+        }
+    }
+
+    private fun updateParentSpinnerSelection() {
+        if (!currentParentTaskId.isNullOrBlank()) {
+            val parentIndex = eligibleParentsList.indexOfFirst { it.id == currentParentTaskId }
+            if (parentIndex >= 0) {
+                spParentTask.setSelection(parentIndex + 1)
+            } else {
+                spParentTask.setSelection(0)
+            }
+        } else {
+            spParentTask.setSelection(0)
         }
     }
 
@@ -258,6 +265,9 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
                     txtObservation.setText(task.notes)
                     txtCancellationReason.setText(task.cancellationReason ?: "")
+
+                    currentParentTaskId = task.parentTaskId
+                    updateParentSpinnerSelection()
 
                     val dueDateStr = getDateFormatString(
                         task.dueDate.dayOfMonth,
@@ -327,6 +337,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private fun cleanScreen() {
         resetDate()
         isEditMode = false
+        currentParentTaskId = null
         txtId.isEnabled = true
         setFormEnabled(true)
         txtId.setText("")
