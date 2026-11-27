@@ -16,7 +16,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
@@ -34,7 +36,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var txtDescription: EditText
     private lateinit var spStatus: Spinner
     private lateinit var spPriority: Spinner
-    private lateinit var txtAssignTo: EditText
+    private lateinit var spAssignTo: Spinner
+    private lateinit var spParentTask: Spinner
     private lateinit var txtObservation: EditText
     private lateinit var tvDueDate: TextView
     private var dueDay: Int = 0
@@ -62,10 +65,12 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         spStatus = findViewById(R.id.spStatus_Task)
         spPriority = findViewById(R.id.spPriority_Task)
         txtObservation = findViewById(R.id.txtObservation_Task)
-        txtAssignTo = findViewById(R.id.txtAssignTo_Task)
+        spAssignTo = findViewById(R.id.spAssignTo_Task)
+        spParentTask = findViewById(R.id.spParentTask_Task)
         tvDueDate = findViewById(R.id.tvDueDate_Task)
 
         setupSpinners()
+        observeEligibleParents()
 
         val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
         val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
@@ -150,6 +155,33 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         spPriority.adapter = priorityAdapter
     }
 
+    private fun observeEligibleParents() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.eligibleParentTasks.collect { parents ->
+
+
+                    val parentOptions = mutableListOf("Ninguna (Tarea Principal)")
+
+
+                    val parentAdapter = ArrayAdapter(
+                        this@TaskActivity,
+                        android.R.layout.simple_spinner_item,
+                        parentOptions
+                    )
+                    parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spParentTask.adapter = parentAdapter
+
+                    updateParentSpinnerSelection()
+                }
+            }
+        }
+    }
+
+    private fun updateParentSpinnerSelection() {
+
+    }
+
     private fun resetDate() {
         val calendar = Calendar.getInstance()
         dueYear = calendar.get(Calendar.YEAR)
@@ -175,7 +207,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     txtDescription.setText(task.description)
                     spStatus.setSelection(task.status.ordinal)
                     spPriority.setSelection(task.priority.ordinal)
-                    txtAssignTo.setText(task.assignedTo)
+
                     txtObservation.setText(task.notes)
                     val dueDateStr = getDateFormatString(
                         task.dueDate.dayOfMonth,
@@ -220,7 +252,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         txtDescription.setText("")
         spStatus.setSelection(0)
         spPriority.setSelection(0)
-        txtAssignTo.setText("")
+        spAssignTo.setSelection(0)
         txtObservation.setText("")
         tvDueDate.text = ""
         invalidateOptionsMenu()
@@ -234,7 +266,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 && spPriority.selectedItem != null
                 && tvDueDate.text.toString().trim().isNotBlank()
                 && txtObservation.text.toString().trim().isNotBlank()
-                && txtAssignTo.text.toString().trim().isNotBlank()
+                && spAssignTo.selectedItem != null
     }
 
     private fun saveTask() {
@@ -276,7 +308,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                         ),
                         LocalDate.now(),
                         selectedStatus,
-                        txtAssignTo.text.toString().trim(),
+                        spAssignTo.selectedItem?.toString() ?: "",
                         selectedPriority,
                         txtObservation.text.toString().trim()
                     )

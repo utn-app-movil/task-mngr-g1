@@ -14,6 +14,10 @@ class TaskRoomRepository(private val taskDao: TaskDao):
         }
     }
 
+    override fun getEligibleParentTasks(): Flow<List<Task>> {
+        TODO()
+    }
+
     override suspend fun getById(id: String): Task? {
         return taskDao.getTaskById(id.trim())?.toDomain()
     }

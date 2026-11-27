@@ -25,6 +25,12 @@ class TaskViewModel(application: Application):
             SharingStarted.WhileSubscribed(5000),
             emptyList())
 
+    val eligibleParentTasks: StateFlow<List<Task>> = repository.getEligibleParentTasks()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList()
+        )
 
     suspend fun getTaskById(id: String): Task?{
         return repository.getById(id)
