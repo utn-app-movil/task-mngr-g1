@@ -4,6 +4,7 @@ import android.app.Application
 import cr.ac.utn.taskmanager.data.local.AppDatabase
 import cr.ac.utn.taskmanager.data.local.TaskRoomRepository
 import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
+import cr.ac.utn.taskmanager.util.util
 
 class TaskManagerApp : Application() {
 
@@ -11,8 +12,12 @@ class TaskManagerApp : Application() {
         AppDatabase.getDatabase(this)
     }
 
+    val people: List<String> by lazy {
+        util.loadPeopleFromAssets(this).distinct()
+    }
+
     val taskRepository: ITaskRepository by lazy {
-        TaskRoomRepository(database.taskDao())
+        TaskRoomRepository(database, people.toSet())
     }
 
 }

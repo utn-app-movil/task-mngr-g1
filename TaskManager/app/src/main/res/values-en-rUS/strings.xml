@@ -35,4 +35,20 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+    <string name="TaskSearchHint">Search by ID</string>
+    <string name="TaskParent">Parent task (optional)</string>
+    <string name="TaskNoParent">None (main task)</string>
+    <string name="TaskSelectPerson">Select a person</string>
+    <string name="TaskCancellationReason">Cancellation reason</string>
+    <string name="TaskCancellationRequired">Enter a reason for cancellation</string>
+    <string name="TaskTitleRequired">Enter the title.</string>
+    <string name="TaskDescriptionRequired">Enter the description.</string>
+    <string name="TaskDueDateRequired">Select the due date.</string>
+    <string name="TaskSavedWithId">Task #%1$s was saved.</string>
+    <string name="TaskNumberAndTitle">#%1$s · %2$s</string>
+    <string name="TaskSubtaskTitle">#%1$s · %2$s (subtask of #%3$s)</string>
+    <string name="TaskSubtasks">Subtasks:\n%1$s</string>
+    <string name="TaskStatusHistory">Status changes:\n%1$s</string>
+    <string name="TaskStatusHistoryEntry">%1$s · %2$s → %3$s</string>
+    <string name="TaskOperationError">Could not process the task.</string>
 </resources>

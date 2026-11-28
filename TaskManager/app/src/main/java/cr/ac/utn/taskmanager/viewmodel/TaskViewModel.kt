@@ -11,7 +11,6 @@ import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class TaskViewModel(application: Application):
     AndroidViewModel(application) {
@@ -36,26 +35,13 @@ class TaskViewModel(application: Application):
         return repository.getById(id)
     }
 
-    fun saveTask(task: Task, onComplete: () -> Unit){
-        viewModelScope.launch {
-            repository.addTask(task)
-            onComplete?.invoke()
-        }
-    }
+    suspend fun getStatusChanges(id: String) = repository.getStatusChanges(id)
 
-    fun updateTask(task: Task, onComplete: () -> Unit){
-        viewModelScope.launch {
-            repository.updateTask(task)
-            onComplete?.invoke()
-        }
-    }
+    suspend fun saveTask(task: Task): String = repository.addTask(task)
 
-    fun removeTask(id: String, onComplete: () -> Unit){
-        viewModelScope.launch {
-            repository.deleteTask(id)
-            onComplete?.invoke()
-        }
-    }
+    suspend fun updateTask(task: Task) = repository.updateTask(task)
+
+    suspend fun removeTask(id: String) = repository.deleteTask(id)
 
     class Factory (private val application: Application):
         ViewModelProvider.Factory{

@@ -42,7 +42,11 @@ class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val imgPicture: ImageView = view.findViewById(R.id.imgPicture_Item)
 
     fun bind(task: Task, itemClickListener: OnItemClickListener) {
-        tvTitle.text = task.title
+        tvTitle.text = if (task.parentId == null) {
+            itemView.context.getString(R.string.TaskNumberAndTitle, task.id, task.title)
+        } else {
+            itemView.context.getString(R.string.TaskSubtaskTitle, task.id, task.title, task.parentId)
+        }
         tvStatus.text = task.status.name
         tvPriority.text = task.priority.name
         tvAssingTo.text = task.assignedTo
