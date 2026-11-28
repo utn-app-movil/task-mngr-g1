@@ -1,0 +1,507 @@
+package cr.ac.utn.taskmanager
+
+import android.app.DatePickerDialog
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import cr.ac.utn.taskmanager.domain.model.Task
+import cr.ac.utn.taskmanager.domain.model.TaskPriority
+import cr.ac.utn.taskmanager.domain.model.TaskStatus
+import cr.ac.utn.taskmanager.util.EXTRA_MESSAGE_ID
+import cr.ac.utn.taskmanager.util.util
+import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.util.Calendar
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import android.view.View
+import android.widget.AdapterView
+
+class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+
+    private lateinit var txtId: EditText
+    private lateinit var txtTitle: EditText
+    private lateinit var txtDescription: EditText
+    private lateinit var spStatus: Spinner
+    private lateinit var spPriority: Spinner
+    private lateinit var spAssignTo: Spinner
+    private lateinit var spParentTask: Spinner
+    private lateinit var txtObservation: EditText
+    private lateinit var tvDueDate: TextView
+    private lateinit var lblCancelReason: TextView
+    private lateinit var txtCancelReason: EditText
+    private lateinit var tvStatusChange: TextView
+    private var dueDay: Int = 0
+    private var dueMonth: Int = 0
+    private var dueYear: Int = 0
+    private var isEditMode: Boolean = false
+    private var peopleList: List<String> = emptyList()
+    private var parentList: List<Task> = emptyList()
+    private var currentTask: Task? = null
+
+    private val taskViewModel: TaskViewModel by viewModels {
+        TaskViewModel.Factory(application)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_task)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        txtId = findViewById(R.id.txtId_Task)
+        txtTitle = findViewById(R.id.txtTitle_Task)
+        txtDescription = findViewById(R.id.txtDescription_Task)
+        spStatus = findViewById(R.id.spStatus_Task)
+        spPriority = findViewById(R.id.spPriority_Task)
+        txtObservation = findViewById(R.id.txtObservation_Task)
+        spAssignTo = findViewById(R.id.spAssignTo_Task)
+        spParentTask = findViewById(R.id.spParentTask_Task)
+        tvDueDate = findViewById(R.id.tvDueDate_Task)
+        lblCancelReason = findViewById(R.id.lblCancellationReason_Task)
+        txtCancelReason = findViewById(R.id.txtCancellationReason_Task)
+        tvStatusChange = findViewById(R.id.tvStatusChangeDate_Task)
+
+        setupSpinners()
+        observeEligibleParents()
+
+        val btnSearch = findViewById<ImageButton>(R.id.btnSearch_Task)
+        val btnDueDate = findViewById<ImageButton>(R.id.btnDueDate_Task)
+
+        resetDate()
+        val taskId = intent.getStringExtra(EXTRA_MESSAGE_ID)
+        if (!taskId.isNullOrBlank()) {
+            txtId.setText(taskId)
+            searchTask(taskId)
+        } else {
+            cleanScreen()
+        }
+
+        btnSearch.setOnClickListener {
+            searchTask(txtId.text.trim().toString())
+        }
+
+        btnDueDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+    }
+
+    override fun onDateSet(view: android.widget.DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        dueDay = dayOfMonth
+        dueMonth = month + 1
+        dueYear = year
+        tvDueDate.text = getDateFormatString(dueDay, dueMonth, dueYear)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.crud_actions, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.mnuDelete)?.isVisible = isEditMode
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.mnuSave -> {
+                if (isEditMode) {
+                    util.showDialogCondition(
+                        this,
+                        getString(R.string.TextSaveQuestion)
+                    ) { saveTask() }
+                } else {
+                    saveTask()
+                }
+                true
+            }
+            R.id.mnuDelete -> {
+                util.showDialogCondition(
+                    this,
+                    getString(R.string.TextDeleteQuestion)
+                ) { deleteTask() }
+                true
+            }
+            R.id.mnuCancel -> {
+                cleanScreen()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupSpinners() {
+        val statusAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            TaskStatus.entries.toTypedArray()
+        )
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spStatus.adapter = statusAdapter
+
+        val priorityAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            TaskPriority.entries.toTypedArray()
+        )
+        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spPriority.adapter = priorityAdapter
+
+        peopleList = util.loadPeopleFromAssets(this)
+        val peopleAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            peopleList
+        )
+        peopleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spAssignTo.adapter = peopleAdapter
+
+        // Cuando el estado es cancelado se muestra el motivo de la cancelacion
+        spStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                showCancelReason(spStatus.selectedItem == TaskStatus.CANCELLED)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private fun showCancelReason(show: Boolean) {
+        val visibility = if (show) View.VISIBLE else View.GONE
+        lblCancelReason.visibility = visibility
+        txtCancelReason.visibility = visibility
+    }
+
+    private fun observeEligibleParents() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.eligibleParentTasks.collect { parents ->
+                    parentList = parents
+
+                    val parentOptions = mutableListOf(getString(R.string.TextNoParent))
+                    for (p in parents) {
+                        parentOptions.add(p.id + " - " + p.title)
+                    }
+
+                    val parentAdapter = ArrayAdapter(
+                        this@TaskActivity,
+                        android.R.layout.simple_spinner_item,
+                        parentOptions
+                    )
+                    parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spParentTask.adapter = parentAdapter
+
+                    updateParentSpinnerSelection()
+                }
+            }
+        }
+    }
+
+    private fun updateParentSpinnerSelection() {
+        val parentId = currentTask?.parentId
+        if (parentId == null) {
+            spParentTask.setSelection(0)
+            return
+        }
+        for (i in parentList.indices) {
+            if (parentList[i].id == parentId) {
+                spParentTask.setSelection(i + 1)
+            }
+        }
+    }
+
+    private fun loadNextId() {
+        lifecycleScope.launch {
+            txtId.setText(taskViewModel.getNextId())
+        }
+    }
+
+    private fun resetDate() {
+        val calendar = Calendar.getInstance()
+        dueYear = calendar.get(Calendar.YEAR)
+        dueMonth = calendar.get(Calendar.MONTH) + 1
+        dueDay = calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
+    private fun showDatePickerDialog() {
+        val datePickerDialog = DatePickerDialog(this, this, dueYear, dueMonth - 1, dueDay)
+        datePickerDialog.show()
+    }
+
+    private fun searchTask(id: String) {
+        if (id.isBlank()) return
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextLoading))
+        lifecycleScope.launch {
+            try {
+                val task = taskViewModel.getTaskById(id)
+                if (task != null) {
+                    isEditMode = true
+                    currentTask = task
+                    txtId.isEnabled = false
+                    txtTitle.setText(task.title)
+                    txtDescription.setText(task.description)
+                    spStatus.isEnabled = true
+                    spStatus.setSelection(task.status.ordinal)
+                    spPriority.setSelection(task.priority.ordinal)
+
+                    val position = peopleList.indexOf(task.assignedTo)
+                    if (position >= 0) {
+                        spAssignTo.setSelection(position)
+                    }
+
+                    // la tarea padre no se puede cambiar al editar
+                    spParentTask.isEnabled = false
+                    updateParentSpinnerSelection()
+
+                    txtCancelReason.setText(task.cancelReason)
+                    showCancelReason(task.status == TaskStatus.CANCELLED)
+                    tvStatusChange.text = getString(
+                        R.string.TextLastStatusChange,
+                        task.statusChangeDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+                    )
+
+                    txtObservation.setText(task.notes)
+                    val dueDateStr = getDateFormatString(
+                        task.dueDate.dayOfMonth,
+                        task.dueDate.monthValue,
+                        task.dueDate.year
+                    )
+                    tvDueDate.text = dueDateStr
+                    dueDay = task.dueDate.dayOfMonth
+                    dueMonth = task.dueDate.monthValue
+                    dueYear = task.dueDate.year
+                    invalidateOptionsMenu()
+                } else {
+                    Toast.makeText(
+                        this@TaskActivity,
+                        getString(R.string.TextDataNoFound),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } catch (e: Exception) {
+                cleanScreen()
+                Toast.makeText(
+                    this@TaskActivity,
+                    e.message.toString(),
+                    Toast.LENGTH_LONG
+                ).show()
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
+    }
+
+    private fun getDateFormatString(dayOfMonth: Int, monthValue: Int, yearValue: Int): String {
+        return "${if (dayOfMonth < 10) "0" else ""}$dayOfMonth/${if (monthValue < 10) "0" else ""}$monthValue/$yearValue"
+    }
+
+    private fun cleanScreen() {
+        resetDate()
+        isEditMode = false
+        currentTask = null
+        txtId.isEnabled = false
+        txtId.setText("")
+        txtTitle.setText("")
+        txtDescription.setText("")
+        spStatus.setSelection(0)
+        spStatus.isEnabled = false
+        spPriority.setSelection(0)
+        spAssignTo.setSelection(0)
+        spParentTask.isEnabled = true
+        spParentTask.setSelection(0)
+        txtCancelReason.setText("")
+        showCancelReason(false)
+        tvStatusChange.text = ""
+        txtObservation.setText("")
+        tvDueDate.text = ""
+        loadNextId()
+        invalidateOptionsMenu()
+    }
+
+    private fun isValidationData(): Boolean {
+        return txtId.text.toString().trim().isNotBlank()
+                && txtTitle.text.toString().trim().isNotBlank()
+                && txtDescription.text.toString().trim().isNotBlank()
+                && spStatus.selectedItem != null
+                && spPriority.selectedItem != null
+                && tvDueDate.text.toString().trim().isNotBlank()
+                && txtObservation.text.toString().trim().isNotBlank()
+                && spAssignTo.selectedItem != null
+    }
+
+    // Devuelve el mensaje de error, o vacio si se realiza un cambio es valido
+    private fun validateStatusChange(
+        oldStatus: TaskStatus,
+        newStatus: TaskStatus,
+        dueDate: LocalDate,
+        reason: String
+    ): String {
+        if (oldStatus == TaskStatus.COMPLETED || oldStatus == TaskStatus.CANCELLED) {
+            return getString(R.string.TextErrorFinalStatus)
+        }
+        if (oldStatus == newStatus) {
+            return ""
+        }
+        if (oldStatus == TaskStatus.PENDING && newStatus == TaskStatus.COMPLETED) {
+            return getString(R.string.TextErrorPendingMove)
+        }
+        if (oldStatus == TaskStatus.IN_PROGRESS && newStatus == TaskStatus.PENDING) {
+            return getString(R.string.TextErrorInProgressToPending)
+        }
+        if (newStatus == TaskStatus.IN_PROGRESS && dueDate.isBefore(LocalDate.now())) {
+            return getString(R.string.TextErrorDueDatePassed)
+        }
+        if (newStatus == TaskStatus.CANCELLED && reason.isBlank()) {
+            return getString(R.string.TextErrorCancelReason)
+        }
+        return ""
+    }
+
+    private fun saveTask() {
+        if (!isValidationData()) {
+            Toast.makeText(
+                this@TaskActivity,
+                getString(R.string.TextIncompleteData),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val dueDate = util.parseStringToDateModern(
+            tvDueDate.text.toString(),
+            "dd/MM/yyyy"
+        )
+        if (dueDate == null) {
+            Toast.makeText(
+                this@TaskActivity,
+                getString(R.string.TextInvalidDate),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val selectedPriority = spPriority.selectedItem as TaskPriority
+        val reason = txtCancelReason.text.toString().trim()
+        val oldTask = currentTask
+
+        // Las tareas nuevas siempre tiene el estado de Pending
+        var selectedStatus = TaskStatus.PENDING
+        if (isEditMode) {
+            selectedStatus = spStatus.selectedItem as TaskStatus
+        }
+
+        if (isEditMode && oldTask != null) {
+            val message = validateStatusChange(oldTask.status, selectedStatus, dueDate, reason)
+            if (message != "") {
+                Toast.makeText(this@TaskActivity, message, Toast.LENGTH_LONG).show()
+                return
+            }
+        }
+
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextSaving))
+        lifecycleScope.launch {
+            try {
+                var id = txtId.text.toString().trim()
+                var parentId: String? = null
+                var creationDate = LocalDate.now()
+                var changeDate = LocalDateTime.now()
+
+                if (!isEditMode) {
+                    id = taskViewModel.getNextId()
+                    val position = spParentTask.selectedItemPosition
+                    if (position > 0) {
+                        parentId = parentList[position - 1].id
+                    }
+                } else if (oldTask != null) {
+                    parentId = oldTask.parentId
+                    creationDate = oldTask.creationDate
+                    // si el estado no cambio se deja la fecha que ya tenia
+                    if (oldTask.status == selectedStatus) {
+                        changeDate = oldTask.statusChangeDate
+                    }
+                }
+
+                var cancelReason = ""
+                if (selectedStatus == TaskStatus.CANCELLED) {
+                    cancelReason = reason
+                }
+
+                val task = Task(
+                    id,
+                    txtTitle.text.toString().trim(),
+                    txtDescription.text.toString().trim(),
+                    dueDate,
+                    creationDate,
+                    selectedStatus,
+                    spAssignTo.selectedItem?.toString() ?: "",
+                    selectedPriority,
+                    txtObservation.text.toString().trim(),
+                    parentId,
+                    cancelReason,
+                    changeDate
+                )
+
+                val onCompleteCallback = {
+                    progressDialog.dismiss()
+                    cleanScreen()
+                    Toast.makeText(
+                        this@TaskActivity,
+                        getString(R.string.TextSaveSuccess),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                if (!isEditMode) {
+                    taskViewModel.saveTask(task, onCompleteCallback)
+                } else {
+                    taskViewModel.updateTask(task, onCompleteCallback)
+                }
+            } catch (e: Exception) {
+                progressDialog.dismiss()
+                Toast.makeText(
+                    this@TaskActivity,
+                    e.message.toString(),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private fun deleteTask() {
+        val id = txtId.text.toString().trim()
+        if (id.isBlank()) return
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextDeleting))
+        taskViewModel.removeTask(id) {
+            progressDialog.dismiss()
+            cleanScreen()
+            Toast.makeText(
+                this@TaskActivity,
+                getString(R.string.TextDeleteSuccess),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+}
