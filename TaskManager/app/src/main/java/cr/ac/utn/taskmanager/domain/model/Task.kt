@@ -11,5 +11,7 @@ data class Task(
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentId: String? = null,
+    val cancellationReason: String? = null
 )

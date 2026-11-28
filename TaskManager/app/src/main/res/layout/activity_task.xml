@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="@string/TaskSearchHint"
                 android:inputType="text" />
 
             <ImageButton
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Tarea Padre (Opcional)"
+            android:text="@string/TaskParent"
             android:textStyle="bold" />
 
         <Spinner
@@ -159,15 +160,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Razón de Cancelación"
-            android:textColor="#C00000"
+            android:text="@string/TaskCancellationReason"
+            android:visibility="gone"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/txtCancellationReason_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Indique la razón de la cancelación"
+            android:hint="@string/TaskCancellationRequired"
+            android:visibility="gone"
             android:inputType="text" />
 
         <!-- Observation / Notes -->
@@ -185,13 +187,20 @@
             android:gravity="start|top"
             android:inputType="textMultiLine" />
 
-        <!-- Status Change Timestamp -->
+        <TextView
+            android:id="@+id/tvSubtasks_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <!-- Status Change History -->
         <TextView
             android:id="@+id/tvStatusChangeDate_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textColor="#555555"
+            android:visibility="gone"
             android:textSize="12sp"
             android:textStyle="italic" />
 

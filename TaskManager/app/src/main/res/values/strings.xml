@@ -33,4 +33,20 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+    <string name="TaskSearchHint">Buscar por ID</string>
+    <string name="TaskParent">Tarea padre (opcional)</string>
+    <string name="TaskNoParent">Ninguna (tarea principal)</string>
+    <string name="TaskSelectPerson">Seleccione una persona</string>
+    <string name="TaskCancellationReason">Razón de cancelación</string>
+    <string name="TaskCancellationRequired">Indique la razón de la cancelación</string>
+    <string name="TaskTitleRequired">Escribí el título.</string>
+    <string name="TaskDescriptionRequired">Escribí la descripción.</string>
+    <string name="TaskDueDateRequired">Elegí la fecha de vencimiento.</string>
+    <string name="TaskSavedWithId">Se guardó la tarea #%1$s.</string>
+    <string name="TaskNumberAndTitle">#%1$s · %2$s</string>
+    <string name="TaskSubtaskTitle">#%1$s · %2$s (subtarea de #%3$s)</string>
+    <string name="TaskSubtasks">Subtareas:\n%1$s</string>
+    <string name="TaskStatusHistory">Cambios de estado:\n%1$s</string>
+    <string name="TaskStatusHistoryEntry">%1$s · %2$s → %3$s</string>
+    <string name="TaskOperationError">Ocurrió un error al procesar la tarea.</string>
 </resources>
