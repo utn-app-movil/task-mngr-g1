@@ -153,6 +153,18 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         )
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spPriority.adapter = priorityAdapter
+
+        val peopleAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            util.loadPeopleFromAssets(this)
+        )
+
+        peopleAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        spAssignTo.adapter = peopleAdapter
     }
 
     private fun observeEligibleParents() {
@@ -207,6 +219,9 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     txtDescription.setText(task.description)
                     spStatus.setSelection(task.status.ordinal)
                     spPriority.setSelection(task.priority.ordinal)
+
+                    val personPosition = util.loadPeopleFromAssets(this@TaskActivity).indexOf(task.assignedTo)
+                    spAssignTo.setSelection(personPosition)
 
                     txtObservation.setText(task.notes)
                     val dueDateStr = getDateFormatString(
@@ -306,7 +321,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                             dueDate.month!!,
                             dueDate.dayOfMonth
                         ),
-                        LocalDate.now(),
+                        existingTask?.creationDate ?: LocalDate.now(),
                         selectedStatus,
                         spAssignTo.selectedItem?.toString() ?: "",
                         selectedPriority,
