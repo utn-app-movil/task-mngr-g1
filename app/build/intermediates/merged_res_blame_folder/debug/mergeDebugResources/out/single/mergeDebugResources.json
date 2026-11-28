@@ -1,0 +1,94 @@
+[
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/xml_data_extraction_rules.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/menu_crud_actions.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/menu/crud_actions.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/layout_activity_task.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/layout/activity_task.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/layout_activity_main.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/layout/activity_main.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/layout_activity_task_list.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/layout/activity_task_list.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/layout_switch_item.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/layout/switch_item.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/layout_activity_second.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/layout/activity_second.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/layout_activity_task_item.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/layout/activity_task_item.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/xml_backup_rules.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/drawable_ic_launcher_background.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "cr.ac.utn.taskmanager.app-debug-40:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "cr.ac.utn.taskmanager.app-main-42:/drawable/ic_launcher_foreground.xml"
+    }
+]
