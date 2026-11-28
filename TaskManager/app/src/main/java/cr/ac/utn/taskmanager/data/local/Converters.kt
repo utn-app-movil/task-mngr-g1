@@ -7,43 +7,28 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 class Converters {
-    @TypeConverter
-    fun fromLocalDate(value: LocalDate?): String? {
-        return value?.toString()
-    }
 
     @TypeConverter
-    fun toLocalDate(value: String?): LocalDate? {
-        return value?.let { LocalDate.parse(it) }
-    }
+    fun fromLocalDate(date: LocalDate?): String? = date?.toString()
 
     @TypeConverter
-    fun fromLocalDateTime(value: LocalDateTime?): String? {
-        return value?.toString()
-    }
+    fun toLocalDate(value: String?): LocalDate? = value?.let { LocalDate.parse(it) }
 
     @TypeConverter
-    fun toLocalDateTime(value: String?): LocalDateTime? {
-        return value?.let { LocalDateTime.parse(it) }
-    }
+    fun fromLocalDateTime(dateTime: LocalDateTime?): String? = dateTime?.toString()
 
     @TypeConverter
-    fun fromTaskStatus(value: TaskStatus?): String? {
-        return value?.name
-    }
+    fun toLocalDateTime(value: String?): LocalDateTime? = value?.let { LocalDateTime.parse(it) }
 
     @TypeConverter
-    fun toTaskStatus(value: String?): TaskStatus? {
-        return value?.let { TaskStatus.valueOf(it) }
-    }
+    fun fromTaskStatus(status: TaskStatus): String = status.name
 
     @TypeConverter
-    fun fromTaskPriority(value: TaskPriority?): String? {
-        return value?.name
-    }
+    fun toTaskStatus(value: String): TaskStatus = TaskStatus.valueOf(value)
 
     @TypeConverter
-    fun toTaskPriority(value: String?): TaskPriority? {
-        return value?.let { TaskPriority.valueOf(it) }
-    }
+    fun fromTaskPriority(priority: TaskPriority): String = priority.name
+
+    @TypeConverter
+    fun toTaskPriority(value: String): TaskPriority = TaskPriority.valueOf(value)
 }

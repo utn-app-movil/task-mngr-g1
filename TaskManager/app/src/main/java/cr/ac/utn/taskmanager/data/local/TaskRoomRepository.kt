@@ -5,8 +5,7 @@ import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class TaskRoomRepository(private val taskDao: TaskDao):
-    ITaskRepository {
+class TaskRoomRepository(private val taskDao: TaskDao) : ITaskRepository {
 
     override fun getTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks().map { entities ->
@@ -15,11 +14,13 @@ class TaskRoomRepository(private val taskDao: TaskDao):
     }
 
     override fun getEligibleParentTasks(): Flow<List<Task>> {
-        TODO()
+        return taskDao.getEligibleParentTasks().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun getById(id: String): Task? {
-        return taskDao.getTaskById(id.trim())?.toDomain()
+        return taskDao.getTaskById(id)?.toDomain()
     }
 
     override suspend fun addTask(task: Task) {
@@ -31,6 +32,12 @@ class TaskRoomRepository(private val taskDao: TaskDao):
     }
 
     override suspend fun deleteTask(id: String) {
-        taskDao.deleteTaskById(id.trim())
+        taskDao.deleteTaskById(id)
+    }
+
+    override suspend fun getNextTaskId(): String {
+        val ids = taskDao.getAllTaskIds()
+        val maxId = ids.mapNotNull { it.trim().toIntOrNull() }.maxOrNull() ?: 0
+        return (maxId + 1).toString()
     }
 }

@@ -161,14 +161,16 @@
             android:layout_marginTop="8dp"
             android:text="Razón de Cancelación"
             android:textColor="#C00000"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/txtCancellationReason_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Indique la razón de la cancelación"
-            android:inputType="text" />
+            android:hint="Razón de cancelación (obligatoria)"
+            android:inputType="textMultiLine"
+            android:visibility="gone" />
 
         <!-- Observation / Notes -->
         <TextView
@@ -187,13 +189,14 @@
 
         <!-- Status Change Timestamp -->
         <TextView
-            android:id="@+id/tvStatusChangeDate_Task"
+            android:id="@+id/tvStatusChangedAt_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textColor="#555555"
             android:textSize="12sp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

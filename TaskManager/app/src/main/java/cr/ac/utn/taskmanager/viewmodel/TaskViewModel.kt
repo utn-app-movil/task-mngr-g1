@@ -5,7 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import cr.ac.utn.taskmanager.TaskManagerApp
+import cr.ac.utn.taskmanager.data.local.AppDatabase
+import cr.ac.utn.taskmanager.data.local.TaskRoomRepository
 import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,59 +14,66 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class TaskViewModel(application: Application):
-    AndroidViewModel(application) {
+class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: ITaskRepository =
-            (application as TaskManagerApp).taskRepository
+    private val repository: ITaskRepository
 
-    val tasks: StateFlow<List<Task>> = repository.getTasks()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList())
+    val tasks: StateFlow<List<Task>>
+    val eligibleParentTasks: StateFlow<List<Task>>
 
-    val eligibleParentTasks: StateFlow<List<Task>> = repository.getEligibleParentTasks()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
+    init {
+        val dao = AppDatabase.getDatabase(application).taskDao()
+        repository = TaskRoomRepository(dao)
+
+        tasks = repository.getTasks().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
         )
 
-    suspend fun getTaskById(id: String): Task?{
+        eligibleParentTasks = repository.getEligibleParentTasks().stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+    }
+
+    suspend fun getTaskById(id: String): Task? {
         return repository.getById(id)
     }
 
-    fun saveTask(task: Task, onComplete: () -> Unit){
+    suspend fun getNextTaskId(): String {
+        return repository.getNextTaskId()
+    }
+
+    fun saveTask(task: Task, onComplete: () -> Unit = {}) {
         viewModelScope.launch {
             repository.addTask(task)
-            onComplete?.invoke()
+            onComplete()
         }
     }
 
-    fun updateTask(task: Task, onComplete: () -> Unit){
+    fun updateTask(task: Task, onComplete: () -> Unit = {}) {
         viewModelScope.launch {
             repository.updateTask(task)
-            onComplete?.invoke()
+            onComplete()
         }
     }
 
-    fun removeTask(id: String, onComplete: () -> Unit){
+    fun removeTask(id: String, onComplete: () -> Unit = {}) {
         viewModelScope.launch {
             repository.deleteTask(id)
-            onComplete?.invoke()
+            onComplete()
         }
     }
 
-    class Factory (private val application: Application):
-        ViewModelProvider.Factory{
+    class Factory(private val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TaskViewModel::class.java)){
+            if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
                 return TaskViewModel(application) as T
-            }else{
-                throw IllegalArgumentException("Unknown ViewModel class")
             }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
-
     }
 }
