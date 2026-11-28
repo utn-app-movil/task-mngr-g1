@@ -4,10 +4,11 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import cr.ac.utn.taskmanager.domain.model.TaskStatus
+import androidx.room.withTransaction
+class TaskRoomRepository(private val database: AppDatabase) : ITaskRepository {
 
-class TaskRoomRepository(private val taskDao: TaskDao):
-    ITaskRepository {
-
+    private val taskDao = database.taskDao()
     override fun getTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks().map { entities ->
             entities.map { it.toDomain() }
@@ -15,7 +16,12 @@ class TaskRoomRepository(private val taskDao: TaskDao):
     }
 
     override fun getEligibleParentTasks(): Flow<List<Task>> {
-        TODO()
+        return getTasks().map { tasks ->
+            tasks.filter { task ->
+                task.status == TaskStatus.PENDING ||
+                        task.status == TaskStatus.IN_PROGRESS
+            }
+        }
     }
 
     override suspend fun getById(id: String): Task? {
@@ -23,7 +29,17 @@ class TaskRoomRepository(private val taskDao: TaskDao):
     }
 
     override suspend fun addTask(task: Task) {
-        taskDao.insertTask(task.toEntity())
+        database.withTransaction {
+            val lastId = taskDao.getLastGeneratedId()
+                ?: taskDao.getExistingIds().mapNotNull { it.toLongOrNull() }.maxOrNull()
+                ?: 0L
+
+            val nextId = Math.addExact(maxOf(lastId, 0L), 1L)
+            val newTask = task.copy(id = nextId.toString(), status = TaskStatus.PENDING)
+
+            taskDao.insertTask(newTask.toEntity())
+            taskDao.saveIdCounter(TaskIdCounter(lastId = nextId))
+        }
     }
 
     override suspend fun updateTask(task: Task) {

@@ -15,7 +15,16 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :idTask")
     suspend fun getTaskById(idTask: String): TaskEntity?
 
+    @Query("SELECT id FROM tasks")
+    suspend fun getExistingIds(): List<String>
+
+    @Query("SELECT lastId FROM task_id_counter WHERE `key` = 1")
+    suspend fun getLastGeneratedId(): Long?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveIdCounter(counter: TaskIdCounter)
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertTask(task: TaskEntity)
 
     @Update

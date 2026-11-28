@@ -33,4 +33,10 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+    <string-array name="task_assignees">
+        <item>Selecciona una persona</item>
+        <item>Ana</item>
+        <item>Bryan</item>
+        <item>Kristal</item>
+    </string-array>
 </resources>
