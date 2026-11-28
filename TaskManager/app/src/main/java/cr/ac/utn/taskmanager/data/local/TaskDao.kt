@@ -9,8 +9,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
+
     @Query("SELECT * FROM tasks")
     fun getAllTasks(): Flow<List<TaskEntity>>
+
+    @Query("""
+        SELECT * FROM tasks
+        WHERE status IN ('PENDING', 'IN_PROGRESS')
+        ORDER BY title ASC
+    """)
+    fun getEligibleParentTasks(): Flow<List<TaskEntity>>
 
     @Query("SELECT * FROM tasks WHERE id = :idTask")
     suspend fun getTaskById(idTask: String): TaskEntity?
