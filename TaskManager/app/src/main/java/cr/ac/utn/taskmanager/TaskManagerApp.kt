@@ -6,7 +6,6 @@ import cr.ac.utn.taskmanager.data.local.TaskRoomRepository
 import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 
 class TaskManagerApp : Application() {
-
     val database: AppDatabase by lazy {
         AppDatabase.getDatabase(this)
     }
@@ -14,5 +13,4 @@ class TaskManagerApp : Application() {
     val taskRepository: ITaskRepository by lazy {
         TaskRoomRepository(database.taskDao())
     }
-
 }
