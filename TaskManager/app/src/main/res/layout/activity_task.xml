@@ -56,6 +56,15 @@
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 
+        <TextView
+            android:id="@+id/tvSubtasks_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
         <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
@@ -154,6 +163,7 @@
             android:layout_height="48dp" />
 
         <!-- Cancellation Reason -->
+        <!-- Cancellation Reason -->
         <TextView
             android:id="@+id/lblCancellationReason_Task"
             android:layout_width="wrap_content"
@@ -161,14 +171,16 @@
             android:layout_marginTop="8dp"
             android:text="Razón de Cancelación"
             android:textColor="#C00000"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/txtCancellationReason_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Indique la razón de la cancelación"
-            android:inputType="text" />
+            android:inputType="text"
+            android:visibility="gone" />
 
         <!-- Observation / Notes -->
         <TextView

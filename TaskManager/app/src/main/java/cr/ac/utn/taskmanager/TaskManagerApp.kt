@@ -12,7 +12,7 @@ class TaskManagerApp : Application() {
     }
 
     val taskRepository: ITaskRepository by lazy {
-        TaskRoomRepository(database.taskDao())
+        TaskRoomRepository(database)
     }
 
 }
