@@ -17,7 +17,10 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentTaskId: String? = null,
+    val cancellationReason: String = "",
+    val statusChangeDate: String = ""
 )
 
 fun TaskEntity.toDomain(): Task {
@@ -30,7 +33,10 @@ fun TaskEntity.toDomain(): Task {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId,
+        cancellationReason = cancellationReason,
+        statusChangeDate = statusChangeDate
     )
 }
 
@@ -44,6 +50,9 @@ fun Task.toEntity(): TaskEntity {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId,
+        cancellationReason = cancellationReason,
+        statusChangeDate = statusChangeDate
     )
 }
