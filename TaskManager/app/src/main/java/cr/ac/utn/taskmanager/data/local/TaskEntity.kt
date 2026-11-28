@@ -1,5 +1,6 @@
 package cr.ac.utn.taskmanager.data.local
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import cr.ac.utn.taskmanager.domain.model.Task
@@ -8,7 +9,7 @@ import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
 
 @Entity(tableName = "tasks")
-data class TaskEntity (
+data class TaskEntity(
     @PrimaryKey val id: String,
     val title: String,
     val description: String,
@@ -17,7 +18,10 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    @ColumnInfo(defaultValue = "''")
+    val cancellationReason: String = "",
+    val statusChangedAt: Long? = null
 )
 
 fun TaskEntity.toDomain(): Task {
@@ -30,7 +34,9 @@ fun TaskEntity.toDomain(): Task {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        cancellationReason = cancellationReason,
+        statusChangedAt = statusChangedAt
     )
 }
 
@@ -44,6 +50,8 @@ fun Task.toEntity(): TaskEntity {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        cancellationReason = cancellationReason,
+        statusChangedAt = statusChangedAt
     )
 }
