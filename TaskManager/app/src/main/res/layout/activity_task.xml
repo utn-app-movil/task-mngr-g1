@@ -33,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="number"
+                android:hint="@string/TextAutomaticId" />
 
             <ImageButton
                 android:id="@+id/btnSearch_Task"
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Tarea Padre (Opcional)"
+            android:text="@string/TextParentTask"
             android:textStyle="bold" />
 
         <Spinner
@@ -159,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Razón de Cancelación"
+            android:text="@string/TextCancellationReason"
             android:textColor="#C00000"
             android:textStyle="bold" />
 
@@ -167,7 +168,7 @@
             android:id="@+id/txtCancellationReason_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Indique la razón de la cancelación"
+            android:hint="@string/TextCancellationRequired"
             android:inputType="text" />
 
         <!-- Observation / Notes -->
@@ -194,6 +195,13 @@
             android:textColor="#555555"
             android:textSize="12sp"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvSubtasks_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </ScrollView>
