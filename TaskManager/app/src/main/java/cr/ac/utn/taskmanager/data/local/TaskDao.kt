@@ -16,14 +16,14 @@ interface TaskDao {
     fun getEligibleParentTasks(): Flow<List<TaskEntity>>
 
     @Query("SELECT * FROM tasks WHERE id = :idTask")
-    suspend fun getTaskById(idTask: String): TaskEntity?
+    suspend fun getTaskById(idTask: Long): TaskEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertTask(task: TaskEntity)
 
     @Update
     suspend fun updateTask(task: TaskEntity)
 
     @Query("DELETE FROM tasks WHERE id = :idTask")
-    suspend fun deleteTaskById(idTask: String)
+    suspend fun deleteTaskById(idTask: Long)
 }

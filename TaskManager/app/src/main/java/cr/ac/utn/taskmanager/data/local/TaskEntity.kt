@@ -6,10 +6,24 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
+import androidx.room.ForeignKey
+import androidx.room.Index
 
-@Entity(tableName = "tasks")
-data class TaskEntity (
-    @PrimaryKey val id: String,
+@Entity(
+    tableName = "tasks",
+    foreignKeys = [
+        ForeignKey(
+            entity = TaskEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["parentTaskId"],
+            onDelete = ForeignKey.RESTRICT
+        )
+    ],
+    indices = [Index("parentTaskId")]
+)
+data class TaskEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
     val title: String,
     val description: String,
     val dueDate: LocalDate,
@@ -17,9 +31,9 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentTaskId: Long? = null
 )
-
 fun TaskEntity.toDomain(): Task {
     return Task(
         id = id,
@@ -30,7 +44,8 @@ fun TaskEntity.toDomain(): Task {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId
     )
 }
 
@@ -44,6 +59,7 @@ fun Task.toEntity(): TaskEntity {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId
     )
 }

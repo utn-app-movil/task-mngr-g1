@@ -20,8 +20,8 @@ class TaskRoomRepository(private val taskDao: TaskDao):
         }
     }
 
-    override suspend fun getById(id: String): Task? {
-        return taskDao.getTaskById(id.trim())?.toDomain()
+    override suspend fun getById(id: Long): Task? {
+        return taskDao.getTaskById(id)?.toDomain()
     }
 
     override suspend fun addTask(task: Task) {
@@ -32,7 +32,7 @@ class TaskRoomRepository(private val taskDao: TaskDao):
         taskDao.updateTask(task.toEntity())
     }
 
-    override suspend fun deleteTask(id: String) {
-        taskDao.deleteTaskById(id.trim())
+    override suspend fun deleteTask(id: Long) {
+        taskDao.deleteTaskById(id)
     }
 }

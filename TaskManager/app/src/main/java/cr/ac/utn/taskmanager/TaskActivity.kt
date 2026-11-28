@@ -44,6 +44,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private var dueMonth: Int = 0
     private var dueYear: Int = 0
     private var isEditMode: Boolean = false
+    private var eligibleParents: List<Task> = emptyList()
+    private var currentTask: Task? = null
 
     private val taskViewModel: TaskViewModel by viewModels {
         TaskViewModel.Factory(application)
@@ -53,9 +55,19 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_task)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.main)
+        ) { v, insets ->
+            val systemBars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars()
+            )
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
 
@@ -83,7 +95,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         }
 
         btnSearch.setOnClickListener {
-            searchTask(txtId.text.trim().toString())
+            searchTask(txtId.text.toString().trim())
         }
 
         btnDueDate.setOnClickListener {
@@ -91,11 +103,19 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    override fun onDateSet(view: android.widget.DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+    override fun onDateSet(
+        view: android.widget.DatePicker?,
+        year: Int,
+        month: Int,
+        dayOfMonth: Int
+    ) {
         dueDay = dayOfMonth
         dueMonth = month + 1
         dueYear = year
-        tvDueDate.text = getDateFormatString(dueDay, dueMonth, dueYear)
+
+        tvDueDate.text = getDateFormatString(
+            dueDay, dueMonth, dueYear
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -143,7 +163,11 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             android.R.layout.simple_spinner_item,
             TaskStatus.entries.toTypedArray()
         )
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        statusAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
         spStatus.adapter = statusAdapter
 
         val priorityAdapter = ArrayAdapter(
@@ -151,7 +175,11 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             android.R.layout.simple_spinner_item,
             TaskPriority.entries.toTypedArray()
         )
-        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        priorityAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
         spPriority.adapter = priorityAdapter
 
         val peopleAdapter = ArrayAdapter(
@@ -165,33 +193,71 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         )
 
         spAssignTo.adapter = peopleAdapter
+        updateParentSpinnerSelection()
     }
 
     private fun observeEligibleParents() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 taskViewModel.eligibleParentTasks.collect { parents ->
-
-
-                    val parentOptions = mutableListOf("Ninguna (Tarea Principal)")
-
-
-                    val parentAdapter = ArrayAdapter(
-                        this@TaskActivity,
-                        android.R.layout.simple_spinner_item,
-                        parentOptions
-                    )
-                    parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spParentTask.adapter = parentAdapter
-
-                    updateParentSpinnerSelection()
+                    val selectedParentId = eligibleParents
+                        .getOrNull(spParentTask.selectedItemPosition - 1)
+                        ?.id
+                    eligibleParents = parents
+                    updateParentSpinnerSelection(selectedParentId)
                 }
             }
         }
     }
 
-    private fun updateParentSpinnerSelection() {
+    private fun updateParentSpinnerSelection(
+        selectedParentId: Long? = null
+    ) {
+        val parentOptions = mutableListOf(
+            "Ninguna (Tarea Principal)"
+        )
 
+        if (isEditMode) {
+            val parentId = currentTask?.parentTaskId
+
+            if (parentId != null) {
+                val parent = eligibleParents.find {
+                    it.id == parentId
+                }
+                parentOptions.add(
+                    parent?.let { "${it.id} - ${it.title}" }
+                        ?: "Tarea padre: $parentId"
+                )
+            }
+        } else {
+            eligibleParents.forEach { parent ->
+                parentOptions.add("${parent.id} - ${parent.title}")
+            }
+        }
+
+        val parentAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            parentOptions
+        )
+
+        parentAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        spParentTask.adapter = parentAdapter
+        spParentTask.isEnabled = !isEditMode
+
+        if (isEditMode) {
+            spParentTask.setSelection(
+                if (currentTask?.parentTaskId != null) 1 else 0
+            )
+        } else {
+            val position = eligibleParents.indexOfFirst {
+                it.id == selectedParentId
+            }
+            spParentTask.setSelection(position + 1)
+        }
     }
 
     private fun resetDate() {
@@ -202,37 +268,58 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun showDatePickerDialog() {
-        val datePickerDialog = DatePickerDialog(this, this, dueYear, dueMonth - 1, dueDay)
+        val datePickerDialog = DatePickerDialog(
+            this,
+            this,
+            dueYear,
+            dueMonth - 1,
+            dueDay
+        )
+
         datePickerDialog.show()
     }
 
     private fun searchTask(id: String) {
-        if (id.isBlank()) return
-        val progressDialog = util.showProgressDialog(this, getString(R.string.TextLoading))
+        val taskId = id.trim().toLongOrNull() ?: return
+
+        val progressDialog = util.showProgressDialog(
+            this,
+            getString(R.string.TextLoading)
+        )
+
         lifecycleScope.launch {
             try {
-                val task = taskViewModel.getTaskById(id)
+                val task = taskViewModel.getTaskById(taskId)
+
                 if (task != null) {
+                    currentTask = task
                     isEditMode = true
+
+                    txtId.setText(task.id.toString())
                     txtId.isEnabled = false
                     txtTitle.setText(task.title)
                     txtDescription.setText(task.description)
+
                     spStatus.setSelection(task.status.ordinal)
                     spPriority.setSelection(task.priority.ordinal)
 
-                    val personPosition = util.loadPeopleFromAssets(this@TaskActivity).indexOf(task.assignedTo)
+                    val personPosition = util
+                        .loadPeopleFromAssets(this@TaskActivity)
+                        .indexOf(task.assignedTo)
+
                     spAssignTo.setSelection(personPosition)
 
                     txtObservation.setText(task.notes)
-                    val dueDateStr = getDateFormatString(
-                        task.dueDate.dayOfMonth,
-                        task.dueDate.monthValue,
-                        task.dueDate.year
-                    )
-                    tvDueDate.text = dueDateStr
+
                     dueDay = task.dueDate.dayOfMonth
                     dueMonth = task.dueDate.monthValue
                     dueYear = task.dueDate.year
+                    tvDueDate.text = getDateFormatString(
+                        dueDay,
+                        dueMonth,
+                        dueYear
+                    )
+                    updateParentSpinnerSelection()
                     invalidateOptionsMenu()
                 } else {
                     Toast.makeText(
@@ -254,12 +341,18 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    private fun getDateFormatString(dayOfMonth: Int, monthValue: Int, yearValue: Int): String {
-        return "${if (dayOfMonth < 10) "0" else ""}$dayOfMonth/${if (monthValue < 10) "0" else ""}$monthValue/$yearValue"
+    private fun getDateFormatString(
+        dayOfMonth: Int,
+        monthValue: Int,
+        yearValue: Int
+    ): String {
+        return "${if (dayOfMonth < 10) "0" else ""}$dayOfMonth/" +
+                "${if (monthValue < 10) "0" else ""}$monthValue/$yearValue"
     }
 
     private fun cleanScreen() {
         resetDate()
+        currentTask = null
         isEditMode = false
         txtId.isEnabled = true
         txtId.setText("")
@@ -270,12 +363,12 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         spAssignTo.setSelection(0)
         txtObservation.setText("")
         tvDueDate.text = ""
+        updateParentSpinnerSelection()
         invalidateOptionsMenu()
     }
 
     private fun isValidationData(): Boolean {
-        return txtId.text.toString().trim().isNotBlank()
-                && txtTitle.text.toString().trim().isNotBlank()
+        return txtTitle.text.toString().trim().isNotBlank()
                 && txtDescription.text.toString().trim().isNotBlank()
                 && spStatus.selectedItem != null
                 && spPriority.selectedItem != null
@@ -294,56 +387,80 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             return
         }
 
-        val progressDialog = util.showProgressDialog(this, getString(R.string.TextSaving))
+        val progressDialog = util.showProgressDialog(
+            this,
+            getString(R.string.TextSaving)
+        )
+
         lifecycleScope.launch {
             try {
-                val existingTask = taskViewModel.getTaskById(txtId.text.toString().trim())
-                if (existingTask != null && !isEditMode) {
-                    progressDialog.dismiss()
-                    Toast.makeText(
-                        this@TaskActivity,
-                        getString(R.string.TextDuplicateData),
-                        Toast.LENGTH_LONG
-                    ).show()
+                val existingTask = if (isEditMode) {
+                    val id = currentTask?.id
+                        ?: error("Tarea no encontrada")
+
+                    taskViewModel.getTaskById(id)
+                        ?: error("Tarea no encontrada")
                 } else {
-                    val dueDate = util.parseStringToDateModern(
-                        tvDueDate.text.toString(),
-                        "dd/MM/yyyy"
-                    )
-                    val selectedStatus = spStatus.selectedItem as TaskStatus
-                    val selectedPriority = spPriority.selectedItem as TaskPriority
-                    val task = Task(
-                        txtId.text.toString().trim(),
-                        txtTitle.text.toString().trim(),
-                        txtDescription.text.toString().trim(),
-                        LocalDate.of(
-                            dueDate?.year!!,
-                            dueDate.month!!,
-                            dueDate.dayOfMonth
-                        ),
-                        existingTask?.creationDate ?: LocalDate.now(),
-                        selectedStatus,
-                        spAssignTo.selectedItem?.toString() ?: "",
-                        selectedPriority,
-                        txtObservation.text.toString().trim()
-                    )
+                    null
+                }
 
-                    val onCompleteCallback = {
-                        progressDialog.dismiss()
-                        cleanScreen()
-                        Toast.makeText(
-                            this@TaskActivity,
-                            getString(R.string.TextSaveSuccess),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                val taskId = existingTask?.id ?: 0L
 
-                    if (!isEditMode) {
-                        taskViewModel.saveTask(task, onCompleteCallback)
-                    } else {
-                        taskViewModel.updateTask(task, onCompleteCallback)
+                val parentTaskId = if (isEditMode) {
+                    existingTask?.parentTaskId
+                } else {
+                    eligibleParents.getOrNull(
+                        spParentTask.selectedItemPosition - 1
+                    )?.id
+                }
+
+                if (!isEditMode && parentTaskId != null) {
+                    val parent = taskViewModel.getTaskById(parentTaskId)
+
+                    if (parent == null ||
+                        (parent.status != TaskStatus.PENDING &&
+                                parent.status != TaskStatus.IN_PROGRESS)
+                    ) {
+                        error("La tarea padre no esta disponible")
                     }
                 }
+
+                val selectedStatus =
+                    spStatus.selectedItem as TaskStatus
+
+                val selectedPriority =
+                    spPriority.selectedItem as TaskPriority
+
+                val task = Task(
+                    id = taskId,
+                    title = txtTitle.text.toString().trim(),
+                    description = txtDescription.text.toString().trim(),
+                    dueDate = LocalDate.of(dueYear, dueMonth, dueDay),
+                    creationDate = existingTask?.creationDate
+                        ?: LocalDate.now(),
+                    status = selectedStatus,
+                    assignedTo = spAssignTo.selectedItem.toString(),
+                    priority = selectedPriority,
+                    notes = txtObservation.text.toString().trim(),
+                    parentTaskId = parentTaskId
+                )
+
+                val onCompleteCallback = {
+                    progressDialog.dismiss()
+                    cleanScreen()
+                    Toast.makeText(
+                        this@TaskActivity,
+                        getString(R.string.TextSaveSuccess),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                if (!isEditMode) {
+                    taskViewModel.saveTask(task, onCompleteCallback)
+                } else {
+                    taskViewModel.updateTask(task, onCompleteCallback)
+                }
+
             } catch (e: Exception) {
                 progressDialog.dismiss()
                 Toast.makeText(
@@ -356,9 +473,13 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun deleteTask() {
-        val id = txtId.text.toString().trim()
-        if (id.isBlank()) return
-        val progressDialog = util.showProgressDialog(this, getString(R.string.TextDeleting))
+        val id = currentTask?.id ?: return
+
+        val progressDialog = util.showProgressDialog(
+            this,
+            getString(R.string.TextDeleting)
+        )
+
         taskViewModel.removeTask(id) {
             progressDialog.dismiss()
             cleanScreen()
