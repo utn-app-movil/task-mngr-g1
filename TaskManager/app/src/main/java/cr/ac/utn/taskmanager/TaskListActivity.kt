@@ -29,24 +29,64 @@ class TaskListActivity : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_task_list)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
 
         val recycler = findViewById<RecyclerView>(R.id.rvTasks_List)
+
         taskAdapter = TaskListAdapter(emptyList(), this)
+
         recycler.layoutManager = LinearLayoutManager(applicationContext)
         recycler.adapter = taskAdapter
 
-        val progressDialog = util.showProgressDialog(this, getString(R.string.TextLoading))
+        val progressDialog = util.showProgressDialog(
+            this,
+            getString(R.string.TextLoading)
+        )
+
         var isFirstLoad = true
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 taskViewModel.tasks.collect { tasks ->
-                    taskAdapter.updateTasks(tasks)
+
+                    val orderedTasks = mutableListOf<Task>()
+
+                    val remainingTasks = tasks.filter {
+                        it.parentTaskId == null
+                    }.toMutableList()
+
+                    while (remainingTasks.isNotEmpty()) {
+                        val task = remainingTasks.removeAt(0)
+
+                        if (!orderedTasks.contains(task)) {
+                            orderedTasks.add(task)
+
+                            val subtasks = tasks.filter {
+                                it.parentTaskId == task.id
+                            }
+
+                            remainingTasks.addAll(0, subtasks)
+                        }
+                    }
+
+                    for (task in tasks) {
+                        if (!orderedTasks.contains(task)) {
+                            orderedTasks.add(task)
+                        }
+                    }
+
+                    taskAdapter.updateTasks(orderedTasks)
+
                     if (isFirstLoad) {
                         isFirstLoad = false
                         progressDialog.dismiss()
@@ -60,7 +100,8 @@ class TaskListActivity : AppCompatActivity(), OnItemClickListener {
         util.openActivity(
             this,
             TaskActivity::class.java,
-            EXTRA_MESSAGE_ID, task.id
+            EXTRA_MESSAGE_ID,
+            task.id
         )
     }
 }

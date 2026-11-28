@@ -35,4 +35,20 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+
+    <string name="TextAutoId">Automatic</string>
+    <string name="TextParentTask">Parent task (optional)</string>
+    <string name="TextMainTask">None (main task)</string>
+    <string name="TextCurrentParent">Task #%1$s (current)</string>
+    <string name="TextCancellationReason">Cancellation reason</string>
+    <string name="TextCancellationHint">Enter the cancellation reason</string>
+    <string name="TextIncompleteData">Incomplete information</string>
+    <string name="TextFinishedTask">A completed or cancelled task cannot be modified or deleted.</string>
+    <string name="TextInvalidStatusChange">This status change is not allowed.</string>
+    <string name="TextExpiredTask">An overdue task cannot start.</string>
+    <string name="TextCancellationRequired">A cancellation reason is required.</string>
+    <string name="TextInvalidParent">The parent task must be pending or in progress.</string>
+    <string name="TextTaskHasSubtasks">A task with subtasks cannot be deleted.</string>
+    <string name="TextStatusChangedAt">Last status change: %1$s</string>
+
 </resources>

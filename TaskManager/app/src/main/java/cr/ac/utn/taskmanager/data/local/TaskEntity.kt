@@ -6,10 +6,11 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity(tableName = "tasks")
-data class TaskEntity (
-    @PrimaryKey val id: String,
+data class TaskEntity(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val description: String,
     val dueDate: LocalDate,
@@ -17,12 +18,15 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentTaskId: String?,
+    val cancellationReason: String,
+    val statusChangeDate: LocalDateTime?
 )
 
 fun TaskEntity.toDomain(): Task {
     return Task(
-        id = id,
+        id = id.toString(),
         title = title,
         description = description,
         dueDate = dueDate,
@@ -30,13 +34,16 @@ fun TaskEntity.toDomain(): Task {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId,
+        cancellationReason = cancellationReason,
+        statusChangeDate = statusChangeDate
     )
 }
 
 fun Task.toEntity(): TaskEntity {
     return TaskEntity(
-        id = id,
+        id = id.toIntOrNull() ?: 0,
         title = title,
         description = description,
         dueDate = dueDate,
@@ -44,6 +51,9 @@ fun Task.toEntity(): TaskEntity {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes
+        notes = notes,
+        parentTaskId = parentTaskId,
+        cancellationReason = cancellationReason,
+        statusChangeDate = statusChangeDate
     )
 }

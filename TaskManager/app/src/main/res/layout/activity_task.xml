@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ID Search row -->
+        <!-- ID de la tarea -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,22 +33,26 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="number"
+                android:enabled="false"
+                android:hint="@string/TextAutoId" />
 
             <ImageButton
                 android:id="@+id/btnSearch_Task"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:visibility="gone"
                 android:contentDescription="@string/TextId"
                 app:srcCompat="@android:drawable/ic_menu_search" />
+
         </LinearLayout>
 
-        <!-- Tarea Padre (Subtarea) -->
+        <!-- Tarea padre -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Tarea Padre (Opcional)"
+            android:text="@string/TextParentTask"
             android:textStyle="bold" />
 
         <Spinner
@@ -56,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 
-        <!-- Title -->
+        <!-- Titulo -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +74,7 @@
             android:layout_height="wrap_content"
             android:inputType="text" />
 
-        <!-- Description -->
+        <!-- Descripcion -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +88,7 @@
             android:layout_height="wrap_content"
             android:inputType="text" />
 
-        <!-- Due Date -->
+        <!-- Fecha de vencimiento -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,9 +116,10 @@
                 android:layout_height="48dp"
                 android:contentDescription="@string/TextDueDate"
                 app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
         </LinearLayout>
 
-        <!-- Status -->
+        <!-- Estado de la tarea -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 
-        <!-- Priority -->
+        <!-- Prioridad -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 
-        <!-- Assign To (Selectable Spinner) -->
+        <!-- Persona asignada -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,24 +158,26 @@
             android:layout_width="match_parent"
             android:layout_height="48dp" />
 
-        <!-- Cancellation Reason -->
+        <!-- Razon de cancelacion -->
         <TextView
             android:id="@+id/lblCancellationReason_Task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Razón de Cancelación"
+            android:text="@string/TextCancellationReason"
             android:textColor="#C00000"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/txtCancellationReason_Task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Indique la razón de la cancelación"
-            android:inputType="text" />
+            android:hint="@string/TextCancellationHint"
+            android:inputType="text"
+            android:visibility="gone" />
 
-        <!-- Observation / Notes -->
+        <!-- Observaciones -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -185,7 +192,7 @@
             android:gravity="start|top"
             android:inputType="textMultiLine" />
 
-        <!-- Status Change Timestamp -->
+        <!-- Fecha y hora del cambio de estado -->
         <TextView
             android:id="@+id/tvStatusChangeDate_Task"
             android:layout_width="match_parent"
@@ -196,4 +203,5 @@
             android:textStyle="italic" />
 
     </LinearLayout>
+
 </ScrollView>
