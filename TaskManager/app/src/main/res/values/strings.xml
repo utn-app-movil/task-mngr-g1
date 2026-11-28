@@ -33,4 +33,8 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+    <string name="TextParentTask">Tarea Padre (Opcional)</string>
+    <string name="TextNoneParent">Ninguna (Tarea Principal)</string>
+    <string name="TextIncompleteData">Datos incompletos</string>
+    <string name="TextCancelledAction">Acción cancelada</string>
 </resources>

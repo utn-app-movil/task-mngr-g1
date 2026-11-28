@@ -32,28 +32,28 @@ class TaskViewModel(application: Application):
             emptyList()
         )
 
-    suspend fun getTaskById(id: String): Task?{
+    suspend fun getTaskById(id: Long): Task?{
         return repository.getById(id)
     }
 
     fun saveTask(task: Task, onComplete: () -> Unit){
         viewModelScope.launch {
             repository.addTask(task)
-            onComplete?.invoke()
+            onComplete()
         }
     }
 
     fun updateTask(task: Task, onComplete: () -> Unit){
         viewModelScope.launch {
             repository.updateTask(task)
-            onComplete?.invoke()
+            onComplete()
         }
     }
 
-    fun removeTask(id: String, onComplete: () -> Unit){
+    fun removeTask(id: Long, onComplete: () -> Unit){
         viewModelScope.launch {
             repository.deleteTask(id)
-            onComplete?.invoke()
+            onComplete()
         }
     }
 
