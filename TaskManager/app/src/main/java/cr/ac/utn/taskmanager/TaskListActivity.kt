@@ -60,7 +60,7 @@ class TaskListActivity : AppCompatActivity(), OnItemClickListener {
         util.openActivity(
             this,
             TaskActivity::class.java,
-            EXTRA_MESSAGE_ID, task.id
+            EXTRA_MESSAGE_ID, task.id.toString()
         )
     }
 }
