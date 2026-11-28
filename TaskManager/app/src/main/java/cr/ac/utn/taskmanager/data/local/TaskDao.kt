@@ -23,4 +23,11 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE id = :idTask")
     suspend fun deleteTaskById(idTask: String)
+
+    @Query("SELECT * FROM tasks WHERE status IN ('PENDING', 'IN_PROGRESS')")
+    fun getEligibleParents(): Flow<List<TaskEntity>>
+
+    @Query("SELECT MAX(CAST(id AS INTEGER)) FROM tasks")
+    suspend fun getMaxId(): Int?
+
 }

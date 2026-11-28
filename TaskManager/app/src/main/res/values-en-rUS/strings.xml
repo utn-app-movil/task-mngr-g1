@@ -31,8 +31,23 @@
     <string name="TextYes">Yes</string>
     <string name="TextNo">No</string>
     <string name="TextDataNoFound">The information was not found.</string>
-    <string name="TextTitleDialogQuestion">Questiion</string>
+    <string name="TextTitleDialogQuestion">Question</string>
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+
+
+    <string name="TextParentTask">Parent Task (Optional)</string>
+    <string name="TextNoParent">None (Main Task)</string>
+    <string name="TextCancelReason">Cancellation Reason</string>
+    <string name="TextCancelReasonHint">Enter the cancellation reason</string>
+    <string name="TextLastStatusChange">Last status change: %1$s</string>
+    <string name="TextIncompleteData">Incomplete data</string>
+    <string name="TextInvalidDate">Invalid date</string>
+    <string name="TextErrorFinalStatus">A completed or cancelled task cannot be modified</string>
+    <string name="TextErrorPendingMove">A pending task can only move to in progress or cancelled</string>
+    <string name="TextErrorInProgressToPending">An in progress task cannot go back to pending</string>
+    <string name="TextErrorDueDatePassed">Cannot move to in progress, the due date has already passed</string>
+    <string name="TextErrorCancelReason">You must enter the cancellation reason</string>
+    <string name="TextSnackbarCancelled">Cancelled action</string>
 </resources>

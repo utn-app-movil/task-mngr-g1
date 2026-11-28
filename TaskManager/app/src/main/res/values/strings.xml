@@ -33,4 +33,19 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+
+
+    <string name="TextParentTask">Tarea Padre (Opcional)</string>
+    <string name="TextNoParent">Ninguna (Tarea Principal)</string>
+    <string name="TextCancelReason">Razón de Cancelación</string>
+    <string name="TextCancelReasonHint">Indique la razón de la cancelación</string>
+    <string name="TextLastStatusChange">Último cambio de estado: %1$s</string>
+    <string name="TextIncompleteData">Datos incompletos</string>
+    <string name="TextInvalidDate">Fecha inválida</string>
+    <string name="TextErrorFinalStatus">Una tarea completed o cancelled no se puede modificar</string>
+    <string name="TextErrorPendingMove">Una tarea pending solo puede pasar a in progress o cancelled</string>
+    <string name="TextErrorInProgressToPending">Una tarea in progress no puede volver a pending</string>
+    <string name="TextErrorDueDatePassed">No se puede pasar a in progress, la fecha de vencimiento ya pasó</string>
+    <string name="TextErrorCancelReason">Debe indicar la razón de la cancelación</string>
+    <string name="TextSnackbarCancelled">Acción cancelada</string>
 </resources>

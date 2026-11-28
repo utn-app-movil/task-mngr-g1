@@ -33,8 +33,7 @@ class MainActivity : AppCompatActivity() {
         val clmain = findViewById<ConstraintLayout>(R.id.main)
         class snackbarClick: View.OnClickListener{
             override fun onClick(p0: View?) {
-                Snackbar.make(clmain, "Cancelled action",
-                    Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(clmain, R.string.TextSnackbarCancelled, Snackbar.LENGTH_SHORT).show()
             }
         }
         val btnMessage2: Button = findViewById<Button>(R.id.btnMessage2_main)
