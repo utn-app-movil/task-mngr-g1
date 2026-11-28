@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Tarea Padre (Opcional)"
+            android:text="@string/TextParentTask"
             android:textStyle="bold" />
 
         <Spinner
@@ -159,9 +159,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Razón de Cancelación"
+            android:text="@string/TextCancellationReason"
             android:textColor="#C00000"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/txtCancellationReason_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/TextCancellationReasonHint"
+            android:inputType="text"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/txtCancellationReason_Task"

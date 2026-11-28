@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".TaskActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ID Search row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TextId"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtId_Task"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="text" />
+
+            <ImageButton
+                android:id="@+id/btnSearch_Task"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/TextId"
+                app:srcCompat="@android:drawable/ic_menu_search" />
+        </LinearLayout>
+
+        <!-- Tarea Padre (Subtarea) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextParentTask"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spParentTask_Task"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextTitle"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtTitle_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextDescription"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtDescription_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <!-- Due Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TextDueDate"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDueDate_Task"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/btnDueDate_Task"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/TextDueDate"
+                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+        </LinearLayout>
+
+        <!-- Status -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextStatus"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spStatus_Task"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <!-- Priority -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextPriority"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spPriority_Task"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <!-- Assign To (Selectable Spinner) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextAssignTo"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spAssignTo_Task"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <!-- Cancellation Reason -->
+        <TextView
+            android:id="@+id/lblCancellationReason_Task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextCancellationReason"
+            android:textColor="#C00000"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/txtCancellationReason_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/TextCancellationReasonHint"
+            android:inputType="text"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/txtCancellationReason_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Indique la razón de la cancelación"
+            android:inputType="text" />
+
+        <!-- Observation / Notes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/TextObservation"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtObservation_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+        <!-- Status Change Timestamp -->
+        <TextView
+            android:id="@+id/tvStatusChangeDate_Task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="#555555"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+</ScrollView>

@@ -31,6 +31,9 @@ class TaskViewModel(application: Application):
             SharingStarted.WhileSubscribed(5000),
             emptyList()
         )
+    suspend fun getNextId(): String{
+        return repository.getNextId()
+    }
 
     suspend fun getTaskById(id: String): Task?{
         return repository.getById(id)

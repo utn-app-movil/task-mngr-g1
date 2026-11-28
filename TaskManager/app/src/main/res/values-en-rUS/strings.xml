@@ -35,4 +35,14 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+    <string name="TextParentTask">Parent task (optional)</string>
+    <string name="TextNoParent">None (main task)</string>
+    <string name="TextCancellationReason">Cancellation reason</string>
+    <string name="TextCancellationReasonHint">Enter the cancellation reason</string>
+    <string name="TextStatusChangeDate">Last status change: %1$s</string>
+    <string name="TextDataIncomplete">Incomplete data</string>
+    <string name="TextReasonRequired">You must enter the cancellation reason.</string>
+    <string name="TextTaskClosed">A completed or cancelled task can not be modified.</string>
+    <string name="TextInvalidStatusChange">Status change not allowed.</string>
+    <string name="TextDueDateExpired">The task can not move to IN_PROGRESS, the due date has already passed.</string>
 </resources>
