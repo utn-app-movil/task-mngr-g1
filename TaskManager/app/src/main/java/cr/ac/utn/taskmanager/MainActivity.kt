@@ -48,19 +48,19 @@ class MainActivity : AppCompatActivity() {
 
         val btnOpenScreen: Button = findViewById<Button>(R.id.btnOpenScreen_main)
         btnOpenScreen.setOnClickListener(View.OnClickListener{ view ->
-            util.OpenActivity(this
+            util.openActivity(this
                     , SecondActivity::class.java)
         })
 
         val btnOpenTask: Button = findViewById<Button>(R.id.btnTask_main)
         btnOpenTask.setOnClickListener(View.OnClickListener{ view ->
-            util.OpenActivity(this
+            util.openActivity(this
                 , TaskActivity::class.java)
         })
 
         val btnOpenTaskList: Button = findViewById<Button>(R.id.btnTaskList_main)
         btnOpenTaskList.setOnClickListener(View.OnClickListener{ view ->
-            util.OpenActivity(this
+            util.openActivity(this
                 , TaskListActivity::class.java)
         })
     }

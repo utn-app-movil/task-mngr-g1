@@ -29,6 +29,8 @@
     <string name="TextYes">Si</string>
     <string name="TextNo">No</string>
     <string name="TextDataNoFound">La información no existe.</string>
-
-
+    <string name="TextTitleDialogQuestion">Pregunta</string>
+    <string name="TextLoading">Cargando datos...</string>
+    <string name="TextSaving">Guardando datos...</string>
+    <string name="TextDeleting">Eliminando datos...</string>
 </resources>

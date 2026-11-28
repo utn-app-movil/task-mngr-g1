@@ -1,17 +1,30 @@
 package cr.ac.utn.taskmanager
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cr.ac.utn.taskmanager.domain.model.Task
-import cr.ac.utn.taskmanager.util.*
+import cr.ac.utn.taskmanager.util.EXTRA_MESSAGE_ID
+import cr.ac.utn.taskmanager.util.util
+import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
+import kotlinx.coroutines.launch
 
 class TaskListActivity : AppCompatActivity(), OnItemClickListener {
+
+    private val taskViewModel: TaskViewModel by viewModels {
+        TaskViewModel.Factory(application)
+    }
+
+    private lateinit var taskAdapter: TaskListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,16 +35,32 @@ class TaskListActivity : AppCompatActivity(), OnItemClickListener {
             insets
         }
 
-        val recycler =  findViewById<RecyclerView>(R.id.rvTasks_List)
-        val taskVM = util.buildPersonViewModel()
-        val customAdapter = TaskListAdapter(taskVM.tasks.value, this)
-        val layoutManager = LinearLayoutManager(applicationContext)
-        recycler.layoutManager = layoutManager
-        recycler.adapter = customAdapter
-        customAdapter.notifyDataSetChanged()
+        val recycler = findViewById<RecyclerView>(R.id.rvTasks_List)
+        taskAdapter = TaskListAdapter(emptyList(), this)
+        recycler.layoutManager = LinearLayoutManager(applicationContext)
+        recycler.adapter = taskAdapter
+
+        val progressDialog = util.showProgressDialog(this, getString(R.string.TextLoading))
+        var isFirstLoad = true
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                taskViewModel.tasks.collect { tasks ->
+                    taskAdapter.updateTasks(tasks)
+                    if (isFirstLoad) {
+                        isFirstLoad = false
+                        progressDialog.dismiss()
+                    }
+                }
+            }
+        }
     }
 
-    override fun onItemClicked(task: Task) {
-        util.openActivity(this, TaskActivity::class.java, EXTRA_MESSAGE_ID, task.id)
+    override fun onItemClick(task: Task) {
+        util.openActivity(
+            this,
+            TaskActivity::class.java,
+            EXTRA_MESSAGE_ID, task.id
+        )
     }
 }
