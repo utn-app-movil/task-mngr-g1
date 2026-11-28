@@ -72,6 +72,20 @@ import androidx.sqlite.db.SupportSQLiteDatabase
             }
         }
 
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+
+            override fun migrate(db: SupportSQLiteDatabase) {
+
+                db.execSQL(
+                    "ALTER TABLE tasks ADD COLUMN cancellationReason TEXT"
+                )
+
+                db.execSQL(
+                    "ALTER TABLE tasks ADD COLUMN statusChangeDate TEXT"
+                )
+            }
+        }
+
         private val MIGRATION_3_4 = object : Migration(3, 4) {
 
             override fun migrate(db: SupportSQLiteDatabase) {
@@ -99,7 +113,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
                     AppDatabase::class.java,
                     "task_database"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_3_4)
+                    .addMigrations(
+                        MIGRATION_1_2,
+                        MIGRATION_2_3,
+                        MIGRATION_3_4
+                    )
                     .build()
                     .also { INSTANCE = it }
             }        }
