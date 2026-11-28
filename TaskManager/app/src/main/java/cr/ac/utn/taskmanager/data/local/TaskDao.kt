@@ -12,8 +12,14 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     fun getAllTasks(): Flow<List<TaskEntity>>
 
+    @Query("SELECT * FROM tasks WHERE status IN ('PENDING', 'IN_PROGRESS')")
+    fun getEligibleParents(): Flow<List<TaskEntity>>
+
     @Query("SELECT * FROM tasks WHERE id = :idTask")
     suspend fun getTaskById(idTask: String): TaskEntity?
+
+    @Query("SELECT MAX(CAST(id AS INTEGER)) FROM tasks")
+    suspend fun getMaxId(): Int?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskEntity)
@@ -24,3 +30,4 @@ interface TaskDao {
     @Query("DELETE FROM tasks WHERE id = :idTask")
     suspend fun deleteTaskById(idTask: String)
 }
+

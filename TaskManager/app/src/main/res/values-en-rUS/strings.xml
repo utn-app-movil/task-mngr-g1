@@ -35,4 +35,8 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+    <string name="TextStatusChangeNotAllowed">Status change not allowed</string>
+    <string name="TextTaskLocked">A completed or cancelled task cannot be modified</string>
+    <string name="TextDueDateExpired">Cannot move to IN PROGRESS: the due date has already passed</string>
+    <string name="TextCancelReasonRequired">You must enter the cancellation reason</string>
 </resources>

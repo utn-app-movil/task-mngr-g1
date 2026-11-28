@@ -33,4 +33,14 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+    <string name="TextStatusChangeNotAllowed">Cambio de estado no permitido</string>
+    <string name="TextTaskLocked">Una tarea completada o cancelada no se puede modificar</string>
+    <string name="TextDueDateExpired">No se puede pasar a EN PROGRESO: la fecha de vencimiento ya pasó</string>
+    <string-array name="PeopleList">
+        <item>Allen Vargas</item>
+        <item>María Rojas</item>
+        <item>Carlos Mora</item>
+        <item>Laura Jiménez</item>
+    </string-array>
+    <string name="TextCancelReasonRequired">Debe indicar la razón de la cancelación</string>
 </resources>
