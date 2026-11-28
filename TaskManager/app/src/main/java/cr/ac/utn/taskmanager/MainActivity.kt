@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val clmain = findViewById<ConstraintLayout>(R.id.main)
         class snackbarClick: View.OnClickListener{
             override fun onClick(p0: View?) {
-                Snackbar.make(clmain, "Cancelled action",
+                Snackbar.make(clmain, R.string.CancelledAction,
                     Snackbar.LENGTH_SHORT).show()
             }
         }

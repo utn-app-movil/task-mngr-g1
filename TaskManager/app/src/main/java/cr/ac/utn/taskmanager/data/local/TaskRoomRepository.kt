@@ -5,22 +5,16 @@ import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class TaskRoomRepository(private val taskDao: TaskDao):
-    ITaskRepository {
+class TaskRoomRepository(private val taskDao: TaskDao) : ITaskRepository {
 
-    override fun getTasks(): Flow<List<Task>> {
-        return taskDao.getAllTasks().map { entities ->
-            entities.map { it.toDomain() }
-        }
-    }
+    override fun getTasks(): Flow<List<Task>> =
+        taskDao.getAllTasks().map { list -> list.map { it.toDomain() } }
 
-    override fun getEligibleParentTasks(): Flow<List<Task>> {
-        TODO()
-    }
+    override fun getEligibleParentTasks(): Flow<List<Task>> =
+        taskDao.getEligibleParentTasks().map { list -> list.map { it.toDomain() } }
 
-    override suspend fun getById(id: String): Task? {
-        return taskDao.getTaskById(id.trim())?.toDomain()
-    }
+    override suspend fun getById(id: Long): Task? =
+        taskDao.getTaskById(id)?.toDomain()
 
     override suspend fun addTask(task: Task) {
         taskDao.insertTask(task.toEntity())
@@ -30,7 +24,7 @@ class TaskRoomRepository(private val taskDao: TaskDao):
         taskDao.updateTask(task.toEntity())
     }
 
-    override suspend fun deleteTask(id: String) {
-        taskDao.deleteTaskById(id.trim())
+    override suspend fun deleteTask(id: Long) {
+        taskDao.deleteTaskById(id)
     }
 }

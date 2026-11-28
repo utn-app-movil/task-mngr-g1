@@ -35,4 +35,19 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+
+    //New strings
+    <string name="TextAutoId">Auto</string>
+    <string name="TextNoParent">None (Main task)</string>
+    <string name="TextIncompleteData">Incomplete data</string>
+    <string name="TextTaskLocked">This task is finished and cannot be modified.</string>
+    <string name="TextStatusChanged">Last status change: %1$s</string>
+    <string name="TextErrTaskIsFinal">A completed or cancelled task cannot be modified.</string>
+    <string name="TextErrInvalidTransition">That status change is not allowed.</string>
+    <string name="TextErrCancellationReason">You must provide a cancellation reason.</string>
+    <string name="TextErrOverdue">A task with a past due date cannot be moved to in progress.</string>
+    <string name="TextErrAssignee">You must assign the task to a person.</string>
+    <string name="TextErrParentNotFound">The parent task does not exist.</string>
+    <string name="TextErrParentNotEligible">The parent task must be pending or in progress.</string>
+    <string name="CancelledAction">Action cancelled.</string>
 </resources>

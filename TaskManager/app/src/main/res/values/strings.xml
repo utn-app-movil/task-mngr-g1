@@ -33,4 +33,19 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+
+    //new strings
+    <string name="TextAutoId">Automático</string>
+    <string name="TextNoParent">Ninguna (Tarea principal)</string>
+    <string name="TextIncompleteData">Datos incompletos</string>
+    <string name="TextTaskLocked">Esta tarea está finalizada y no se puede modificar.</string>
+    <string name="TextStatusChanged">Último cambio de estado: %1$s</string>
+    <string name="TextErrTaskIsFinal">Una tarea completada o cancelada no se puede modificar.</string>
+    <string name="TextErrInvalidTransition">Ese cambio de estado no está permitido.</string>
+    <string name="TextErrCancellationReason">Debe indicar la razón de la cancelación.</string>
+    <string name="TextErrOverdue">No se puede iniciar una tarea con fecha de vencimiento anterior a hoy.</string>
+    <string name="TextErrAssignee">Debe asignar la tarea a una persona.</string>
+    <string name="TextErrParentNotFound">La tarea padre no existe.</string>
+    <string name="TextErrParentNotEligible">La tarea padre debe estar pendiente o en progreso.</string>
+    <string name="CancelledAction">Acción cancelada.</string>
 </resources>

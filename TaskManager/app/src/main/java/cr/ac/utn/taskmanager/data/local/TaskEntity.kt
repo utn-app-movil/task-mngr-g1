@@ -6,10 +6,11 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity(tableName = "tasks")
-data class TaskEntity (
-    @PrimaryKey val id: String,
+data class TaskEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val title: String,
     val description: String,
     val dueDate: LocalDate,
@@ -17,33 +18,38 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String
+    val notes: String,
+    val parentTaskId: Long?,
+    val cancellationReason: String?,
+    val statusChangedAt: LocalDateTime
 )
 
-fun TaskEntity.toDomain(): Task {
-    return Task(
-        id = id,
-        title = title,
-        description = description,
-        dueDate = dueDate,
-        creationDate = creationDate,
-        status = status,
-        assignedTo = assignedTo,
-        priority = priority,
-        notes = notes
-    )
-}
+fun TaskEntity.toDomain(): Task = Task(
+    id = id,
+    title = title,
+    description = description,
+    dueDate = dueDate,
+    creationDate = creationDate,
+    status = status,
+    assignedTo = assignedTo,
+    priority = priority,
+    notes = notes,
+    parentTaskId = parentTaskId,
+    cancellationReason = cancellationReason,
+    statusChangedAt = statusChangedAt
+)
 
-fun Task.toEntity(): TaskEntity {
-    return TaskEntity(
-        id = id,
-        title = title,
-        description = description,
-        dueDate = dueDate,
-        creationDate = creationDate,
-        status = status,
-        assignedTo = assignedTo,
-        priority = priority,
-        notes = notes
-    )
-}
+fun Task.toEntity(): TaskEntity = TaskEntity(
+    id = id,
+    title = title,
+    description = description,
+    dueDate = dueDate,
+    creationDate = creationDate,
+    status = status,
+    assignedTo = assignedTo,
+    priority = priority,
+    notes = notes,
+    parentTaskId = parentTaskId,
+    cancellationReason = cancellationReason,
+    statusChangedAt = statusChangedAt
+)
