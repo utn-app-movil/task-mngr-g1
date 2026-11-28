@@ -12,6 +12,12 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     fun getAllTasks(): Flow<List<TaskEntity>>
 
+    @Query("SELECT * FROM tasks WHERE status IN ('PENDING', 'IN_PROGRESS') AND parentTaskId IS NULL")
+    fun getEligibleParentTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT MAX(CAST(id AS INTEGER)) FROM tasks")
+    suspend fun getMaxId(): Int?
+
     @Query("SELECT * FROM tasks WHERE id = :idTask")
     suspend fun getTaskById(idTask: String): TaskEntity?
 

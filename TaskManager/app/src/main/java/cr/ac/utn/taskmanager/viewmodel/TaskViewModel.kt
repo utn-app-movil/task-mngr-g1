@@ -29,11 +29,16 @@ class TaskViewModel(application: Application):
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
+            emptyList())
+
 
     suspend fun getTaskById(id: String): Task?{
         return repository.getById(id)
+    }
+
+
+    suspend fun getNextId(): String{
+        return repository.getNextId()
     }
 
     fun saveTask(task: Task, onComplete: () -> Unit){
