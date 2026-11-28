@@ -15,11 +15,17 @@ class TaskRoomRepository(private val taskDao: TaskDao):
     }
 
     override fun getEligibleParentTasks(): Flow<List<Task>> {
-        TODO()
+        return taskDao.getEligibleParentTasks().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
 
     override suspend fun getById(id: String): Task? {
         return taskDao.getTaskById(id.trim())?.toDomain()
+    }
+
+    override suspend fun getNextId(): String {
+        return ((taskDao.getMaxId() ?: 0) + 1).toString()
     }
 
     override suspend fun addTask(task: Task) {
