@@ -1,18 +1,15 @@
 package cr.ac.utn.taskmanager.data.local
 
-import android.view.ViewParent
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Entity(tableName = "tasks")
 data class TaskEntity (
-    @PrimaryKey (autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey val id: String,
     val title: String,
     val description: String,
     val dueDate: LocalDate,
@@ -20,10 +17,7 @@ data class TaskEntity (
     val status: TaskStatus,
     val assignedTo: String,
     val priority: TaskPriority,
-    val notes: String,
-    val parentTaskId: Int? = null,
-    val cancellationReason: String? = null,
-    val statusChangeDateTime: LocalDateTime? =null
+    val notes: String
 )
 
 fun TaskEntity.toDomain(): Task {
@@ -36,10 +30,7 @@ fun TaskEntity.toDomain(): Task {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes,
-        parentTaskId= parentTaskId,
-        cancellationReason= cancellationReason,
-        statusChangeDateTime= statusChangeDateTime
+        notes = notes
     )
 }
 
@@ -53,9 +44,6 @@ fun Task.toEntity(): TaskEntity {
         status = status,
         assignedTo = assignedTo,
         priority = priority,
-        notes = notes,
-        parentTaskId=parentTaskId,
-        cancellationReason=cancellationReason,
-        statusChangeDateTime=statusChangeDateTime
+        notes = notes
     )
 }

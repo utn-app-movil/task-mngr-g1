@@ -13,7 +13,7 @@ interface TaskDao {
     fun getAllTasks(): Flow<List<TaskEntity>>
 
     @Query("SELECT * FROM tasks WHERE id = :idTask")
-    suspend fun getTaskById(idTask: Int): TaskEntity?
+    suspend fun getTaskById(idTask: String): TaskEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskEntity)
@@ -22,8 +22,5 @@ interface TaskDao {
     suspend fun updateTask(task: TaskEntity)
 
     @Query("DELETE FROM tasks WHERE id = :idTask")
-    suspend fun deleteTaskById(idTask: Int)
-
-    @Query("SELECT * FROM tasks WHERE status IN ('PENDING', 'IN_PROGRESS')")
-    fun getEligibleParentTasks(): Flow<List<TaskEntity>>
+    suspend fun deleteTaskById(idTask: String)
 }

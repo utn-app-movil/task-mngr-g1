@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface ITaskRepository {
     fun getTasks(): Flow<List<Task>>
     fun getEligibleParentTasks(): Flow<List<Task>>
-    suspend fun getById(id: Int): Task?
+    suspend fun getById(id: String): Task?
     suspend fun addTask(task: Task)
     suspend fun updateTask(task: Task)
-    suspend fun deleteTask(id: Int)
+    suspend fun deleteTask(id: String)
 }
