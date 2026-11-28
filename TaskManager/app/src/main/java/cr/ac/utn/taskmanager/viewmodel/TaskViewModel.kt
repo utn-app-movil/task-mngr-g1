@@ -36,6 +36,10 @@ class TaskViewModel(application: Application):
         return repository.getById(id)
     }
 
+    suspend fun getNextId(): String{
+        return repository.getNextId()
+    }
+
     fun saveTask(task: Task, onComplete: () -> Unit){
         viewModelScope.launch {
             repository.addTask(task)
