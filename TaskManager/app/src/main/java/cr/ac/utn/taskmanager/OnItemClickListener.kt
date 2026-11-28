@@ -2,6 +2,6 @@ package cr.ac.utn.taskmanager
 
 import cr.ac.utn.taskmanager.domain.model.Task
 
-interface OnItemClickListener {
+interface OnitemClickListener {
     fun onItemClick(task: Task)
 }

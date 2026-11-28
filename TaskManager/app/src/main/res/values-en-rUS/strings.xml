@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
     <string name="app_name">TaskManager</string>
+
+
     <string name="btnTextMessage1_main">Show Toast Message</string>
     <string name="btnTextMessage2_main">Show Snackbar Message</string>
     <string name="btnTextOpenScreen_main">Open a screen</string>
@@ -9,6 +13,8 @@
     <string name="TextSnackbar">Undo</string>
     <string name="btnTextTask_main">Task Management</string>
     <string name="btnTextTaskList_main">Task List</string>
+
+
     <string name="TextId">Id</string>
     <string name="TextTitle">Title</string>
     <string name="TextDescription">Description</string>
@@ -17,22 +23,59 @@
     <string name="TextPriority">Priority</string>
     <string name="TextObservation">Observation</string>
     <string name="TextAssignTo">Assign to</string>
+    <string name="TextAutomaticId">Automatic ID</string>
+
+
     <string name="TextSave">Save</string>
     <string name="TextDelete">Delete</string>
     <string name="TextCancel">Cancel</string>
-    <string name="TextSaveSuccess">Information was saved successfully</string>
-    <string name="TextDeleteSuccess">Information was deleted successfully</string>
-    <string name="TextDuplicateData">The information is already stored.</string>
-    <string name="TextSaveError">Error to save the information.</string>
-
-    <string name="TextDeleteError">Error to delete the information.</string>
-    <string name="TextSaveQuestion">Do you want to save the information.</string>
-    <string name="TextDeleteQuestion">Do you want to delete the information.</string>
     <string name="TextYes">Yes</string>
     <string name="TextNo">No</string>
+
+
+    <string name="TextSaveSuccess">Information was saved successfully.</string>
+    <string name="TextDeleteSuccess">Information was deleted successfully.</string>
+    <string name="TextDuplicateData">The information is already stored.</string>
+    <string name="TextSaveError">Error saving the information.</string>
+    <string name="TextDeleteError">Error deleting the information.</string>
     <string name="TextDataNoFound">The information was not found.</string>
-    <string name="TextTitleDialogQuestion">Questiion</string>
+    <string name="TextTaskOperationError">The operation could not be completed.</string>
+    <string name="TextIncompleteData">Incomplete data.</string>
+
+
+    <string name="TextSaveQuestion">Do you want to save the information?</string>
+    <string name="TextDeleteQuestion">Do you want to delete the information?</string>
+    <string name="TextTitleDialogQuestion">Question</string>
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+
+
+    <string name="TextParentTask">Parent task (optional)</string>
+    <string name="TextNoParentTask">None (Main task)</string>
+    <string name="TextParentNotFound">Parent task not found.</string>
+    <string name="TextInvalidParentStatus">The parent task must be pending or in progress.</string>
+    <string name="TextParentCannotBeChanged">The parent task cannot be changed.</string>
+
+
+    <string name="TextSelectPerson">Select a person</string>
+    <string name="TextAddPerson">Add person</string>
+    <string name="TextPersonName">Person name</string>
+    <string name="TextAssignedPersonRequired">A person must be assigned to the task.</string>
+
+
+    <string name="TextTaskNotFound">Task not found.</string>
+    <string name="TextTaskCannotBeModified">Completed or cancelled tasks cannot be modified.</string>
+    <string name="TextTaskCannotBeDeleted">Completed or cancelled tasks cannot be deleted.</string>
+    <string name="TextInvalidStatusChange">Invalid status change.</string>
+    <string name="TextOverdueTask">An overdue task cannot be moved to in progress.</string>
+
+
+    <string name="TextCancellationReason">Cancellation reason</string>
+    <string name="TextCancellationReasonHint">Enter the cancellation reason</string>
+    <string name="TextCancellationReasonRequired">A cancellation reason is required.</string>
+
+
+    <string name="TextStatusChangeDate">Last status change: %1$s</string>
+
 </resources>

@@ -10,16 +10,23 @@ import cr.ac.utn.taskmanager.domain.model.Task
 
 class TaskListAdapter(
     private var tasks: List<Task>,
-    val itemClickListener: OnItemClickListener
-) : RecyclerView.Adapter<CustomViewHolder>() {
+    val itemClickListener: OnitemClickListener
+) : RecyclerView.Adapter<CustomerViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CustomerViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_task_item, parent, false)
-        return CustomViewHolder(itemView)
+
+        return CustomerViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: CustomerViewHolder,
+        position: Int
+    ) {
         val item = tasks[position]
         holder.bind(item, itemClickListener)
     }
@@ -29,26 +36,42 @@ class TaskListAdapter(
     }
 
     fun updateTasks(newTasks: List<Task>) {
-        this.tasks = newTasks
+        tasks = newTasks
         notifyDataSetChanged()
     }
 }
 
-class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val tvTitle: TextView = view.findViewById(R.id.txtTitle_Item)
-    val tvStatus: TextView = view.findViewById(R.id.txtStatus_Item)
-    val tvPriority: TextView = view.findViewById(R.id.txtPriority_Item)
-    val tvAssingTo: TextView = view.findViewById(R.id.txtAssignTo_Item)
-    val imgPicture: ImageView = view.findViewById(R.id.imgPicture_Item)
+class CustomerViewHolder(view: View) :
+    RecyclerView.ViewHolder(view) {
 
-    fun bind(task: Task, itemClickListener: OnItemClickListener) {
-        tvTitle.text = task.title
+    val tvTitle: TextView =
+        view.findViewById(R.id.txtTitle_Item)
+
+    val tvStatus: TextView =
+        view.findViewById(R.id.txtStatus_Item)
+
+    val tvPriority: TextView =
+        view.findViewById(R.id.txtPriority_Item)
+
+    val tvAssignTo: TextView =
+        view.findViewById(R.id.txtAssignTo_Item)
+
+    val imgPicture: ImageView =
+        view.findViewById(R.id.imgPicture_Item)
+
+    fun bind(task: Task, clickListener: OnitemClickListener) {
+
+        tvTitle.text = "${task.id} - ${task.title}"
         tvStatus.text = task.status.name
         tvPriority.text = task.priority.name
-        tvAssingTo.text = task.assignedTo
-        imgPicture.setImageResource(R.drawable.ic_launcher_foreground)
+        tvAssignTo.text = task.assignedTo
+
+        imgPicture.setImageResource(
+            R.drawable.ic_launcher_foreground
+        )
+
         itemView.setOnClickListener {
-            itemClickListener.onItemClick(task)
+            clickListener.onItemClick(task)
         }
     }
 }
