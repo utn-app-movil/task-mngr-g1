@@ -35,4 +35,10 @@
     <string name="TextLoading">Loading data...</string>
     <string name="TextSaving">Saving data...</string>
     <string name="TextDeleting">Deleting data...</string>
+    <string name="TextStatusChangeDate">Last status change:</string>
+    <string name="TextStatusNewTask">New tasks must be saved with PENDING status.</string>
+    <string name="TextStatusLocked">A COMPLETED or CANCELLED task cannot be modified.</string>
+    <string name="TextStatusInvalidChange">The status change is not allowed.</string>
+    <string name="TextCancellationReasonRequired">You must enter the cancellation reason.</string>
+    <string name="TextDueDateExpired">The task cannot be moved to IN_PROGRESS because the due date has passed.</string>
 </resources>

@@ -33,4 +33,10 @@
     <string name="TextLoading">Cargando datos...</string>
     <string name="TextSaving">Guardando datos...</string>
     <string name="TextDeleting">Eliminando datos...</string>
+    <string name="TextStatusChangeDate">Último cambio de estado:</string>
+    <string name="TextStatusNewTask">Las tareas nuevas deben guardarse en estado PENDING.</string>
+    <string name="TextStatusLocked">Una tarea COMPLETED o CANCELLED no se puede modificar.</string>
+    <string name="TextStatusInvalidChange">El cambio de estado no está permitido.</string>
+    <string name="TextCancellationReasonRequired">Debe indicar la razón de la cancelación.</string>
+    <string name="TextDueDateExpired">No se puede pasar a IN_PROGRESS porque la fecha de vencimiento ya pasó.</string>
 </resources>
