@@ -21,6 +21,11 @@ class TaskListAdapter(
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val item = tasks[position]
+        val subtasks = tasks.filter { it.parentTaskId == item.id }
+        if (subtasks.isNotEmpty()) {
+            val titles = subtasks.joinToString("\n") { "• ${it.title}" }
+            holder.tvTitle.text = "${item.title}\nSubtareas:\n$titles"
+        }
         holder.bind(item, itemClickListener)
     }
 
