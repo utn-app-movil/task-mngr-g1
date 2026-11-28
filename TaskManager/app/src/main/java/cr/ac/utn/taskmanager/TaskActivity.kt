@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import android.widget.AdapterView
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
@@ -168,7 +170,25 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         spStatus.adapter = adapter
         spStatus.setSelection(0)
         spStatus.isEnabled = options.size > 1
+        spStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                updateCancellationField()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                updateCancellationField()
+            }
+        }
+        updateCancellationField()
     }
+
+    private fun updateCancellationField() {
+        val cancelled = spStatus.selectedItem == TaskStatus.CANCELLED
+        val field = findViewById<EditText>(R.id.txtCancellationReason_Task)
+        field.visibility = if (cancelled) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.lblCancellationReason_Task).visibility = field.visibility
+        field.isEnabled = cancelled && currentTask?.status?.isTerminal() != true
+    }
+
     private fun updateEditability() {
         val editable = currentTask?.status?.isTerminal() != true
         txtTitle.isEnabled = editable
@@ -322,6 +342,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     spAssignTo.setSelection(personPosition)
 
                     txtObservation.setText(task.notes)
+                    findViewById<EditText>(R.id.txtCancellationReason_Task).setText(task.cancellationReason.orEmpty())
 
                     dueDay = task.dueDate.dayOfMonth
                     dueMonth = task.dueDate.monthValue
@@ -378,6 +399,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         spPriority.setSelection(0)
         spAssignTo.setSelection(0)
         txtObservation.setText("")
+        findViewById<EditText>(R.id.txtCancellationReason_Task).setText("")
         tvDueDate.text = ""
         updateParentSpinnerSelection()
         invalidateOptionsMenu()
@@ -458,7 +480,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     assignedTo = spAssignTo.selectedItem.toString(),
                     priority = selectedPriority,
                     notes = txtObservation.text.toString().trim(),
-                    parentTaskId = parentTaskId
+                    parentTaskId = parentTaskId,
+                    cancellationReason = findViewById<EditText>(R.id.txtCancellationReason_Task).text.toString().trim()
                 )
 
                 val onCompleteCallback = {

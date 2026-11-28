@@ -6,6 +6,7 @@ import cr.ac.utn.taskmanager.domain.model.Task
 import cr.ac.utn.taskmanager.domain.model.TaskPriority
 import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 import androidx.room.ForeignKey
 import androidx.room.Index
 
@@ -32,7 +33,9 @@ data class TaskEntity(
     val assignedTo: String,
     val priority: TaskPriority,
     val notes: String,
-    val parentTaskId: Long? = null
+    val parentTaskId: Long? = null,
+    val cancellationReason: String? = null,
+    val statusChangedAt: LocalDateTime? = null
 )
 fun TaskEntity.toDomain(): Task {
     return Task(
