@@ -1,6 +1,7 @@
 package cr.ac.utn.taskmanager.data.local
 
 import cr.ac.utn.taskmanager.domain.model.Task
+import cr.ac.utn.taskmanager.domain.model.TaskStatus
 import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,11 +16,14 @@ class TaskRoomRepository(private val taskDao: TaskDao):
     }
 
     override fun getEligibleParentTasks(): Flow<List<Task>> {
-        TODO()
+        return taskDao.getAllTasks().map { entities ->
+            entities.map { it.toDomain() }
+                .filter { it.status == TaskStatus.PENDING || it.status == TaskStatus.IN_PROGRESS }
+        }
     }
 
-    override suspend fun getById(id: String): Task? {
-        return taskDao.getTaskById(id.trim())?.toDomain()
+    override suspend fun getById(id: Long): Task? {
+        return taskDao.getTaskById(id)?.toDomain()
     }
 
     override suspend fun addTask(task: Task) {
@@ -30,7 +34,7 @@ class TaskRoomRepository(private val taskDao: TaskDao):
         taskDao.updateTask(task.toEntity())
     }
 
-    override suspend fun deleteTask(id: String) {
-        taskDao.deleteTaskById(id.trim())
+    override suspend fun deleteTask(id: Long) {
+        taskDao.deleteTaskById(id)
     }
 }
