@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CancellationException
 
 class TaskViewModel(application: Application):
     AndroidViewModel(application) {
@@ -36,24 +37,60 @@ class TaskViewModel(application: Application):
         return repository.getById(id)
     }
 
-    fun saveTask(task: Task, onComplete: () -> Unit){
+    fun saveTask(
+        task: Task,
+        onComplete: () -> Unit,
+        onError: (String) -> Unit
+    ) {
         viewModelScope.launch {
-            repository.addTask(task)
-            onComplete?.invoke()
+            try {
+                repository.addTask(task)
+                onComplete()
+
+            } catch (e: CancellationException) {
+                throw e
+
+            } catch (e: Exception) {
+                onError(e.message ?: "Error saving task.")
+            }
         }
     }
 
-    fun updateTask(task: Task, onComplete: () -> Unit){
+    fun updateTask(
+        task: Task,
+        onComplete: () -> Unit,
+        onError: (String) -> Unit
+    ) {
         viewModelScope.launch {
-            repository.updateTask(task)
-            onComplete?.invoke()
+            try {
+                repository.updateTask(task)
+                onComplete()
+
+            } catch (e: CancellationException) {
+                throw e
+
+            } catch (e: Exception) {
+                onError(e.message ?: "Error updating task.")
+            }
         }
     }
 
-    fun removeTask(id: String, onComplete: () -> Unit){
+    fun removeTask(
+        id: String,
+        onComplete: () -> Unit,
+        onError: (String) -> Unit
+    ) {
         viewModelScope.launch {
-            repository.deleteTask(id)
-            onComplete?.invoke()
+            try {
+                repository.deleteTask(id)
+                onComplete()
+
+            } catch (e: CancellationException) {
+                throw e
+
+            } catch (e: Exception) {
+                onError(e.message ?: "Error deleting task.")
+            }
         }
     }
 
