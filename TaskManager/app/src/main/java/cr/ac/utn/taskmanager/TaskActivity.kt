@@ -48,6 +48,18 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private var dueYear: Int = 0
     private var isEditMode: Boolean = false
     private var loadedTask: Task? = null
+
+    private var allTasks: List<Task> = emptyList()
+
+    private lateinit var tvSubtasks: TextView
+
+    private data class ParentOption(
+        val id: Long?,
+        val label: String
+    ) {
+        override fun toString(): String = label
+    }
+
     private lateinit var tvStatusChangeDate: TextView
 
     private lateinit var lblCancellationReason: TextView
@@ -77,6 +89,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         txtObservation = findViewById(R.id.txtObservation_Task)
         spAssignTo = findViewById(R.id.spAssignTo_Task)
         spParentTask = findViewById(R.id.spParentTask_Task)
+        tvSubtasks = findViewById(R.id.tvSubtasks_Task)
         tvDueDate = findViewById(R.id.tvDueDate_Task)
 
         lblCancellationReason =
@@ -216,30 +229,112 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeEligibleParents() {
+
+        updateParentSpinnerSelection(false)
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                taskViewModel.eligibleParentTasks.collect { parents ->
 
+                taskViewModel.tasks.collect { tasks ->
 
-                    val parentOptions = mutableListOf("Ninguna (Tarea Principal)")
-
-
-                    val parentAdapter = ArrayAdapter(
-                        this@TaskActivity,
-                        android.R.layout.simple_spinner_item,
-                        parentOptions
-                    )
-                    parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spParentTask.adapter = parentAdapter
+                    allTasks = tasks
 
                     updateParentSpinnerSelection()
+                    updateSubtasksList()
                 }
             }
         }
     }
 
-    private fun updateParentSpinnerSelection() {
+    private fun updateParentSpinnerSelection(
+        preserveSelection: Boolean = true
+    ) {
 
+        val selectedId = if (isEditMode) {
+            loadedTask?.parentTaskId
+        } else if (preserveSelection) {
+            (spParentTask.selectedItem as? ParentOption)?.id
+        } else {
+            null
+        }
+
+        val options = mutableListOf(
+            ParentOption(
+                null,
+                "Ninguna (Tarea Principal)"
+            )
+        )
+
+        if (isEditMode) {
+
+            loadedTask?.parentTaskId?.let { parentId ->
+
+                val parent = allTasks.find {
+                    it.id == parentId
+                }
+
+                options.add(
+                    ParentOption(
+                        parentId,
+                        parent?.let {
+                            "#${it.id} - ${it.title}"
+                        } ?: "Tarea padre #$parentId"
+                    )
+                )
+            }
+
+        } else {
+
+            val eligibleParents = allTasks.filter {
+
+                it.status == TaskStatus.PENDING ||
+                        it.status == TaskStatus.IN_PROGRESS
+
+            }.sortedBy { it.title }
+
+            eligibleParents.forEach { parent ->
+
+                options.add(
+                    ParentOption(
+                        parent.id,
+                        "#${parent.id} - ${parent.title}"
+                    )
+                )
+            }
+
+            if (selectedId != null &&
+                options.none { it.id == selectedId }
+            ) {
+                options.add(
+                    ParentOption(
+                        selectedId,
+                        "Tarea #$selectedId - No disponible"
+                    )
+                )
+            }
+        }
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            options
+        )
+
+        adapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        spParentTask.adapter = adapter
+
+        val position = options.indexOfFirst {
+            it.id == selectedId
+        }
+
+        spParentTask.setSelection(
+            if (position >= 0) position else 0
+        )
+
+        spParentTask.isEnabled = !isEditMode
     }
 
     private fun resetDate() {
@@ -295,6 +390,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                         "Último cambio: ${it.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))}"
                     } ?: "Sin fecha de cambio registrada"
                     setReadOnly(task.status.isTerminal)
+                    updateParentSpinnerSelection()
+                    updateSubtasksList()
                     spPriority.setSelection(task.priority.ordinal)
 
                     val personPosition = people.indexOf(task.assignedTo)
@@ -359,6 +456,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         isEditMode = false
         loadedTask = null
         setReadOnly(false)
+        updateParentSpinnerSelection(false)
+        updateSubtasksList()
         tvStatusChangeDate.text = ""
 
         txtId.isEnabled = true
@@ -447,19 +546,48 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
                 val task = Task(
                     id = existingTask?.id ?: 0L,
+
                     title = txtTitle.text.toString().trim(),
+
                     description = txtDescription.text.toString().trim(),
+
                     dueDate = dueDate,
+
                     creationDate = existingTask?.creationDate
                         ?: LocalDate.now(),
+
                     status = selectedStatus,
-                    assignedTo = spAssignTo.selectedItem?.toString() ?: "",
+
+                    assignedTo = spAssignTo.selectedItem
+                        ?.toString() ?: "",
+
                     priority = selectedPriority,
+
                     notes = txtObservation.text.toString().trim(),
-                    cancellationReason = if (selectedStatus == TaskStatus.CANCELLED) {
+
+                    cancellationReason = if (
+                        selectedStatus == TaskStatus.CANCELLED
+                    ) {
                         txtCancellationReason.text.toString().trim()
                     } else {
                         null
+                    },
+
+                    statusChangeDate = existingTask?.statusChangeDate,
+
+                    parentTaskId = if (existingTask != null) {
+
+                        existingTask.parentTaskId
+
+                    } else {
+
+                        val selectedParent =
+                            spParentTask.selectedItem as? ParentOption
+                                ?: throw IllegalArgumentException(
+                                    "Seleccione una opción de tarea padre"
+                                )
+
+                        selectedParent.id
                     }
                 )
 
@@ -577,6 +705,36 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         if (!showReason) {
             txtCancellationReason.text.clear()
+        }
+    }
+
+    private fun updateSubtasksList() {
+
+        val currentTask = loadedTask
+
+        if (currentTask == null) {
+            tvSubtasks.visibility = View.GONE
+            tvSubtasks.text = ""
+            return
+        }
+
+        val subtasks = allTasks.filter {
+            it.parentTaskId == currentTask.id
+        }.sortedBy { it.id }
+
+        tvSubtasks.visibility = View.VISIBLE
+
+        tvSubtasks.text = if (subtasks.isEmpty()) {
+
+            "Subtareas: Ninguna"
+
+        } else {
+
+            val details = subtasks.joinToString("\n") {
+                "#${it.id} - ${it.title} [${it.status.name}]"
+            }
+
+            "Subtareas (${subtasks.size}):\n$details"
         }
     }
 

@@ -23,6 +23,12 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :idTask")
     suspend fun getTaskById(idTask: Long): TaskEntity?
 
+    @Query("""
+        SELECT COUNT(*) FROM tasks
+        WHERE parentTaskId = :parentId
+    """)
+    suspend fun countSubtasks(parentId: Long): Int
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertTask(task: TaskEntity)
 

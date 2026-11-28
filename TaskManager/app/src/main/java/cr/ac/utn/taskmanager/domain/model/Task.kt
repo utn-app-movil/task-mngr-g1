@@ -4,7 +4,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class Task(
-    val id: Long = 0L,    val title: String,
+    val id: Long = 0L,
+    val title: String,
     val description: String,
     val dueDate: LocalDate,
     val creationDate: LocalDate,
@@ -13,5 +14,6 @@ data class Task(
     val priority: TaskPriority,
     val notes: String,
     val cancellationReason: String? = null,
-    val statusChangeDate: LocalDateTime? = null
+    val statusChangeDate: LocalDateTime? = null,
+    val parentTaskId: Long? = null
 )

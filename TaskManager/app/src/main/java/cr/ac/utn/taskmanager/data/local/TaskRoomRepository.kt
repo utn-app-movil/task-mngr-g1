@@ -17,7 +17,8 @@ class TaskRoomRepository(
 
     override fun getTasks(): Flow<List<Task>> {
         return taskDao.getAllTasks().map { entities ->
-            entities.map { it.toDomain() }        }
+            entities.map { it.toDomain() }
+        }
     }
 
     override fun getEligibleParentTasks(): Flow<List<Task>> {
@@ -31,40 +32,76 @@ class TaskRoomRepository(
     }
 
     override suspend fun addTask(task: Task) {
-        val newTask = task.copy(
-            id = 0L,
-            status = TaskStatus.PENDING,
-            cancellationReason = null,
-            statusChangeDate = null
-        )
-        taskDao.insertTask(newTask.toEntity())
+
+        database.withTransaction {
+
+            task.parentTaskId?.let { parentId ->
+
+                val parent = taskDao.getTaskById(parentId)
+                    ?: throw IllegalArgumentException(
+                        "La tarea padre no existe"
+                    )
+
+                require(
+                    parent.status == TaskStatus.PENDING ||
+                            parent.status == TaskStatus.IN_PROGRESS
+                ) {
+                    "La tarea padre debe estar pendiente o en progreso"
+                }
+            }
+
+            val newTask = task.copy(
+                id = 0L,
+                status = TaskStatus.PENDING,
+                cancellationReason = null,
+                statusChangeDate = null
+            )
+
+            taskDao.insertTask(newTask.toEntity())
+        }
     }
 
     override suspend fun updateTask(task: Task) {
+
         database.withTransaction {
+
             val current = taskDao.getTaskById(task.id)?.toDomain()
-                ?: throw IllegalArgumentException("La tarea no existe")
+                ?: throw IllegalArgumentException(
+                    "La tarea no existe"
+                )
 
             require(!current.status.isTerminal) {
                 "Una tarea finalizada no se puede modificar"
             }
+
+            require(task.parentTaskId == current.parentTaskId) {
+                "No se puede cambiar la tarea padre"
+            }
+
             require(task.status in current.status.allowedStatuses()) {
                 "Cambio de estado no permitido"
             }
 
             val changed = current.status != task.status
+
             if (changed && task.status == TaskStatus.IN_PROGRESS) {
+
                 require(!task.dueDate.isBefore(LocalDate.now())) {
                     "No se puede iniciar una tarea vencida"
                 }
             }
 
             val reason = if (task.status == TaskStatus.CANCELLED) {
-                val value = task.cancellationReason?.trim().orEmpty()
+
+                val value =
+                    task.cancellationReason?.trim().orEmpty()
+
                 require(value.isNotBlank()) {
                     "Indique la razón de cancelación"
                 }
+
                 value
+
             } else {
                 null
             }
@@ -72,20 +109,34 @@ class TaskRoomRepository(
             val updated = task.copy(
                 creationDate = current.creationDate,
                 cancellationReason = reason,
-                statusChangeDate = if (changed) LocalDateTime.now()
-                    else current.statusChangeDate
+                statusChangeDate = if (changed) {
+                    LocalDateTime.now()
+                } else {
+                    current.statusChangeDate
+                }
             )
+
             taskDao.updateTask(updated.toEntity())
         }
     }
 
     override suspend fun deleteTask(id: Long) {
+
         database.withTransaction {
+
             val current = taskDao.getTaskById(id)?.toDomain()
-                ?: throw IllegalArgumentException("La tarea no existe")
+                ?: throw IllegalArgumentException(
+                    "La tarea no existe"
+                )
+
             require(!current.status.isTerminal) {
                 "Una tarea finalizada no se puede eliminar"
             }
+
+            require(taskDao.countSubtasks(id) == 0) {
+                "No se puede eliminar una tarea que contiene subtareas"
+            }
+
             taskDao.deleteTaskById(id)
         }
     }

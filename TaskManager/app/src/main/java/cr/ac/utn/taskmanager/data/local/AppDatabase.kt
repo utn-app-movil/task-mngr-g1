@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [TaskEntity::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)abstract class AppDatabase : RoomDatabase() {
@@ -72,10 +72,23 @@ import androidx.sqlite.db.SupportSQLiteDatabase
             }
         }
 
-        private val MIGRATION_2_3 = object : Migration(2, 3) {
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE tasks ADD COLUMN cancellationReason TEXT")
-                db.execSQL("ALTER TABLE tasks ADD COLUMN statusChangeDate TEXT")
+
+                db.execSQL("""
+            ALTER TABLE tasks
+            ADD COLUMN parentTaskId INTEGER
+            REFERENCES tasks(id)
+            ON UPDATE NO ACTION
+            ON DELETE RESTRICT
+        """.trimIndent())
+
+                db.execSQL("""
+            CREATE INDEX IF NOT EXISTS
+            index_tasks_parentTaskId
+            ON tasks(parentTaskId)
+        """.trimIndent())
             }
         }
 
@@ -86,7 +99,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
                     AppDatabase::class.java,
                     "task_database"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_3_4)
                     .build()
                     .also { INSTANCE = it }
             }        }
