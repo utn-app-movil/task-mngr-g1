@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Tarea Padre (Opcional)"
+            android:text="@string/TextParentTask"
             android:textStyle="bold" />
 
         <Spinner
