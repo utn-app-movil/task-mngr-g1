@@ -11,7 +11,7 @@ import cr.ac.utn.taskmanager.domain.repository.ITaskRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+
 
 class TaskViewModel(application: Application):
     AndroidViewModel(application) {
@@ -23,49 +23,37 @@ class TaskViewModel(application: Application):
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
+            emptyList())
+
+    val eligibleParentTasks: StateFlow<List<Task>> = repository.getEligibleParentTasks()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
             emptyList()
         )
 
-    val eligibleParentTasks: StateFlow<List<Task>> =
-        repository.getEligibleParentTasks()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                emptyList()
-            )
-
-    suspend fun getTaskById(id: Long): Task? {
+    suspend fun getTaskById(id: Long): Task?{
         return repository.getById(id)
     }
 
-    fun saveTask(task: Task, onComplete: () -> Unit) {
-        viewModelScope.launch {
-            repository.addTask(task)
-            onComplete.invoke()
-        }
+    suspend fun saveTask(task: Task) {
+        repository.addTask(task)
     }
 
-    fun updateTask(task: Task, onComplete: () -> Unit) {
-        viewModelScope.launch {
-            repository.updateTask(task)
-            onComplete.invoke()
-        }
+    suspend fun updateTask(task: Task) {
+        repository.updateTask(task)
     }
 
-    fun removeTask(id: Long, onComplete: () -> Unit) {
-        viewModelScope.launch {
-            repository.deleteTask(id)
-            onComplete.invoke()
-        }
+    suspend fun removeTask(id: Long) {
+        repository.deleteTask(id)
     }
 
-    class Factory(private val application: Application):
-        ViewModelProvider.Factory {
-
+    class Factory (private val application: Application):
+        ViewModelProvider.Factory{
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(TaskViewModel::class.java)){
                 return TaskViewModel(application) as T
-            } else {
+            }else{
                 throw IllegalArgumentException("Unknown ViewModel class")
             }
         }

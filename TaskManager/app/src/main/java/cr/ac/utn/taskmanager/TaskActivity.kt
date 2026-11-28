@@ -26,6 +26,7 @@ import cr.ac.utn.taskmanager.util.EXTRA_MESSAGE_ID
 import cr.ac.utn.taskmanager.util.util
 import cr.ac.utn.taskmanager.viewmodel.TaskViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.CancellationException
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -125,7 +126,9 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.mnuDelete)?.isVisible = isEditMode
+        val editable = currentTask?.status?.isTerminal() != true
+        menu?.findItem(R.id.mnuSave)?.isVisible = editable
+        menu?.findItem(R.id.mnuDelete)?.isVisible = isEditMode && editable
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -157,18 +160,28 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         }
     }
 
+    private fun setupStatusSpinner() {
+        val status = currentTask?.status
+        val options = status?.allowedStatuses() ?: listOf(TaskStatus.PENDING)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spStatus.adapter = adapter
+        spStatus.setSelection(0)
+        spStatus.isEnabled = options.size > 1
+    }
+    private fun updateEditability() {
+        val editable = currentTask?.status?.isTerminal() != true
+        txtTitle.isEnabled = editable
+        txtDescription.isEnabled = editable
+        spPriority.isEnabled = editable
+        spAssignTo.isEnabled = editable
+        txtObservation.isEnabled = editable
+        findViewById<ImageButton>(R.id.btnDueDate_Task).isEnabled = editable
+        findViewById<EditText>(R.id.txtCancellationReason_Task).isEnabled = editable
+        setupStatusSpinner()
+    }
     private fun setupSpinners() {
-        val statusAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            TaskStatus.entries.toTypedArray()
-        )
-
-        statusAdapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        spStatus.adapter = statusAdapter
+        setupStatusSpinner()
 
         val priorityAdapter = ArrayAdapter(
             this,
@@ -299,8 +312,7 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                     txtId.isEnabled = false
                     txtTitle.setText(task.title)
                     txtDescription.setText(task.description)
-
-                    spStatus.setSelection(task.status.ordinal)
+                    updateEditability()
                     spPriority.setSelection(task.priority.ordinal)
 
                     val personPosition = util
@@ -328,6 +340,9 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                         Toast.LENGTH_LONG
                     ).show()
                 }
+            } catch (e: CancellationException) {
+                progressDialog.dismiss()
+                throw e
             } catch (e: Exception) {
                 cleanScreen()
                 Toast.makeText(
@@ -358,7 +373,8 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         txtId.setText("")
         txtTitle.setText("")
         txtDescription.setText("")
-        spStatus.setSelection(0)
+
+        updateEditability()
         spPriority.setSelection(0)
         spAssignTo.setSelection(0)
         txtObservation.setText("")
@@ -456,13 +472,18 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 }
 
                 if (!isEditMode) {
-                    taskViewModel.saveTask(task, onCompleteCallback)
+                    taskViewModel.saveTask(task)
                 } else {
-                    taskViewModel.updateTask(task, onCompleteCallback)
+                    taskViewModel.updateTask(task)
                 }
+                onCompleteCallback()
 
+            } catch (e: CancellationException) {
+                progressDialog.dismiss()
+                throw e
             } catch (e: Exception) {
                 progressDialog.dismiss()
+
                 Toast.makeText(
                     this@TaskActivity,
                     e.message.toString(),
@@ -480,14 +501,18 @@ class TaskActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             getString(R.string.TextDeleting)
         )
 
-        taskViewModel.removeTask(id) {
-            progressDialog.dismiss()
-            cleanScreen()
-            Toast.makeText(
-                this@TaskActivity,
-                getString(R.string.TextDeleteSuccess),
-                Toast.LENGTH_LONG
-            ).show()
+        lifecycleScope.launch {
+            try {
+                taskViewModel.removeTask(id)
+                cleanScreen()
+                Toast.makeText(this@TaskActivity, getString(R.string.TextDeleteSuccess), Toast.LENGTH_LONG).show()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Toast.makeText(this@TaskActivity, e.message ?: "Error al eliminar", Toast.LENGTH_LONG).show()
+            } finally {
+                progressDialog.dismiss()
+            }
         }
     }
 }
